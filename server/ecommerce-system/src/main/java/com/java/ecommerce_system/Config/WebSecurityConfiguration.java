@@ -1,7 +1,6 @@
 package com.java.ecommerce_system.Config;
 
-
-import com.java.ecommerce_system.Service.LoginService;
+import com.java.ecommerce_system.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,39 +8,53 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration {
     @Autowired
-    private LoginService userDetailService;
+    private UserService userDetailService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(registry -> {
-            registry.requestMatchers("/home", "/register/**").permitAll();
-            registry.requestMatchers("/admin/**").hasRole("ADMIN");
-            registry.requestMatchers("/user/**").hasRole("USER");
-            registry.anyRequest().authenticated();
-        }).formLogin(AbstractAuthenticationFilterConfigurer::permitAll).build();
+        httpSecurity
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/home", "/auth/user/**").permitAll();
+                    authorize.requestMatchers("/admin/**").hasRole("ADMIN");
+                    authorize.requestMatchers("/user/**").hasRole("USER");
+                    authorize.anyRequest().authenticated();
+                })
+                .formLogin(form -> form
+                        .loginProcessingUrl("/auth/user/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/home", true))
+                .logout(logout -> logout
+                        .permitAll());
+
+        return httpSecurity.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails nomalUser = User.builder().username("hmh").password("$2a$12$Fk7fm5CTqcYBCsS.PrsfyeZ6g7mJu6UzVH7zuWt3kRnUeJW7Pt9tq\n").roles("USER").build();
-//
-//        UserDetails nomalAdmin = User.builder().username("admin").password("$2a$12$g3ghL3Dvr6lo2iYLX9/UXuJx.Ehz/RGBt3DMn7dG9/4Kb9x3YoLLe\n").roles("ADMIN", "USER").build();
-//        return new InMemoryUserDetailsManager(nomalUser, nomalAdmin);
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
