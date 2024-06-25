@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", sans-serif;
+  // border: 1px solid rgb(51, 255, 0);
+  height: 100%;
+  width: 100%;
+}
+html,
+#root,
+.app-container {
+  height: 100%;
+  width: 100%;
+}
+
+#nprogress .bar {
+  height: 4px !important;
+  // border-radius: 10px !important;
+  background: #0dcaf0 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 50px #0dcaf0, 0 0 50px #0dcaf0 !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #0dcaf0 !important;
+  border-left-color: #0dcaf0 !important;
+}
+
+.languages {
+  margin-left: 15px !important;
+  a {
+    // margin-left: 5px !important;
+    display: flex;
+    align-items: center;
+    color: rgb(141, 0, 0) !important;
+    font-size: 18px !important;
+    // border: 1px solid red;
+  }
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+}

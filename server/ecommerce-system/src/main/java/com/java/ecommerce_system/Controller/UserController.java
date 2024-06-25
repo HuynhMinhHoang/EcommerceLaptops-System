@@ -20,20 +20,20 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Account acc) {
+    public ResponseEntity<?> login(@RequestBody Account acc) {
         Optional<Account> user = userRepository.findByUsername(acc.getUsername());
 
         if (user.isPresent()) {
             Account userObj = user.get();
             if (passwordEncoder.matches(acc.getPassword(), userObj.getPassword())) {
-                // Đăng nhập thành công
+                // Login successful
                 return ResponseEntity.ok("Login successful!");
             } else {
-                // Sai mật khẩu
+                // Incorrect password
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
             }
         } else {
-            // Người dùng không tồn tại
+            // User not found
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }

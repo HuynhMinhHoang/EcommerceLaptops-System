@@ -1,18 +1,21 @@
-import React from "react";
-import "./App.css";
-import Login from "./components/Auth/Login";
-import Register from "./components/Auth/Register";
+import "./App.scss";
+import Header from "./components/Header/Header";
+import { Route, Link, Routes, Outlet, useLocation } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Spring Boot + React App</h1>
-        <Login /> 
-        {/* <Register /> */}
-      </header>
+    <div className="app-container">
+      <div className="header-container">
+        <Header />
+      </div>
+      <div className="main-container"></div>
+      <div className="sidenav-container"></div>
+
+      <div className="app-content">
+        <Outlet />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
