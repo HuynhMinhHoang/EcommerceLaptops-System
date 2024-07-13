@@ -98,4 +98,19 @@ public class Product {
     public void setOrderDetails(Set<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "category=" + category +
+                ", idProduct=" + idProduct +
+                ", nameProduct='" + nameProduct + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", quantity=" + quantity +
+                ", images=" + images +
+                ", orderDetails=" + orderDetails +
+                '}';
+    }
 }

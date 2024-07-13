@@ -1,38 +1,32 @@
 package com.java.hminhhoangdev.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.java.hminhhoangdev.util.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
-import static com.java.hminhhoangdev.util.Gender.*;
-
 public class AccountRequestDTO implements Serializable {
-    private Long id;
-    @NotBlank(message = "Username must be not blank")
+    private int idAccount;
+
+    @NotBlank(message = "Username must not be blank")
     private String username;
 
-    @Size(min = 3, max = 20, message = "Password length must be between 6 and 20 characters")
+    @Size(min = 6, max = 20, message = "Password length must be between 6 and 20 characters")
     private String password;
 
-    @NotNull(message = "role must be not null")
-    @EnumValue(name = "role", enumClass = AccountType.class)
-    private String role;
-
-    @NotNull(message = "FullName must be not null")
+    @NotBlank(message = "Full name must not be blank")
     private String fullName;
 
-    @GenderSubset(anyOf = {MALE, FEMALE, OTHER})
+    @GenderSubset(anyOf = {Gender.MALE, Gender.FEMALE, Gender.OTHER})
     private Gender gender;
 
-    @NotNull(message = "dateOfBirth must be not null")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "MM/dd/yyyy")
-    private Date dateOfBirth;
+    @NotNull(message = "Date of birth must not be null")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDate dateOfBirth;
 
     @Email(message = "Email should be valid")
     private String email;
@@ -40,81 +34,72 @@ public class AccountRequestDTO implements Serializable {
     @PhoneNumber
     private String phone;
 
-    @NotBlank(message = "Address must be provided")
+    @NotBlank(message = "Address must not be blank")
     private String address;
 
     @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
     private AccountStatus status;
 
+    //    @NotNull(message = "Role must not be null")
+//    @EnumValue(name = "role", enumClass = AccountType.class)
+//    private String role;
+    @NotNull(message = "Role ID must not be null")
+    private int roleId;
 
-    public AccountRequestDTO(String username, String password, String role, String fullName, String email, String phone, String address) {
-//        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.fullName = fullName;
-//        this.gender = gender;
-//        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.phone = phone;
+    private String avt;
+
+    public AccountRequestDTO(String address, String avt, LocalDate dateOfBirth, String email, String fullName, Gender gender, int idAccount, String password, String phone, int roleId, AccountStatus status, String username) {
         this.address = address;
-//        this.status = status;
+        this.avt = avt;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.idAccount = idAccount;
+        this.password = password;
+        this.phone = phone;
+        this.roleId = roleId;
+        this.status = status;
+        this.username = username;
     }
 
+    public @NotBlank(message = "Address must not be blank") String getAddress() {
+        return address;
+    }
 
-    public @NotNull(message = "dateOfBirth must be not null") Date getDateOfBirth() {
+    public void setAddress(@NotBlank(message = "Address must not be blank") String address) {
+        this.address = address;
+    }
+
+    public String getAvt() {
+        return avt;
+    }
+
+    public void setAvt(String avt) {
+        this.avt = avt;
+    }
+
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(@NotNull(message = "dateOfBirth must be not null") Date dateOfBirth) {
+    public void setDateOfBirth(@NotNull(message = "Date of birth must not be null") LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public AccountStatus getStatus() {
-        return status;
+    public @Email(message = "Email should be valid") String getEmail() {
+        return email;
     }
 
-    public void setStatus(AccountStatus status) {
-        this.status = status;
+    public void setEmail(@Email(message = "Email should be valid") String email) {
+        this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getFullName() {
+    public @NotBlank(message = "Full name must not be blank") String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(@NotBlank(message = "Full name must not be blank") String fullName) {
         this.fullName = fullName;
     }
 
@@ -126,12 +111,20 @@ public class AccountRequestDTO implements Serializable {
         this.gender = gender;
     }
 
-    public String getEmail() {
-        return email;
+    public int getIdAccount() {
+        return idAccount;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setIdAccount(int idAccount) {
+        this.idAccount = idAccount;
+    }
+
+    public @Size(min = 6, max = 20, message = "Password length must be between 6 and 20 characters") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@Size(min = 6, max = 20, message = "Password length must be between 6 and 20 characters") String password) {
+        this.password = password;
     }
 
     public String getPhone() {
@@ -142,28 +135,28 @@ public class AccountRequestDTO implements Serializable {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    @NotNull(message = "Role ID must not be null")
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setRoleId(@NotNull(message = "Role ID must not be null") int roleId) {
+        this.roleId = roleId;
     }
 
-    @Override
-    public String toString() {
-        return "AccountRequestDTO{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", gender=" + gender +
-                ", dateOfBirth=" + dateOfBirth +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", status=" + status +
-                '}';
+    public @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE") AccountStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(@EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE") AccountStatus status) {
+        this.status = status;
+    }
+
+    public @NotBlank(message = "Username must not be blank") String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NotBlank(message = "Username must not be blank") String username) {
+        this.username = username;
     }
 }

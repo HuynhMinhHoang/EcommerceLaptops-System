@@ -4,6 +4,7 @@ import com.java.hminhhoangdev.util.AccountStatus;
 import com.java.hminhhoangdev.util.Gender;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class Account {
     private int idAccount;
 
     private String fullName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private Gender gender;
     private String address;
     private String email;
@@ -62,11 +63,11 @@ public class Account {
         this.avt = avt;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -148,5 +149,24 @@ public class Account {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "address='" + address + '\'' +
+                ", idAccount=" + idAccount +
+                ", fullName='" + fullName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avt='" + avt + '\'' +
+                ", status=" + status +
+                ", role=" + role +
+                ", orders=" + orders +
+                '}';
     }
 }

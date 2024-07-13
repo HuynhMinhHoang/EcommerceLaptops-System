@@ -101,4 +101,19 @@ public class Order {
     public void setStatus_pay(boolean status_pay) {
         this.status_pay = status_pay;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "account=" + account +
+                ", idOrder=" + idOrder +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", note='" + note + '\'' +
+                ", created_at=" + created_at +
+                ", status_pay=" + status_pay +
+                ", status_order=" + status_order +
+                ", paymentType=" + paymentType +
+                ", orderDetails=" + orderDetails +
+                '}';
+    }
 }

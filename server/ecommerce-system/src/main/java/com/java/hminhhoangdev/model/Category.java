@@ -38,4 +38,13 @@ public class Category {
     public void setProducts(Set<Product> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "idCategory=" + idCategory +
+                ", nameCategory='" + nameCategory + '\'' +
+                ", products=" + products +
+                '}';
+    }
 }

@@ -25,4 +25,12 @@ public class PaymentType {
     public void setNamePaymentType(String namePaymentType) {
         this.namePaymentType = namePaymentType;
     }
+
+    @Override
+    public String toString() {
+        return "PaymentType{" +
+                "idPaymentType=" + idPaymentType +
+                ", namePaymentType='" + namePaymentType + '\'' +
+                '}';
+    }
 }

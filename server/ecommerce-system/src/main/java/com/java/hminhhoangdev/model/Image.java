@@ -37,4 +37,13 @@ public class Image {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "idImage=" + idImage +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", product=" + product +
+                '}';
+    }
 }
