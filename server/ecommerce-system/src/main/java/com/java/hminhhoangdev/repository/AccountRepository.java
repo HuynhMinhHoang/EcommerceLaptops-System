@@ -1,12 +1,12 @@
-package com.java.ecommerce_system.Repository;
+package com.java.hminhhoangdev.repository;
 
-import com.java.ecommerce_system.Model.Account;
+import com.java.hminhhoangdev.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String username);
 }

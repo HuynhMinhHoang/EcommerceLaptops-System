@@ -5,7 +5,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotFound404 from "./components/Error/NotFound404";
+import NotFound404 from "./components/error/NotFound404";
 
 const Layout = () => {
   return (

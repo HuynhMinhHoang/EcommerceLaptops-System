@@ -31,10 +31,20 @@ const Login = () => {
     }
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:8080/auth/user/login", {
-        username,
-        password,
-      });
+      const formData = {
+        username: username,
+        password: password,
+      };
+
+      const res = await axios.post(
+        "http://localhost:8080/user/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       // Handle success
       if (res && res.status === 200) {

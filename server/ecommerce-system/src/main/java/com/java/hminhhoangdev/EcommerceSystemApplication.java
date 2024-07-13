@@ -1,10 +1,9 @@
-package com.java.ecommerce_system;
+package com.java.hminhhoangdev;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 public class EcommerceSystemApplication {

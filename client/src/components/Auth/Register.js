@@ -31,14 +31,15 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/auth/user/register",
+        "http://localhost:8080/user/register",
         {
           username,
           password,
           role,
         }
       );
-      console.log("Registration successful:", response.data);
+
+      console.log("Registration successful:", response);
     } catch (error) {
       console.error("Registration failed:", error);
     }

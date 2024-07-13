@@ -1,6 +1,6 @@
-package com.java.ecommerce_system.Config;
+package com.java.hminhhoangdev.config;
 
-import com.java.ecommerce_system.Service.UserService;
+import com.java.hminhhoangdev.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,14 +22,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @EnableWebSecurity
 public class WebSecurityConfiguration {
     @Autowired
-    private UserService userDetailService;
+    private AccountService userDetailService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/home", "/auth/user/**").permitAll();
+                    authorize.requestMatchers("/home", "/user/**").permitAll();
                     authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                     authorize.requestMatchers("/user/**").hasRole("USER");
                     authorize.anyRequest().authenticated();
