@@ -127,6 +127,7 @@ public class Account {
         this.phone = phone;
     }
 
+    @Transient
     public Role getRole() {
         return role;
     }
