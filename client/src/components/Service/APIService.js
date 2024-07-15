@@ -7,6 +7,14 @@ const loginUser = (username, password) => {
   });
 };
 
+const refreshToken = (refreshToken) => {
+  return axios.post("/user/refresh-token", null, {
+    params: {
+      refreshToken: refreshToken,
+    },
+  });
+};
+
 const registerUser = (
   username,
   password,
@@ -29,4 +37,4 @@ const registerUser = (
   });
 };
 
-export { loginUser, registerUser };
+export { loginUser, registerUser, refreshToken };

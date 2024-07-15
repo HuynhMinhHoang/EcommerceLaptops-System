@@ -12,6 +12,8 @@ import { ImSpinner2 } from "react-icons/im";
 import { useTranslation, Trans } from "react-i18next";
 import axios from "../../utils/AxiosConfig";
 import { loginUser } from "../Service/APIService";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/action/userAction";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -19,6 +21,7 @@ const Login = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     if (!username) {
@@ -35,9 +38,15 @@ const Login = () => {
 
       if (res && res.status === 200) {
         setIsLoading(false);
+        dispatch(doLogin(res));
         navigate("/");
         toast.success("Login successful!");
-        console.log(res.data);
+        console.log(res);
+        if (res.data.role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       } else {
         setIsLoading(false);
       }
