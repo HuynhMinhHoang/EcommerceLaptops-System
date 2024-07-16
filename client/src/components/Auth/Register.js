@@ -11,7 +11,7 @@ import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
 import { useTranslation, Trans } from "react-i18next";
 import axios from "axios";
-import { registerUser } from "../Service/APIService";
+import { registerUser } from "../../service/APIService";
 import Gender from "../../utils/Gender";
 import DatePicker from "react-datepicker";
 

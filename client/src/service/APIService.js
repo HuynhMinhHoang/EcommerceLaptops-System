@@ -1,4 +1,4 @@
-import axios from "../../utils/AxiosConfig";
+import axios from "../utils/AxiosConfig";
 
 const loginUser = (username, password) => {
   return axios.post("/user/login", {

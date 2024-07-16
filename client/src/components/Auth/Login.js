@@ -11,7 +11,7 @@ import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
 import { useTranslation, Trans } from "react-i18next";
 import axios from "../../utils/AxiosConfig";
-import { loginUser } from "../Service/APIService";
+import { loginUser } from "../../service/APIService";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 

@@ -8,8 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import NotFound404 from "./components/Error/NotFound404";
 import Admin from "./components/Admin/Admin";
 import ManageUser from "./components/Admin/Content/ManageUser";
-import AdminRoute from "./components/routes/AdminRoute";
+import AdminRoute from "./routes/AdminRoute";
 import DashBoard from "./components/Admin/Content/DashBoard";
+import HomePage from "./components/Home/HomePage";
+import PrivateRoute from "./routes/PrivateRoute";
+import LaptopDetail from "./components/Home/ContentHome/LaptopDetail";
 
 const Layout = () => {
   return (
@@ -17,9 +20,22 @@ const Layout = () => {
       <Routes>
         {/* user */}
 
+        {/* <Route path="/" element={<App />}> */}
+
+        {/* </Route> */}
+
         <Route path="/" element={<App />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route index element={<HomePage />} />
+          <Route
+            path="laptopdetail"
+            element={
+              <PrivateRoute>
+                <LaptopDetail />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
         {/* admin */}
