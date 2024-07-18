@@ -1,4 +1,3 @@
-// userReducer.js
 import { LOGIN_USER_SUCCESS, LOGOUT_USER_SUCCESS } from "../action/userAction";
 
 const INITIAL_STATE = {
@@ -14,8 +13,8 @@ const INITIAL_STATE = {
     avt: null,
     status: "",
     role: "",
-    access_token: "",
-    refresh_token: "",
+    accessToken: "",
+    refreshToken: "",
   },
   isAuthenticated: false,
 };
@@ -30,8 +29,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         user: {
           ...state.user,
           ...data,
-          access_token: data.access_token,
-          refresh_token: data.refresh_token,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
         },
         isAuthenticated: true,
       };

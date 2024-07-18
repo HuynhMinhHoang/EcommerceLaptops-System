@@ -2,25 +2,12 @@ import React from "react";
 import "./LaptopList.scss";
 import laptop1 from "../../../assets/laptop1.png";
 import { FaTruck, FaStar } from "react-icons/fa";
-// import Carousel from "react-elastic-carousel";
-// import Slider from "react-slick";
-import CustomCarousel from "../../../utils/CustomCarousel";
+import { Carousel } from "primereact/carousel";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const LaptopList = () => {
-  // const settings = {
-  //   dots: true,
-  //   infinite: false,
-  //   speed: 500,
-  //   slidesToShow: 5,
-  //   slidesToScroll: 5,
-  // };
-  const breakPoints = [
-    { width: 1, itemsToShow: 1 },
-    { width: 550, itemsToShow: 2 },
-    { width: 768, itemsToShow: 3 },
-    { width: 1200, itemsToShow: 4 },
-  ];
-
   const products = [
     {
       name: "Laptop gaming Acer Nitro 5 Tiger AN515 58 GB598J",
@@ -108,6 +95,66 @@ const LaptopList = () => {
     },
   ];
 
+  const responsiveOptions = [
+    {
+      breakpoint: "1024px",
+      numVisible: 3,
+      numScroll: 3,
+    },
+    {
+      breakpoint: "768px",
+      numVisible: 2,
+      numScroll: 2,
+    },
+    {
+      breakpoint: "560px",
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
+  const productTemplate = (product) => {
+    return (
+      <div className="laptop-card">
+        <div className="product-image">
+          <img src={product.image} alt={product.name} />
+        </div>
+        <div className="product-info">
+          <h3 className="product-name">{product.name}</h3>
+          <p className="product-description">
+            <span className="cpu">{product.cpu}</span>
+            <span className="gpu">{product.gpu}</span>
+            <span className="ram">{product.ram}</span>
+            <span className="storage">{product.storage}</span>
+            <span className="display">{product.display}</span>
+          </p>
+          <div className="product-price">
+            <span className="original-price">{product.originalPrice}</span>
+            <span className="discount-price">
+              {product.discountPrice}{" "}
+              <span className="discount-percentage">
+                {product.discountPercentage}
+              </span>
+            </span>
+          </div>
+          <div className="product-rating">
+            <span className="rating-score">
+              {product.ratingScore}
+              <FaStar
+                style={{
+                  fontSize: "13px",
+                  marginLeft: "3px",
+                  marginBottom: "4px",
+                }}
+              />
+            </span>
+            <span className="rating-reviews">{product.ratingReviews}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="product-container">
       <div className="tilte-product">
@@ -127,51 +174,13 @@ const LaptopList = () => {
         <p>Xem tất cả</p>
       </div>
       <div className="product-list">
-        <CustomCarousel breakPoints={breakPoints}>
-          {products.map((product, index) => (
-            <div key={index} className="product-card">
-              <div className="product-image">
-                <img src={product.image} alt={product.name} />
-              </div>
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-description">
-                  <span className="cpu">{product.cpu}</span>
-                  <span className="gpu">{product.gpu}</span>
-                  <span className="ram">{product.ram}</span>
-                  <span className="storage">{product.storage}</span>
-                  <span className="display">{product.display}</span>
-                </p>
-                <div className="product-price">
-                  <span className="original-price">
-                    {product.originalPrice}
-                  </span>
-                  <span className="discount-price">
-                    {product.discountPrice}{" "}
-                    <span className="discount-percentage">
-                      {product.discountPercentage}
-                    </span>
-                  </span>
-                </div>
-                <div className="product-rating">
-                  <span className="rating-score">
-                    {product.ratingScore}
-                    <FaStar
-                      style={{
-                        fontSize: "13px",
-                        marginLeft: "3px",
-                        marginBottom: "4px",
-                      }}
-                    />
-                  </span>
-                  <span className="rating-reviews">
-                    {product.ratingReviews}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </CustomCarousel>
+        <Carousel
+          value={products}
+          numScroll={1}
+          numVisible={5}
+          responsiveOptions={responsiveOptions}
+          itemTemplate={productTemplate}
+        />
       </div>
     </div>
   );

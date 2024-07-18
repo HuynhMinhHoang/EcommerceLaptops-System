@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import "./Register.scss";
 import google from "../../assets/google.png";
 import facebook from "../../assets/facebook.png";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import eye1 from "../../assets/eye1.png";
 import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
@@ -17,7 +14,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const Register = () => {
+const Register = ({ toast }) => {
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState(Gender.MALE);
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
@@ -56,7 +53,12 @@ const Register = () => {
       if (response && response.status === 200) {
         setIsLoading(false);
         navigate("/login");
-        toast.success("Registration successful!");
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Registration successful!!",
+        });
+
         console.log(response.data);
       } else {
         setIsLoading(false);

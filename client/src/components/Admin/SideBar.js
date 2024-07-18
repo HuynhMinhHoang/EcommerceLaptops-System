@@ -85,21 +85,17 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
               >
                 Manage Users <Link to="/admin/manage-users" />
               </MenuItem>
+
+              <MenuItem
+                className={`custom-menu-item ${
+                  activeMenuItem === "manage-products" ? "active" : ""
+                }`}
+                onClick={() => handleMenuItemClick("manage-products")}
+              >
+                Manage Products <Link to="/admin/manage-products" />
+              </MenuItem>
             </SubMenu>
           </Menu>
-
-          {/* <Menu iconShape="circle">
-            <MenuItem
-              className={`custom-menu-item ${
-                activeMenuItem === "assign-quizz" ? "active" : ""
-              }`}
-              icon={<FaKey size={"20px"} color={"rgb(0, 152, 229)"} />}
-              onClick={() => handleMenuItemClick("assign-quizz")}
-            >
-              Assign Quizz
-              <Link to="/admin/manage-assign-quizz" />
-            </MenuItem>
-          </Menu> */}
 
           {/* <Menu iconShape="circle" className="bg-logout">
             <MenuItem

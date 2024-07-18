@@ -7,7 +7,7 @@ const loginUser = (username, password) => {
   });
 };
 
-const refreshToken = (refreshToken) => {
+const refreshTokenService = (refreshToken) => {
   return axios.post("/user/refresh-token", null, {
     params: {
       refreshToken: refreshToken,
@@ -37,4 +37,12 @@ const registerUser = (
   });
 };
 
-export { loginUser, registerUser, refreshToken };
+const createProduct = (formData) => {
+  return axios.post("/product/add", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export { loginUser, registerUser, refreshTokenService, createProduct };

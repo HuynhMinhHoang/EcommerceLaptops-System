@@ -67,8 +67,16 @@
     }
   }
 
-  .product-list-main {
-    width: 75%;
+  .product-pc-list {
+    width: 85%;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-image: url("../../assets/bg-product.png");
+  }
+
+  .product-laptop-list {
+    width: 85%;
     margin: 0 auto;
   }
 }

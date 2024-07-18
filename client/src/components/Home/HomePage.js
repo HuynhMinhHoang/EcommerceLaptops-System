@@ -14,6 +14,7 @@ import banner8 from "../../assets/banner8.png";
 import banner9 from "../../assets/banner9.png";
 import banner10 from "../../assets/banner10.png";
 import LaptopList from "./ContentHome/LaptopList";
+import PCList from "./ContentHome/PCList";
 
 const HomePage = () => {
   return (
@@ -126,7 +127,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="product-list-main">
+      <div className="product-pc-list">
+        <PCList />
+      </div>
+
+      <div className="product-laptop-list">
         <LaptopList />
       </div>
     </div>

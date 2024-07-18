@@ -1,25 +1,45 @@
-.product-container {
+.product-pc-container {
   //   border: 1px solid turquoise;
-  border-radius: 5px;
-  //   padding: 50px;
   width: 100%;
-
-  background-color: #fff;
-
   .tilte-product {
     position: relative;
     padding: 20px;
-    padding-bottom: 0px;
     display: flex;
     align-items: center;
+    background: linear-gradient(180deg, #1ad0f7 0%, #2940b8 100%);
+    border-radius: 5px 5px 0px 0px;
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .pulse-icon {
+      animation: pulse 1s infinite;
+      margin-right: 5px;
+      font-size: 28px;
+    }
 
     p {
       position: absolute;
       right: 20px;
-      margin: 0;
-      font-weight: 600;
-      font-size: 17px;
-      color: #1982f9;
+      top: 10;
+      padding: 8px;
+      color: #000000;
+      background: #fff;
+      border-radius: 5px;
+      margin: 0px;
+      font-size: 15px;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
       cursor: pointer;
     }
 
@@ -29,22 +49,16 @@
       margin: 0 30px;
       background-color: rgb(186, 186, 186);
     }
-    span:first-child:hover {
-      color: #e30019;
-      cursor: pointer;
-    }
+
     span {
-      margin-left: 10px;
-      color: #000000;
+      // margin-left: 20px;
+      font-family: "SF Pro Display", "Arial", sans-serif;
+      color: #ffee12;
+      font-style: italic;
+      font-weight: 800;
       font-size: 24px;
-      font-weight: 700;
-      transition: 0.3s;
-    }
-    .ship {
-      font-size: 20px;
-      color: #000000;
-      font-weight: 600;
-      //   font-weight: 600;
+      line-height: 32px;
+      text-transform: uppercase;
     }
   }
 
@@ -52,7 +66,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     // grid-gap: 20px;
-    padding: 20px 20px 0px 20px;
+    padding: 30px 20px 0px 20px;
 
     // .slick-slide {
     //   div {
@@ -79,18 +93,18 @@
     //   color: #696969 !important;
     // }
 
-    .laptop-card {
+    .pc-card {
       background-color: #fff;
       border-radius: 8px;
-      height: 551px;
       border: 1px solid rgb(233, 233, 233);
       overflow: hidden;
       // width: 250px !important;
+      height: 400px;
       margin: 10px;
       transition: 0.3s;
 
       &:hover {
-        border: 1px solid #ff213b8f;
+        // border: 1px solid #ff213b8f;
         .product-image img {
           transform: scale(1.1);
         }

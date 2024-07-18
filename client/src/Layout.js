@@ -1,10 +1,9 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import App from "./App";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toast } from "primereact/toast";
 import NotFound404 from "./components/Error/NotFound404";
 import Admin from "./components/Admin/Admin";
 import ManageUser from "./components/Admin/Content/ManageUser";
@@ -13,8 +12,10 @@ import DashBoard from "./components/Admin/Content/DashBoard";
 import HomePage from "./components/Home/HomePage";
 import PrivateRoute from "./routes/PrivateRoute";
 import LaptopDetail from "./components/Home/ContentHome/LaptopDetail";
+import ManageProduct from "./components/Admin/Content/ManageProduct";
 
 const Layout = () => {
+  const toast = useRef(null);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -25,8 +26,8 @@ const Layout = () => {
         {/* </Route> */}
 
         <Route path="/" element={<App />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login toast={toast} />} />
+          <Route path="register" element={<Register toast={toast} />} />
           <Route index element={<HomePage />} />
           <Route
             path="laptopdetail"
@@ -48,25 +49,18 @@ const Layout = () => {
           }
         >
           <Route index element={<DashBoard />} />
-          <Route path="manage-users" element={<ManageUser />} />
+          <Route path="manage-users" element={<ManageUser toast={toast} />} />
+          <Route
+            path="manage-products"
+            element={<ManageProduct toast={toast} />}
+          />
         </Route>
 
         {/* NotFound404 */}
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <Toast ref={toast} position="bottom-right" />
     </Suspense>
   );
 };

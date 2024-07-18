@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Login.scss";
 import google from "../../assets/google.png";
 import facebook from "../../assets/facebook.png";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import eye1 from "../../assets/eye1.png";
 import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
@@ -15,7 +12,7 @@ import { loginUser } from "../../service/APIService";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 
-const Login = () => {
+const Login = ({ toast }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
@@ -25,11 +22,20 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!username) {
-      toast.error("Username is empty!");
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Username is empty!",
+      });
       return;
     }
     if (!password) {
-      toast.error("Password is empty!");
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Password is empty!",
+      });
+
       return;
     }
     setIsLoading(true);
@@ -40,7 +46,12 @@ const Login = () => {
         setIsLoading(false);
         dispatch(doLogin(res));
         navigate("/");
-        toast.success("Login successful!");
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Login successful!",
+        });
+
         console.log(res);
         if (res.data.role === "ADMIN") {
           navigate("/admin");
@@ -54,11 +65,23 @@ const Login = () => {
       setIsLoading(false);
       console.error("Login failed:", error);
       if (error && error.response && error.response.data === "User not found") {
-        toast.error("User not found!");
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "User not found!",
+        });
       } else if (error && error.response && error.response.status === 401) {
-        toast.error("Incorrect password!");
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Incorrect password!",
+        });
       } else {
-        toast.error("Unexpected error occurred!");
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Unexpected error occurred!",
+        });
       }
     }
   };

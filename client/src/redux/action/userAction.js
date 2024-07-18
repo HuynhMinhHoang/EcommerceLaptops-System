@@ -27,8 +27,8 @@ export const doLogin = (data) => {
     type: LOGIN_USER_SUCCESS,
     payload: {
       ...data,
-      access_token: data.accessToken,
-      refresh_token: data.refreshToken,
+      accessToken: data.accessToken,
+      refreshToken: data.refreshToken,
     },
   };
 };

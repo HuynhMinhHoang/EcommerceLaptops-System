@@ -113,6 +113,14 @@
           margin-bottom: 50px;
           // border: 1px solid red;
 
+          select {
+            width: 350px;
+            border-radius: 5px;
+            padding: 10px;
+            border: 0.5px solid gray;
+            transition: 0.3s;
+          }
+
           .eye {
             width: 18px;
             height: 18px;
