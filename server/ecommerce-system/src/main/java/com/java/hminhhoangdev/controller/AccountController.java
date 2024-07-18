@@ -44,33 +44,6 @@ public class AccountController {
     private AuthenticationManager authenticationManager;
 
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody AccountRequestDTO accountRequestDTO) {
-//        try {
-//            UserDetails userDetails = accountService.loadUserByUsername(accountRequestDTO.getUsername());
-//
-//            if (!passwordEncoder.matches(accountRequestDTO.getPassword(), userDetails.getPassword())) {
-//                throw new ResourceNotFoundException("Invalid credentials");
-//            }
-//
-//
-//            String token = jwtService.generateToken(userDetails);
-//            Account account = userRepository.findByUsername(accountRequestDTO.getUsername())
-//                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//            ResponseLoginDTO responseLogin = new ResponseLoginDTO(token, account);
-//
-//            return ResponseEntity.ok(responseLogin);
-//
-//        } catch (UsernameNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-//        } catch (ResourceNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during login");
-//        }
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AccountRequestDTO accountRequestDTO) {
         try {
