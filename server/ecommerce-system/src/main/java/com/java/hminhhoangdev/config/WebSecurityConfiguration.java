@@ -35,9 +35,13 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/home", "/user/**").permitAll();
+            authorize.requestMatchers("/home", "/api/user/**").permitAll();
             authorize.requestMatchers("/admin/**").hasRole("ADMIN");
-            authorize.requestMatchers("/product/add").hasRole("ADMIN");
+            authorize.requestMatchers("/api/product/add").hasRole("ADMIN");
+            authorize.requestMatchers("/api/product/list").permitAll();;
+            authorize.requestMatchers("/api/product/list-admin").hasRole("ADMIN");
+
+            authorize.requestMatchers("/api/categories").hasRole("ADMIN");
             authorize.anyRequest().authenticated();
         }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).addFilterBefore(new JwtAuthenticationFilter(jwtService, accountService), UsernamePasswordAuthenticationFilter.class);
 

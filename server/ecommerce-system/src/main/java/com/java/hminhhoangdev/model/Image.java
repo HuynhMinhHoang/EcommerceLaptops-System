@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class Image {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     public int getIdImage() {
@@ -43,7 +45,6 @@ public class Image {
         return "Image{" +
                 "idImage=" + idImage +
                 ", thumbnail='" + thumbnail + '\'' +
-                ", product=" + product +
                 '}';
     }
 }

@@ -65,8 +65,8 @@ import java.util.Date;
 public class JwtService {
 
     private static final String SECRET = "yzX9BYmRbdtNVftXHHxiSfOfFnO9CNUijNyaklgFtkxXyos+Auso/ves64GKxtb4A7GHRc3OTl3wRjFMGvOq6A==";
-    private static final long ACCESS_TOKEN_EXPIRATION = 1800000; // 30 minutes
-    private static final long REFRESH_TOKEN_EXPIRATION = 86400000; // 24 hours
+    private static final long ACCESS_TOKEN_EXPIRATION = 5 * 24 * 60 * 60 * 1000; // 5 days
+    private static final long REFRESH_TOKEN_EXPIRATION = 30 * 24 * 60 * 60 * 1000; // 30 days
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(userDetails.getUsername(), ACCESS_TOKEN_EXPIRATION);

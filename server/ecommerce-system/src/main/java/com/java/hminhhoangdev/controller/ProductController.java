@@ -3,6 +3,7 @@ package com.java.hminhhoangdev.controller;
 import com.java.hminhhoangdev.dto.request.ProductRequestDTO;
 import com.java.hminhhoangdev.dto.response.ResponseData;
 import com.java.hminhhoangdev.dto.response.ResponseError;
+import com.java.hminhhoangdev.model.Product;
 import com.java.hminhhoangdev.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 
     @Autowired
@@ -31,4 +34,25 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/list")
+    public ResponseData<String> getListProductByCategory(@RequestParam String category) {
+        try {
+            List<Product> products = productService.getListProductByCategory(category);
+            if (products.isEmpty()) {
+                return new ResponseError(HttpStatus.NOT_FOUND.value(), "No products found for the given category.");
+            }
+            return new ResponseData(HttpStatus.OK.value(), "data", products);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        }
+    }
+
+    @GetMapping("/list-admin")
+    public ResponseData<String> getListProductAdmin() {
+        try {
+            return new ResponseData(HttpStatus.OK.value(), "data", productService.getListProductAdmin());
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.OK.value(), e.getMessage());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,12 +20,15 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+//    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonIgnore
     private Set<Image> images;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<OrderDetail> orderDetails;
 
     public Category getCategory() {
@@ -102,15 +106,14 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "category=" + category +
-                ", idProduct=" + idProduct +
+                "idProduct=" + idProduct +
                 ", nameProduct='" + nameProduct + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", quantity=" + quantity +
+                ", category=" + category +
                 ", images=" + images +
-                ", orderDetails=" + orderDetails +
                 '}';
     }
 }

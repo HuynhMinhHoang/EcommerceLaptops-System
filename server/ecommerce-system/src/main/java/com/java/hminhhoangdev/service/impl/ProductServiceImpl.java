@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -72,4 +73,46 @@ public class ProductServiceImpl implements ProductService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to save product", e);
         }
     }
+
+    @Override
+    public List<Product> getListProductAdmin() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getListProductByCategory(String category) {
+        List<Product> allProducts = productRepository.findAll();
+        int categoryId;
+
+        switch (category.toUpperCase()) {
+            case "LAPTOP GAMING":
+                categoryId = 1;
+                break;
+            case "LAPTOP":
+                categoryId = 2;
+                break;
+            case "PC":
+                categoryId = 3;
+                break;
+            case "HEAD PHONE":
+                categoryId = 4;
+                break;
+            case "MOUSE":
+                categoryId = 5;
+                break;
+            case "SCREEN":
+                categoryId = 6;
+                break;
+            case "KEY BOARD":
+                categoryId = 7;
+                break;
+            default:
+                return Collections.emptyList();
+        }
+
+        return allProducts.stream()
+                .filter(product -> product.isStatus() && product.getQuantity() > 0 && product.getCategory().getIdCategory() == categoryId)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -13,6 +14,7 @@ public class Category {
     private String nameCategory;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Product> products;
 
     public int getIdCategory() {
@@ -43,8 +45,7 @@ public class Category {
     public String toString() {
         return "Category{" +
                 "idCategory=" + idCategory +
-                ", nameCategory='" + nameCategory + '\'' +
-                ", products=" + products +
+                ", nameCategory='" + nameCategory +
                 '}';
     }
 }
