@@ -8,11 +8,10 @@ import { TbCoins } from "react-icons/tb";
 import { MdOutlineDiscount } from "react-icons/md";
 import { BiCheckShield } from "react-icons/bi";
 import CategoryMenu from "./ContentHome/CategoryMenu";
+import picture1 from "../../assets/picture1.png";
+import picture2 from "../../assets/picture2.png";
 import banner6 from "../../assets/banner6.png";
 import banner7 from "../../assets/banner7.png";
-import banner8 from "../../assets/banner8.png";
-import banner9 from "../../assets/banner9.png";
-import banner10 from "../../assets/banner10.png";
 import LaptopList from "./ContentHome/LaptopList";
 import PCList from "./ContentHome/PCList";
 
@@ -121,14 +120,18 @@ const HomePage = () => {
         <div className="ad-container">
           <img src={banner6} alt="banner6" />
           <img src={banner7} alt="banner7" />
-          {/* <img src={banner8} alt="banner8" /> */}
-          {/* <img src={banner9} alt="banner9" /> */}
-          {/* <img src={banner10} alt="banner10" /> */}
         </div>
       </div>
 
       <div className="product-pc-list">
         <PCList />
+      </div>
+
+      <div className="picture-list">
+        <div className="bg-img">
+          <img src={picture1} alt="picture1" />
+          <img src={picture2} alt="picture2" />
+        </div>
       </div>
 
       <div className="product-laptop-list">

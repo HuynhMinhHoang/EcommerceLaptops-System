@@ -62,36 +62,46 @@
     }
   }
 
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    // grid-gap: 20px;
-    padding: 30px 20px 0px 20px;
+  .product-list-pc {
+    display: flex;
+    align-items: start;
+    /* display: grid; */
+    /* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); */
+    /* padding: 30px 20px 0px 20px; */
 
-    // .slick-slide {
-    //   div {
-    //     margin: 0 10px;
-    //   }
-    // }
-    // .slick-next,
-    // .slick-prev {
-    //   width: 20px;
-    //   height: 0px;
-    // }
-    // .slick-next {
-    //   right: -20px;
-    // }
-    // .slick-prev {
-    //   left: -40px;
-    // }
+    justify-content: space-between;
 
-    // .slick-next:before,
-    // .slick-prev:before {
-    //   font-size: 40px;
-    //   line-height: 1;
-    //   // opacity: 1;
-    //   color: #696969 !important;
-    // }
+    @keyframes zoom {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.07);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .bg-banner-pc {
+      padding-left: 25px;
+      padding-top: 100px;
+      text-align: center;
+      width: 25%;
+      img {
+        box-shadow: 0 15px 10px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.1),
+          0 2px 6px rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
+        width: 95%;
+        animation: zoom 2.5s infinite;
+      }
+    }
+
+    .bg-carousel {
+      padding: 30px 20px 0px 20px;
+      width: 75%;
+      // border: 1px solid red;
+    }
 
     .pc-card {
       background-color: #fff;
@@ -106,7 +116,7 @@
       &:hover {
         // border: 1px solid #ff213b8f;
         .product-image img {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
       }
 
@@ -125,12 +135,15 @@
 
       .product-info {
         padding: 16px;
+        position: relative;
+        height: 135px;
 
         .product-name {
           font-size: 16px;
           font-weight: bold;
           margin-bottom: 12px;
           cursor: pointer;
+          height: auto;
         }
 
         .product-description {
@@ -160,6 +173,8 @@
           }
 
           .discount-price {
+            position: absolute;
+            bottom: 0;
             font-size: 16px;
             color: #e53935;
           }

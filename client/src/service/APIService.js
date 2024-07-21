@@ -1,14 +1,14 @@
 import axios from "../utils/AxiosConfig";
 
 const loginUser = (username, password) => {
-  return axios.post("/user/login", {
+  return axios.post("/api/user/login", {
     username,
     password,
   });
 };
 
 const refreshTokenService = (refreshToken) => {
-  return axios.post("/user/refresh-token", null, {
+  return axios.post("/api/user/refresh-token", null, {
     params: {
       refreshToken: refreshToken,
     },
@@ -25,7 +25,7 @@ const registerUser = (
   phone,
   address
 ) => {
-  return axios.post("/user/register", {
+  return axios.post("/api/user/register", {
     username,
     password,
     fullName,
@@ -37,12 +37,36 @@ const registerUser = (
   });
 };
 
+const getListCategory = () => {
+  return axios.get("/api/categories");
+};
+
 const createProduct = (formData) => {
-  return axios.post("/product/add", formData, {
+  return axios.post("/api/product/add", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 };
 
-export { loginUser, registerUser, refreshTokenService, createProduct };
+const getListProductAdmin = () => {
+  return axios.get("/api/product/list-admin");
+};
+
+const getListProductHome = (category) => {
+  return axios.get("/api/product/list", {
+    params: {
+      category: category,
+    },
+  });
+};
+
+export {
+  loginUser,
+  registerUser,
+  refreshTokenService,
+  createProduct,
+  getListCategory,
+  getListProductAdmin,
+  getListProductHome,
+};

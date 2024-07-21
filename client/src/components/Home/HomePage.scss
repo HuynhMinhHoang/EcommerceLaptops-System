@@ -79,4 +79,21 @@
     width: 85%;
     margin: 0 auto;
   }
+
+  .picture-list {
+    width: 85%;
+    margin: 0 auto;
+
+    .bg-img {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px 0px;
+      img {
+        // height: 200px;
+        width: 50%;
+      }
+    }
+  }
 }

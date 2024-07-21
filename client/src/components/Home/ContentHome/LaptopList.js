@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./LaptopList.scss";
 import laptop1 from "../../../assets/laptop1.png";
 import { FaTruck, FaStar } from "react-icons/fa";
@@ -6,94 +6,12 @@ import { Carousel } from "primereact/carousel";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { getListProductHome } from "../../../service/APIService";
+import { HiMiniCpuChip } from "react-icons/hi2";
+import { FaLaptop } from "react-icons/fa";
 
 const LaptopList = () => {
-  const products = [
-    {
-      name: "Laptop gaming Acer Nitro 5 Tiger AN515 58 GB598J",
-      image: laptop1,
-      cpu: "i5-12450H",
-      gpu: "RTX 3050",
-      ram: "8 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫24.990.000đ",
-      discountPrice: "₫19.990.000đ",
-      discountPercentage: "-20%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-    {
-      name: "Laptop gaming Acer Nitro V ANVI15 51 588AN",
-      image: laptop1,
-      cpu: "i7-13620H",
-      gpu: "RTX 2050",
-      ram: "16 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫25.990.000đ",
-      discountPrice: "₫23.990.000đ",
-      discountPercentage: "-8%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-    {
-      name: "Laptop gaming Acer Nitro V ANVI15 51 588AN",
-      image: laptop1,
-      cpu: "i7-13620H",
-      gpu: "RTX 2050",
-      ram: "16 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫25.990.000đ",
-      discountPrice: "₫23.990.000đ",
-      discountPercentage: "-8%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-    {
-      name: "Laptop gaming Acer Nitro V ANVI15 51 588AN",
-      image: laptop1,
-      cpu: "i7-13620H",
-      gpu: "RTX 2050",
-      ram: "16 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫25.990.000đ",
-      discountPrice: "₫23.990.000đ",
-      discountPercentage: "-8%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-    {
-      name: "Laptop gaming Acer Nitro V ANVI15 51 588AN",
-      image: laptop1,
-      cpu: "i7-13620H",
-      gpu: "RTX 2050",
-      ram: "16 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫25.990.000đ",
-      discountPrice: "₫23.990.000đ",
-      discountPercentage: "-8%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-    {
-      name: "Laptop gaming Acer Nitro V ANVI15 51 588AN",
-      image: laptop1,
-      cpu: "i7-13620H",
-      gpu: "RTX 2050",
-      ram: "16 GB",
-      storage: "512 GB",
-      display: "15.6 inch FHD @ 144 Hz",
-      originalPrice: "₫25.990.000đ",
-      discountPrice: "₫23.990.000đ",
-      discountPercentage: "-8%",
-      ratingScore: "0.0",
-      ratingReviews: "(0 đánh giá)",
-    },
-  ];
+  const [laptopGMList, setLaptopGMList] = useState();
 
   const responsiveOptions = [
     {
@@ -113,33 +31,71 @@ const LaptopList = () => {
     },
   ];
 
+  useEffect(() => {
+    fetchLaptopGMList();
+  }, []);
+
+  const fetchLaptopGMList = async () => {
+    try {
+      const response = await getListProductHome("LAPTOP GAMING");
+      setLaptopGMList(response.data.data);
+      // console.log("====", response.data.data);
+    } catch (error) {
+      console.log("Error fetching laptop list");
+    }
+  };
+
+  const formatCurrency = (value) => {
+    return value.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
+
   const productTemplate = (product) => {
+    const descriptionLines = product.description.split(",");
+
     return (
       <div className="laptop-card">
         <div className="product-image">
-          <img src={product.image} alt={product.name} />
+          <img src={product.images[0]?.thumbnail} alt={product.nameProduct} />
         </div>
         <div className="product-info">
-          <h3 className="product-name">{product.name}</h3>
+          <h3 className="product-name">{product.nameProduct}</h3>
           <p className="product-description">
-            <span className="cpu">{product.cpu}</span>
-            <span className="gpu">{product.gpu}</span>
-            <span className="ram">{product.ram}</span>
-            <span className="storage">{product.storage}</span>
-            <span className="display">{product.display}</span>
+            <span className="category">
+              <FaLaptop
+                style={{
+                  fontSize: "15px",
+                  marginRight: "5px",
+                  marginBottom: "4px",
+                }}
+              />
+              {product.category?.nameCategory}
+            </span>
+            <span className="cpu">
+              {descriptionLines.map((line, index) => (
+                <React.Fragment key={index}>
+                  {line.trim()}
+                  {index < descriptionLines.length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </span>
+
+            {/* <span className="ram">{product.ram}</span> */}
+            {/* <span className="storage">{product.storage}</span> */}
+            {/* <span className="display">{product.display}</span> */}
           </p>
           <div className="product-price">
-            <span className="original-price">{product.originalPrice}</span>
+            {/* <span className="original-price">{product.price}</span> */}
             <span className="discount-price">
-              {product.discountPrice}{" "}
-              <span className="discount-percentage">
-                {product.discountPercentage}
-              </span>
+              {formatCurrency(product.price)}{" "}
+              <span className="discount-percentage">-0%</span>
             </span>
           </div>
           <div className="product-rating">
             <span className="rating-score">
-              {product.ratingScore}
+              0.0
               <FaStar
                 style={{
                   fontSize: "13px",
@@ -148,7 +104,7 @@ const LaptopList = () => {
                 }}
               />
             </span>
-            <span className="rating-reviews">{product.ratingReviews}</span>
+            <span className="rating-reviews">(0 đánh giá)</span>
           </div>
         </div>
       </div>
@@ -175,7 +131,7 @@ const LaptopList = () => {
       </div>
       <div className="product-list">
         <Carousel
-          value={products}
+          value={laptopGMList}
           numScroll={1}
           numVisible={5}
           responsiveOptions={responsiveOptions}

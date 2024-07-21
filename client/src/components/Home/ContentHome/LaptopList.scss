@@ -92,7 +92,7 @@
       &:hover {
         border: 1px solid #ff213b8f;
         .product-image img {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
       }
 
@@ -111,23 +111,33 @@
 
       .product-info {
         padding: 16px;
+        padding-top: 6px;
 
         .product-name {
           font-size: 16px;
           font-weight: bold;
-          margin-bottom: 12px;
+          margin-bottom: 20px;
           cursor: pointer;
         }
 
         .product-description {
           font-size: 13px;
           color: #6d6e72;
-          font-weight: 700;
           margin-bottom: 12px;
           border-radius: 5px;
           padding: 10px;
+          height: 158px;
+          overflow: hidden;
           background-color: #ececec;
+
+          .cpu {
+            line-height: 1.8;
+            font-weight: 700;
+          }
+
           span {
+            font-weight: 500;
+
             display: block;
             margin-bottom: 4px;
           }

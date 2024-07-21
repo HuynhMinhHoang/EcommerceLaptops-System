@@ -113,6 +113,14 @@
           margin-bottom: 50px;
           // border: 1px solid red;
 
+          .w-full {
+            width: 350px;
+            border-radius: 5px;
+            padding: 2px;
+            border: 0.5px solid gray;
+            transition: 0.3s;
+          }
+
           select {
             width: 350px;
             border-radius: 5px;
@@ -245,4 +253,9 @@
       }
     }
   }
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border: 1px solid #fc5568 !important;
+  box-shadow: 0 0 15px #ff94a0 !important;
 }

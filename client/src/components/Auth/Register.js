@@ -6,17 +6,15 @@ import { useNavigate } from "react-router-dom";
 import eye1 from "../../assets/eye1.png";
 import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
-import { useTranslation, Trans } from "react-i18next";
-import axios from "axios";
 import { registerUser } from "../../service/APIService";
-import Gender from "../../utils/Gender";
-import DatePicker from "react-datepicker";
+import { Calendar } from "primereact/calendar";
+import { Dropdown } from "primereact/dropdown";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 const Register = ({ toast }) => {
   const [fullName, setFullName] = useState("");
-  const [gender, setGender] = useState(Gender.MALE);
+  const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
@@ -25,11 +23,18 @@ const Register = ({ toast }) => {
   const [password, setPassword] = useState("");
   const [reEnterPassword, setReEnterPassword] = useState("");
 
-  const [role, setRole] = useState(2);
+  // const [role, setRole] = useState(2);
 
   const [hidePassword, setHidePassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const genders = [
+    { name: "Nam", code: "MALE" },
+    { name: "Nữ", code: "FEMALE" },
+    { name: "Khác", code: "OTHER" },
+  ];
+
+  console.log("setGender", gender.code);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
@@ -44,7 +49,7 @@ const Register = ({ toast }) => {
         username,
         password,
         fullName,
-        gender,
+        gender.code,
         formattedDateOfBirth,
         email,
         phone,
@@ -69,19 +74,19 @@ const Register = ({ toast }) => {
     }
   };
 
-  const goToHome = () => {
-    navigate("/");
-  };
+  // const goToHome = () => {
+  //   navigate("/");
+  // };
 
   const handleHidePassword = () => {
     setHidePassword(!hidePassword);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleRegister();
-    }
-  };
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     handleRegister();
+  //   }
+  // };
   return (
     <>
       <div className="register-container">
@@ -140,16 +145,15 @@ const Register = ({ toast }) => {
 
                 <div className="register-form-input">
                   <label>Giới tính</label>
-                  <select
+                  <Dropdown
                     value={gender}
-                    onChange={(e) => {
-                      setGender(e.target.value);
-                    }}
-                  >
-                    <option value={Gender.MALE}>Nam</option>
-                    <option value={Gender.FEMALE}>Nữ</option>
-                    <option value={Gender.OTHER}>Khác</option>
-                  </select>
+                    onChange={(e) => setGender(e.value)}
+                    options={genders}
+                    optionLabel="name"
+                    optionValue="code"
+                    placeholder="Chọn giới tính"
+                    className="w-full md:w-14rem"
+                  />
                 </div>
               </div>
             </div>
@@ -236,11 +240,11 @@ const Register = ({ toast }) => {
 
                 <div className="register-form-input">
                   <label>Ngày sinh</label>
-                  <DatePicker
-                    selected={dateOfBirth}
-                    onChange={(date) => setDateOfBirth(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Chọn ngày sinh"
+                  <Calendar
+                    id="buttondisplay"
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.value)}
+                    dateFormat="dd/mm/yy"
                   />
                 </div>
 
