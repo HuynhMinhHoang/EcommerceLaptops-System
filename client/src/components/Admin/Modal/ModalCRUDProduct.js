@@ -10,7 +10,12 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Dropdown } from "primereact/dropdown";
 import { BiCategory } from "react-icons/bi";
 import { Button } from "primereact/button";
-import { createProduct, getListCategory } from "../../../service/APIService";
+import {
+  createProduct,
+  getListCategory,
+  updateProduct,
+  deleteImageFromProduct,
+} from "../../../service/APIService";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
@@ -21,6 +26,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
   const [quantity, setQuantity] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [imagesToRemove, setImagesToRemove] = useState([]);
 
   const [listCategory, setListCategory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,9 +41,9 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
 
   const onFileSelect = (e) => {
     const files = Array.from(e.target.files);
-    const validFiles = files.filter((file) => file.size <= 1048576); 
+    const validFiles = files.filter((file) => file.size <= 1048576);
     const invalidFiles = files.filter((file) => file.size > 1048576);
-  
+
     if (invalidFiles.length > 0) {
       toast.current.show({
         severity: "error",
@@ -45,12 +51,20 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
         detail: "Files larger than 1MB are not allowed!",
       });
     }
-  
+
     setUploadedFiles((prevFiles) => [...prevFiles, ...validFiles]);
   };
-  
 
-  const removeImage = (index) => {
+  const removeImage = (index, id) => {
+    if (id !== undefined && id !== null && id !== "") {
+      setImagesToRemove((prevImagesToRemove) => {
+        if (!prevImagesToRemove.includes(id)) {
+          return [...prevImagesToRemove, id];
+        }
+        return prevImagesToRemove;
+      });
+    }
+
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
@@ -151,6 +165,125 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
     }
   };
 
+  const handleDeleteImages = async (imagesToRemove) => {
+    try {
+      const res_img = await deleteImageFromProduct(imagesToRemove);
+      if (res_img && res_img.data.status === 200) {
+        console.log("Images deleted successfully");
+        setImagesToRemove([]);
+        return true;
+      } else {
+        throw new Error("Failed to delete images");
+      }
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error removing images!",
+      });
+      console.error("Error removing images:", error);
+      return false;
+    }
+  };
+
+  const handleUpdateProduct = async () => {
+    // Kiểm tra các trường dữ liệu trước khi thực hiện các thao tác
+    if (!productName) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Product name cannot be empty!",
+      });
+      return;
+    }
+    if (price <= 0) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Price cannot be empty!",
+      });
+      return;
+    }
+    if (!description) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Description cannot be empty!",
+      });
+      return;
+    }
+    if (quantity <= 0) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Minimum quantity is 1!",
+      });
+      return;
+    }
+    if (!selectedCategory) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Category must be selected!",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    const productId = editProduct.idProduct;
+    const newFiles = uploadedFiles.filter(
+      (file) => file.size > 0 && file.url === undefined
+    );
+    const formData = new FormData();
+    formData.append("id", productId);
+    formData.append("name", productName);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("quantity", quantity);
+    formData.append("categoryId", selectedCategory.idCategory);
+    formData.append("status", status);
+    newFiles.forEach((file) => {
+      formData.append("imageUrls", file);
+    });
+
+    try {
+      const res_pro = await updateProduct(productId, formData);
+      console.log(res_pro);
+      if (res_pro && res_pro.data.status === 200) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: res_pro.data.message,
+        });
+        fetchListProducts();
+        resetInput();
+      }
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error updating product!",
+      });
+      console.error("Error updating product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFullUpdate = async () => {
+    const deleteSuccess =
+      imagesToRemove.length > 0
+        ? await handleDeleteImages(imagesToRemove)
+        : true;
+
+    if (deleteSuccess) {
+      await handleUpdateProduct();
+    }
+
+    // console.log("Images deleted successfully", imagesToRemove);
+  };
+
   const fetchListCategory = async () => {
     try {
       const res = await getListCategory();
@@ -187,12 +320,13 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
       if (editProduct.images && editProduct.images.length > 0) {
         const files = editProduct.images.map((img) => {
           return {
+            id: img.idImage,
             name: editProduct.nameProduct,
             size: 0,
             url: img.thumbnail,
           };
         });
-        console.log("files Product", files);
+        // console.log("files Product", files);
 
         setUploadedFiles(files);
       }
@@ -305,8 +439,11 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
                       <div className="bg-size">{formatFileSize(file.size)}</div>
                     )}
 
-                    <div className="bg-cancel">
-                      <span onClick={() => removeImage(index)}>
+                    <div
+                      className="bg-cancel"
+                      onClick={() => removeImage(index, file.id)}
+                    >
+                      <span>
                         <i className="pi pi-fw pi-times" />
                       </span>
                     </div>
@@ -329,7 +466,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
                 label={editProduct ? "Save change" : "Create Product"}
                 icon={editProduct ? "pi pi-save" : "pi pi-check"}
                 className={editProduct ? "button-save" : "button-create"}
-                onClick={handleCreateProduct}
+                onClick={editProduct ? handleFullUpdate : handleCreateProduct}
               />
             )}
           </div>

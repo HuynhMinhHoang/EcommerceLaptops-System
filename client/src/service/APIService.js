@@ -61,6 +61,20 @@ const getListProductHome = (category) => {
   });
 };
 
+const updateProduct = (productId, formData) => {
+  return axios.put(`/api/product/update/${productId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const deleteImageFromProduct = (idImages) => {
+  return axios.delete(`/api/images/delete`, {
+    data: idImages,
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -69,4 +83,6 @@ export {
   getListCategory,
   getListProductAdmin,
   getListProductHome,
+  updateProduct,
+  deleteImageFromProduct,
 };
