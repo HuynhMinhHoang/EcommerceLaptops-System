@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface AccountService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-
     Account registerUser(AccountRequestDTO accountRequestDTO);
 
 }

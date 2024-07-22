@@ -5,6 +5,7 @@ import com.java.hminhhoangdev.dto.response.ResponseData;
 import com.java.hminhhoangdev.dto.response.ResponseError;
 import com.java.hminhhoangdev.model.Product;
 import com.java.hminhhoangdev.service.ProductService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,18 @@ public class ProductController {
             System.out.println(">>>>>Data from client: " + productRequestDTO);
             productService.addProduct(productRequestDTO);
             return new ResponseData<>(HttpStatus.OK.value(), "Product add successfully!");
+        } catch (ResponseStatusException e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/update/{id}", consumes = "multipart/form-data")
+    public ResponseData<?> updateProduct(@PathVariable Integer id, @ModelAttribute ProductRequestDTO productRequestDTO) {
+        try {
+            productService.updateProduct(id, productRequestDTO);
+            return new ResponseData<>(HttpStatus.OK.value(), "Product updated successfully!");
         } catch (ResponseStatusException e) {
             return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         } catch (Exception e) {
