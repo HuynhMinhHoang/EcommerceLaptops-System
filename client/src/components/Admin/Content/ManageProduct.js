@@ -17,7 +17,7 @@ const ManageProduct = ({ toast }) => {
     if (res && res.data.status === 200) {
       setListProducts(res.data.data.reverse());
     } else {
-      toast.error("Error fetching products!");
+      console.log("Error fetching products!");
     }
   };
   return (

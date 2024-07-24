@@ -337,7 +337,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
     <>
       <div className="form-product-container">
         <div className="form-input">
-          <div className="title">ManageProduct</div>
+          <div className="title">Manage Products</div>
 
           <div className="p-inputgroup flex-1">
             <span className="p-inputgroup-addon">
@@ -402,6 +402,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
           <div className="p-inputgroup flex-1 switch">
             <span className="p-inputgroup-addon">Status</span>
             <InputSwitch
+              className="custom-inputswitch"
               checked={status}
               onChange={(e) => setStatus(e.value)}
             />

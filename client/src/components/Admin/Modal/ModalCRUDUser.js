@@ -1,278 +1,273 @@
-import { useEffect, useState } from "react";
-import { FaCloudUploadAlt } from "react-icons/fa";
-import { toast } from "react-toastify";
-// import { postCreateNewUser, updateUser } from "../../../services/APIService";
+import { useEffect, useState, useRef } from "react";
 import "./ModalCRUDUser.scss";
-import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { useSelector } from "react-redux";
+import { InputText } from "primereact/inputtext";
+import { InputSwitch } from "primereact/inputswitch";
+import { Dropdown } from "primereact/dropdown";
+import { Button } from "primereact/button";
+import { FiUser } from "react-icons/fi";
+import { LuMail } from "react-icons/lu";
+import { Calendar } from "primereact/calendar";
+import { PiGenderIntersexBold } from "react-icons/pi";
+import { LuCalendarDays } from "react-icons/lu";
+import { MdDriveFileRenameOutline } from "react-icons/md";
+import { MdOutlinePassword } from "react-icons/md";
+import { FiPhone } from "react-icons/fi";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { ProgressSpinner } from "primereact/progressspinner";
 
-export const ModalCRUDUser = (props) => {
-  const user = useSelector((state) => state.userRedux.user);
-  console.log(">>>user", user);
-
-  const {
-    fetchData,
-    dataUserEdit,
-    resetDataUserEdit,
-    fetchDataPaginate,
-    currentPage,
-    setCurrentPage,
-  } = props;
-
+const ModalCRUDUser = ({ toast }) => {
+  const [fullName, setFullName] = useState("");
+  const [gender, setGender] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
-  const [avatar, setAvatar] = useState("");
-  const [preview, setPreview] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
 
-  //handle create user
-  const handleUploadAvatar = (e) => {
-    if (e.target && e.target.files && e.target.files[0]) {
-      setPreview(URL.createObjectURL(e.target.files[0]));
-      setAvatar(e.target.files[0]);
+  const [status, setStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const genders = [
+    { name: "MALE", code: "MALE" },
+    { name: "FEMALE", code: "FEMALE" },
+    { name: "OTHER", code: "OTHER" },
+  ];
+
+  const onFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size <= 1048576) {
+      setUploadedFile(file);
+    } else {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Files larger than 1MB are not allowed!",
+      });
     }
   };
 
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
+  const removeImage = () => {
+    setUploadedFile(null);
   };
 
-  //   const handleCreateUser = async () => {
-  //     if (!username) {
-  //       toast.error("Username is required!");
-  //       return;
-  //     }
-
-  //     if (!validateEmail(email)) {
-  //       toast.error("Email is not valid!");
-  //       return;
-  //     }
-
-  //     if (!password) {
-  //       toast.error("Password is required!");
-  //       return;
-  //     }
-
-  //     let res = await postCreateNewUser(email, username, password, role, avatar);
-
-  //     if (res && res.EC === 0) {
-  //       setEmail("");
-  //       setUsername("");
-  //       setPassword("");
-  //       setAvatar("");
-  //       setPreview("");
-  //       setCurrentPage();
-  //       await fetchDataPaginate(1);
-  //       toast.success(res.EM);
-  //       console.log(res);
-  //     } else {
-  //       toast.error(res.EM);
-  //       console.log(res);
-  //     }
-  //   };
-
-  const resetData = () => {
-    setEmail("");
-    setUsername("");
-    setPassword("");
-    setAvatar("");
-    setPreview("");
-    resetDataUserEdit(null);
-    toast.success("Reset Data Succcess!");
-  };
-
-  //handle update user
-  useEffect(() => {
-    if (dataUserEdit) {
-      setUsername(dataUserEdit.username);
-      setEmail(dataUserEdit.email);
-      setRole(dataUserEdit.role);
-      if (dataUserEdit.image) {
-        setAvatar(dataUserEdit.image);
-        setPreview(`data:image/jpeg;base64,${dataUserEdit.image}`);
-      } else {
-        setAvatar("");
-        setPreview("");
-      }
+  const formatFileSize = (size) => {
+    if (size < 1024) {
+      return size + " B";
+    } else if (size < 1048576) {
+      return (size / 1024).toFixed(2) + " KB";
+    } else {
+      return (size / 1048576).toFixed(2) + " MB";
     }
-  }, [dataUserEdit]);
-
-  //   const handleUpdateUser = async () => {
-  //     if (!username) {
-  //       toast.error("Username is not valid!");
-  //       return;
-  //     }
-
-  //     let res = await updateUser(dataUserEdit.id, username, role, avatar);
-  //     console.log("avatar", avatar);
-
-  //     if (res && res.EC === 0) {
-  //       setUsername("");
-  //       setEmail("");
-  //       setPassword("");
-  //       setAvatar("");
-  //       setPreview("");
-  //       await fetchDataPaginate(currentPage);
-  //       resetDataUserEdit(null);
-  //       toast.success(res.EM);
-  //       // console.log(res);
-  //     } else {
-  //       toast.error(res.EM);
-  //       // console.log(res);
-  //     }
-  //   };
-
-  const showAlert = () => {
-    Swal.fire({
-      title: "Do you want to save the changes?",
-      showDenyButton: true,
-      // showCancelButton: true,
-      icon: "warning",
-      confirmButtonText: "Save",
-      denyButtonText: `Don't save`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // handleUpdateUser();
-      } else if (result.isDenied) {
-        toast.info("Changes are not saved!");
-      }
-    });
   };
 
-  console.log("preview", preview);
   return (
     <>
-      <div className="card-container">
-        <div className="card">
-          <div className="card-content">
-            <div className="card-body">
-              <div className="form form-vertical">
-                <div className="form-body">
-                  <div className="col-12">
-                    <div className="form-group">
-                      <label>Username</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                      />
-                    </div>
+      <div className="form-user-container">
+        <div className="form-input">
+          <div className="title">Manage Users</div>
+
+          <div className="bg-row-1">
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <MdDriveFileRenameOutline style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+                <label htmlFor="fullName">Full Name</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1 custom-margin">
+              <span className="p-inputgroup-addon">
+                <PiGenderIntersexBold style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <Dropdown
+                  inputId="gender"
+                  value={gender}
+                  onChange={(e) => setGender(e.value)}
+                  options={genders}
+                  optionLabel="name"
+                  optionValue="code"
+                  placeholder="Selected gender"
+                  className="w-full md:w-14rem"
+                />
+                <label htmlFor="gender">Gender</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <LuCalendarDays style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <Calendar
+                  inputId="dateOfBirth"
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.value)}
+                  dateFormat="dd/mm/yy"
+                />
+                <label htmlFor="dateOfBirth">Date of Birth</label>
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-row-1">
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <LuMail style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <label htmlFor="email">Email</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1 custom-margin">
+              <span className="p-inputgroup-addon">
+                <FiUser style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <label htmlFor="username">Username</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <MdOutlinePassword style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                />
+                <label htmlFor="password">Password</label>
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-row-1">
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <FiPhone style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <label htmlFor="phone">Phone Number</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1 custom-margin">
+              <span className="p-inputgroup-addon">
+                <MdOutlineLocationOn style={{ fontSize: "20px" }} />
+              </span>
+              <span className="p-float-label">
+                <InputText
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <label htmlFor="address">Address</label>
+              </span>
+            </div>
+
+            <div className="p-inputgroup flex-1 switch">
+              <span className="p-inputgroup-addon">Status</span>
+              <InputSwitch
+                className="custom-inputswitch"
+                checked={status}
+                onChange={(e) => setStatus(e.value)}
+              />
+            </div>
+          </div>
+
+          <div className="bg-upload">
+            <div className="bg-input-upload">
+              <input
+                type="file"
+                id="file-upload"
+                onChange={onFileSelect}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="file-upload" className="custom-img-btn">
+                <i className="pi pi-fw pi-images icon-up"></i>
+              </label>
+            </div>
+            <div className="preview">
+              {!uploadedFile ? (
+                <p>Please choose a representative photo!</p>
+              ) : (
+                <div className="preview-image">
+                  <div className="bg-img">
+                    <img
+                      src={
+                        uploadedFile.url || URL.createObjectURL(uploadedFile)
+                      }
+                      alt="Preview"
+                    />
                   </div>
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label>Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="Email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          disabled={dataUserEdit ? true : false}
-                        />
-                      </div>
+                  {uploadedFile.size > 0 && (
+                    <div className="bg-size">
+                      {formatFileSize(uploadedFile.size)}
                     </div>
-
-                    <div
-                      className="col-12"
-                      // hidden={dataUserEdit ? true : false}
-                    >
-                      <div className="form-group">
-                        <label>Password</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          disabled={dataUserEdit ? true : false}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label className="contact-info-vertical">Role</label>
-                        <select
-                          className="form-control"
-                          value={role}
-                          onChange={(e) => {
-                            setRole(e.target.value);
-                          }}
-                        >
-                          <option value="USER">USER</option>
-                          <option value="ADMIN">ADMIN</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6 bg-upload">
-                      <label
-                        className="form-label upload"
-                        htmlFor="inputUpload"
-                      >
-                        <FaCloudUploadAlt
-                          size={"23px"}
-                          style={{ marginRight: "8px" }}
-                        />
-                        Upload Avatar
-                      </label>
-                      <input
-                        id="inputUpload"
-                        type="file"
-                        hidden
-                        onChange={(e) => handleUploadAvatar(e)}
-                      />
-                    </div>
-
-                    <div className="col-md-12 img-preview">
-                      {preview ? (
-                        <img src={preview} />
-                      ) : (
-                        <span>Please choose photo...</span>
-                      )}
-                    </div>
-
-                    <div className="col-12 d-flex justify-content-end">
-                      {dataUserEdit ? (
-                        <button
-                          type="save"
-                          className="btn-update"
-                          onClick={() => showAlert()}
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          type="save"
-                          className="btn-save"
-                          //   onClick={() => handleCreateUser()}
-                        >
-                          Create
-                        </button>
-                      )}
-                      <button
-                        type="cancel"
-                        className="btn-cancel"
-                        onClick={() => resetData()}
-                      >
-                        Reset
-                      </button>
-                    </div>
+                  )}
+                  <div className="bg-cancel" onClick={removeImage}>
+                    <span>
+                      <i className="pi pi-fw pi-times" />
+                    </span>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
+          </div>
+
+          <div className="p-inputgroup flex-1 btn-save">
+            {loading === true ? (
+              <ProgressSpinner
+                style={{ width: "45px", height: "45px" }}
+                strokeWidth="8"
+                animationDuration=".5s"
+                className="custom-spinner"
+              />
+            ) : (
+              <Button
+                // label={editProduct ? "Save change" : "Create Product"}
+                // icon={editProduct ? "pi pi-save" : "pi pi-check"}
+                // className={editProduct ? "button-save" : "button-create"}
+                // onClick={editProduct ? handleFullUpdate : handleCreateProduct}
+
+                label="Create User"
+                icon="pi pi-check"
+                className="button-create"
+              />
+            )}
           </div>
         </div>
       </div>
     </>
   );
 };
+
+export default ModalCRUDUser;

@@ -34,7 +34,7 @@ const Register = ({ toast }) => {
     { name: "Khác", code: "OTHER" },
   ];
 
-  console.log("setGender", gender.code);
+
   const navigate = useNavigate();
 
   const handleRegister = async () => {
@@ -44,6 +44,7 @@ const Register = ({ toast }) => {
       .toISOString()
       .split("T")[0];
 
+      console.log("dateOfBirth", formattedDateOfBirth);
     try {
       const response = await registerUser(
         username,

@@ -1,14 +1,14 @@
 import axios from "../utils/AxiosConfig";
 
 const loginUser = (username, password) => {
-  return axios.post("/api/user/login", {
+  return axios.post("/api/v1/user/login", {
     username,
     password,
   });
 };
 
 const refreshTokenService = (refreshToken) => {
-  return axios.post("/api/user/refresh-token", null, {
+  return axios.post("/api/v1/user/refresh-token", null, {
     params: {
       refreshToken: refreshToken,
     },
@@ -25,7 +25,7 @@ const registerUser = (
   phone,
   address
 ) => {
-  return axios.post("/api/user/register", {
+  return axios.post("/api/v1/user/register", {
     username,
     password,
     fullName,
@@ -38,11 +38,11 @@ const registerUser = (
 };
 
 const getListCategory = () => {
-  return axios.get("/api/categories");
+  return axios.get("/api/v1/categories");
 };
 
 const createProduct = (formData) => {
-  return axios.post("/api/product/add", formData, {
+  return axios.post("/api/v1/product/add", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -50,11 +50,11 @@ const createProduct = (formData) => {
 };
 
 const getListProductAdmin = () => {
-  return axios.get("/api/product/list-admin");
+  return axios.get("/api/v1/product/list-admin");
 };
 
 const getListProductHome = (category) => {
-  return axios.get("/api/product/list", {
+  return axios.get("/api/v1/product/list", {
     params: {
       category: category,
     },
@@ -62,7 +62,7 @@ const getListProductHome = (category) => {
 };
 
 const updateProduct = (productId, formData) => {
-  return axios.put(`/api/product/update/${productId}`, formData, {
+  return axios.put(`/api/v1/product/update/${productId}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -70,9 +70,13 @@ const updateProduct = (productId, formData) => {
 };
 
 const deleteImageFromProduct = (idImages) => {
-  return axios.delete(`/api/images/delete`, {
+  return axios.delete(`/api/v1/images/delete`, {
     data: idImages,
   });
+};
+
+const getListUser = () => {
+  return axios.get("/api/v1/admin/list-user");
 };
 
 export {
@@ -85,4 +89,5 @@ export {
   getListProductHome,
   updateProduct,
   deleteImageFromProduct,
+  getListUser,
 };

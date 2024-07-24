@@ -17,6 +17,11 @@
 
     .p-inputgroup {
       margin-bottom: 35px;
+      input:focus {
+        border: 1px solid #fc5568;
+        box-shadow: 0 0 15px #ff94a0;
+        outline: none;
+      }
     }
 
     .switch {
@@ -50,10 +55,11 @@
         }
       }
       .button-create {
+        font-weight: 600;
         border-radius: 5px;
-        background-color: #0288d1;
+        background-color: #64748B;
         &:hover {
-          background-color: #0174b1;
+          background-color: #526073;
         }
       }
     }
@@ -77,15 +83,21 @@
           border-radius: 50%;
           width: 46px;
           height: 46px;
-          border: 1px solid #06b6d4 !important;
+          border: 1px solid #dc3545 !important;
           display: flex;
           align-items: center;
           justify-content: center;
+          opacity: 0.5;
+          transition: 0.3s;
+          &:hover {
+            opacity: 1;
+            border: 1px solid #dc3545 !important;
+          }
         }
 
         .icon-up {
           font-size: 20px;
-          color: #06b6d4 !important;
+          color: #dc3545 !important;
         }
       }
 
@@ -93,7 +105,7 @@
         height: auto;
 
         p {
-          color: #dd3344;
+          color: #495057;
           font-size: 16px;
           margin: 0;
           padding: 15px;
@@ -144,6 +156,11 @@
             align-items: center;
             justify-content: center;
             color: #ef4444;
+
+            span {
+              margin-top: 5px;
+              // margin-left: 1px;
+            }
             // font-weight: 700;
           }
         }
@@ -159,4 +176,8 @@
 .p-button {
   border: none;
   // font-weight: 700;
+}
+
+.p-inputswitch.p-highlight .p-inputswitch-slider {
+  background: #dc3545 !important;
 }
