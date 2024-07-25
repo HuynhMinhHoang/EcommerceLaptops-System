@@ -20,35 +20,34 @@ public class AccountRequestDTO implements Serializable {
     @Size(min = 6, max = 20, message = "Password length must be between 6 and 20 characters")
     private String password;
 
-    @NotBlank(message = "Full name must not be blank")
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email must not be blank")
+    private String email;
+
+    @PhoneNumber
+    @NotBlank(message = "Phone must not be blank")
+    private String phone;
+
+    @NotNull(message = "Avatar must not be null")
+    private MultipartFile avt;
+
     private String fullName;
 
     @GenderSubset(anyOf = {Gender.MALE, Gender.FEMALE, Gender.OTHER})
     private Gender gender;
 
-
-    @NotNull(message = "Date of birth must not be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    @Email(message = "Email should be valid")
-    private String email;
-
-    @PhoneNumber
-    private String phone;
-
-    @NotBlank(message = "Address must not be blank")
     private String address;
 
     @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
     private AccountStatus status;
 
-    @NotNull(message = "Role ID must not be null")
     private int roleId;
 
     private String roleName;
 
-    private MultipartFile avt;
 
     public AccountRequestDTO() {
     }
@@ -69,27 +68,19 @@ public class AccountRequestDTO implements Serializable {
         this.username = username;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public @NotBlank(message = "Address must not be blank") String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(@NotBlank(message = "Address must not be blank") String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public MultipartFile getAvt() {
+    public @NotNull(message = "Avatar must not be null") MultipartFile getAvt() {
         return avt;
     }
 
-    public void setAvt(MultipartFile avt) {
+    public void setAvt(@NotNull(message = "Avatar must not be null") MultipartFile avt) {
         this.avt = avt;
     }
 
@@ -97,23 +88,23 @@ public class AccountRequestDTO implements Serializable {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(@NotNull(message = "Date of birth must not be null") LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public @Email(message = "Email should be valid") String getEmail() {
+    public @Email(message = "Email should be valid") @NotBlank(message = "Email must not be blank") String getEmail() {
         return email;
     }
 
-    public void setEmail(@Email(message = "Email should be valid") String email) {
+    public void setEmail(@Email(message = "Email should be valid") @NotBlank(message = "Email must not be blank") String email) {
         this.email = email;
     }
 
-    public @NotBlank(message = "Full name must not be blank") String getFullName() {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(@NotBlank(message = "Full name must not be blank") String fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -141,21 +132,28 @@ public class AccountRequestDTO implements Serializable {
         this.password = password;
     }
 
-    public String getPhone() {
+    public @NotBlank(message = "Phone must not be blank") String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(@NotBlank(message = "Phone must not be blank") String phone) {
         this.phone = phone;
     }
 
-    @NotNull(message = "Role ID must not be null")
     public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(@NotNull(message = "Role ID must not be null") int roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE") AccountStatus getStatus() {

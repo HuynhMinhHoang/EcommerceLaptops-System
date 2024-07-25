@@ -68,4 +68,16 @@ public class ProductController {
             return new ResponseError(HttpStatus.OK.value(), e.getMessage());
         }
     }
+
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer productId) {
+        try {
+            productService.deleteProduct(productId);
+            return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+        } catch (ResponseStatusException ex) {
+            return new ResponseEntity<>(ex.getReason(), ex.getStatusCode());
+        } catch (Exception ex) {
+            return new ResponseEntity<>("An error occurred while deleting the product", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

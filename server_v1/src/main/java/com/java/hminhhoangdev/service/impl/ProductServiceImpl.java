@@ -47,8 +47,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productRequestDTO.getQuantity());
         product.setStatus(productRequestDTO.isStatus());
 
-        Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category id"));
+        Category category = categoryRepository.findById(productRequestDTO.getCategoryId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category id"));
         product.setCategory(category);
 
         Set<Image> images = new HashSet<>();
@@ -111,15 +110,12 @@ public class ProductServiceImpl implements ProductService {
                 return Collections.emptyList();
         }
 
-        return allProducts.stream()
-                .filter(product -> product.isStatus() && product.getQuantity() > 0 && product.getCategory().getIdCategory() == categoryId)
-                .collect(Collectors.toList());
+        return allProducts.stream().filter(product -> product.isStatus() && product.getQuantity() > 0 && product.getCategory().getIdCategory() == categoryId).collect(Collectors.toList());
     }
 
     @Override
     public void updateProduct(Integer productId, ProductRequestDTO productRequestDTO) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         product.setNameProduct(productRequestDTO.getName());
         product.setPrice(productRequestDTO.getPrice());
@@ -127,8 +123,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productRequestDTO.getQuantity());
         product.setStatus(productRequestDTO.isStatus());
 
-        Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category id"));
+        Category category = categoryRepository.findById(productRequestDTO.getCategoryId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category id"));
         product.setCategory(category);
 
         Set<Image> images = new HashSet<>(product.getImages());
@@ -157,6 +152,28 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update product", e);
+        }
+    }
+
+    @Override
+    public void deleteProduct(Integer productId) {
+        if (productId == null || productId <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid product ID");
+        }
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+
+        try {
+            List<Image> images = imageRepository.findImageByProduct(product);
+            imageRepository.deleteAll(images);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete images", e);
+        }
+
+        try {
+            productRepository.delete(product);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete product", e);
         }
     }
 

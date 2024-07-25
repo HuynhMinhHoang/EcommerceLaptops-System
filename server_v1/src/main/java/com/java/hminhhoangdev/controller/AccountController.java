@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -100,16 +101,19 @@ public class AccountController {
     }
 
     @PostMapping(value = "/user/register", consumes = "multipart/form-data")
-    public ResponseEntity<String> createUser(@ModelAttribute AccountRequestDTO accountRequestDTO) {
+    public ResponseEntity<ResponseData<String>> createUser(@Valid @ModelAttribute AccountRequestDTO accountRequestDTO) {
         try {
             accountService.registerUser(accountRequestDTO);
-            return ResponseEntity.ok("Account created successfully!");
+            return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Đăng ký thành công!"));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseData<>(e.getStatusCode().value(), e.getReason()));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error registering account");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseData<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
         }
     }
+
 
     @GetMapping("/admin/list-user")
     public List<Account> getAllAccounts() {

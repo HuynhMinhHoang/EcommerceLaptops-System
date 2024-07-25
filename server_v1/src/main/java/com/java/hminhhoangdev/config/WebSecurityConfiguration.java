@@ -45,6 +45,7 @@ public class WebSecurityConfiguration {
             authorize.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/add").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/update").hasRole("ADMIN");
+            authorize.requestMatchers("/api/v1/product/delete").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/list").permitAll();
             authorize.requestMatchers("/api/v1/product/list-admin").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/images/delete").hasRole("ADMIN");
