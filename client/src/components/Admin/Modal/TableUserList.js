@@ -10,9 +10,12 @@ const TableUserList = ({ toast, fetchListUser, listUser }) => {
     fetchListUser();
   }, []);
 
-  // Các hàm xử lý dữ liệu
   const genderBodyTemplate = (user) => {
     return user.gender ? user.gender : "N/A";
+  };
+
+  const addressBodyTemplate = (rowData) => {
+    return rowData.address ? rowData.address : "N/A";
   };
 
   const formatDate = (date) => {
@@ -51,7 +54,7 @@ const TableUserList = ({ toast, fetchListUser, listUser }) => {
   };
 
   const avtBodyTemplate = (user) => {
-    const imageSrc = user.avt ? user.avt : "default-image-url"; // Thay thế với URL hình ảnh mặc định nếu không có hình ảnh
+    const imageSrc = user.avt ? user.avt : "default-image-url";
     return (
       <img
         src={imageSrc}
@@ -117,7 +120,11 @@ const TableUserList = ({ toast, fetchListUser, listUser }) => {
         ></Column>
         <Column field="email" header="Email"></Column>
         <Column field="phone" header="Phone"></Column>
-        <Column field="address" header="Address"></Column>
+        <Column
+          field="address"
+          header="Address"
+          body={addressBodyTemplate}
+        ></Column>
         <Column
           field="status"
           header="Status"

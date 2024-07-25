@@ -15,25 +15,11 @@ const refreshTokenService = (refreshToken) => {
   });
 };
 
-const registerUser = (
-  username,
-  password,
-  fullName,
-  gender,
-  dateOfBirth,
-  email,
-  phone,
-  address
-) => {
-  return axios.post("/api/v1/user/register", {
-    username,
-    password,
-    fullName,
-    gender,
-    dateOfBirth,
-    email,
-    phone,
-    address,
+const registerUser = (formData) => {
+  return axios.post("/api/v1/user/register", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
@@ -79,6 +65,10 @@ const getListUser = () => {
   return axios.get("/api/v1/admin/list-user");
 };
 
+const deleteProduct = (idProduct) => {
+  return axios.delete(`/api/v1/product/delete/${idProduct}`);
+};
+
 export {
   loginUser,
   registerUser,
@@ -90,4 +80,5 @@ export {
   updateProduct,
   deleteImageFromProduct,
   getListUser,
+  deleteProduct,
 };

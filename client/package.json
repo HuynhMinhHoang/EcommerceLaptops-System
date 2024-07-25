@@ -41,7 +41,7 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.53.0",
     "styled-components": "^6.1.11",
-    "sweetalert2": "^11.11.1",
+    "sweetalert2": "^11.12.3",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },

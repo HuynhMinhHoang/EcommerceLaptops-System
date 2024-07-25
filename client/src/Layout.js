@@ -4,6 +4,7 @@ import App from "./App";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import { Toast } from "primereact/toast";
+import "sweetalert2/src/sweetalert2.scss";
 import NotFound404 from "./components/Error/NotFound404";
 import Admin from "./components/Admin/Admin";
 import ManageUser from "./components/Admin/Content/ManageUser";

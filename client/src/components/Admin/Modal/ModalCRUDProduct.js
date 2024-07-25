@@ -17,6 +17,7 @@ import {
   deleteImageFromProduct,
 } from "../../../service/APIService";
 import { ProgressSpinner } from "primereact/progressspinner";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
   const [productName, setProductName] = useState("");
@@ -187,7 +188,6 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
   };
 
   const handleUpdateProduct = async () => {
-    // Kiểm tra các trường dữ liệu trước khi thực hiện các thao tác
     if (!productName) {
       toast.current.show({
         severity: "error",
@@ -271,19 +271,6 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
     }
   };
 
-  const handleFullUpdate = async () => {
-    const deleteSuccess =
-      imagesToRemove.length > 0
-        ? await handleDeleteImages(imagesToRemove)
-        : true;
-
-    if (deleteSuccess) {
-      await handleUpdateProduct();
-    }
-
-    // console.log("Images deleted successfully", imagesToRemove);
-  };
-
   const fetchListCategory = async () => {
     try {
       const res = await getListCategory();
@@ -331,6 +318,41 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
         setUploadedFiles(files);
       }
     }
+  };
+
+  const handleFullUpdate = async () => {
+    const deleteSuccess =
+      imagesToRemove.length > 0
+        ? await handleDeleteImages(imagesToRemove)
+        : true;
+
+    if (deleteSuccess) {
+      await handleUpdateProduct();
+    }
+
+    // console.log("Images deleted successfully", imagesToRemove);
+  };
+
+  const showAlertUpdate = () => {
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      icon: "warning",
+      confirmButtonText: "Confirm",
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleFullUpdate();
+      } else if (result.isDenied) {
+        toast.current.show({
+          severity: "info",
+          summary: "Notification",
+          detail: "Changes are not saved!",
+        });
+      }
+    });
   };
 
   return (
@@ -467,7 +489,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
                 label={editProduct ? "Save change" : "Create Product"}
                 icon={editProduct ? "pi pi-save" : "pi pi-check"}
                 className={editProduct ? "button-save" : "button-create"}
-                onClick={editProduct ? handleFullUpdate : handleCreateProduct}
+                onClick={editProduct ? showAlertUpdate : handleCreateProduct}
               />
             )}
           </div>

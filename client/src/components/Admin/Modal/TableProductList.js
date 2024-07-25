@@ -4,6 +4,8 @@ import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import "./TableProductList.scss";
 import { Button } from "primereact/button";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import { deleteProduct } from "../../../service/APIService";
 
 const TableProductList = ({
   toast,
@@ -69,34 +71,85 @@ const TableProductList = ({
         <Button
           icon="pi pi-trash"
           className="p-button-rounded p-button-danger"
-          // onClick={() => onDeleteProduct(product)}
+          onClick={() => showAlertDelete(product.idProduct)}
         />
       </div>
     );
   };
 
-  // const onEditProduct = (product) => {
-  //   toast.current.show({
-  //     severity: "info",
-  //     summary: "Edit Product",
-  //     detail: `Editing product: ${product.nameProduct}`,
-  //   });
-  // };
+  const handleDeleteProduct = async (id) => {
+    try {
+      const response = await deleteProduct(id);
+      console.log("response", response);
+      if (response && response.status === 200) {
+        fetchListProducts();
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Delete Product successfully",
+        });
+      }
+    } catch (e) {
+      console.error("Error when deleting product:", e);
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error when deleting product",
+      });
+      return;
+    }
+  };
 
-  // const onDeleteProduct = (product) => {
-  //   toast.current.show({
-  //     severity: "warn",
-  //     summary: "Delete Product",
-  //     detail: `Deleting product: ${product.nameProduct}`,
-  //   });
-  // };
+  const showAlertDelete = (id) => {
+    Swal.fire({
+      title: "Do you want to delete this item?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      customClass: {
+        confirmButton: "btn-delete",
+        cancelButton: "btn-cancel",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let timerInterval;
+        Swal.fire({
+          title: "Deleting the product is in progress!",
+          // html: "Please wait <b></b> milliseconds.",
+          timer: 2500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            timerInterval = setInterval(() => {}, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        }).then((result) => {
+          handleDeleteProduct(id);
+          // if (result.dismiss === Swal.DismissReason.timer) {
+          // }
+        });
+      } else if (result.isDismissed) {
+        toast.current.show({
+          severity: "info",
+          summary: "Notification",
+          detail: "Delete action was cancelled!",
+        });
+      }
+    });
+  };
 
   const footer = `In total there are ${
     listProducts ? listProducts.length : 0
   } products.`;
 
   return (
-    <div className="card">
+    <div className="card-product">
       <DataTable
         value={listProducts}
         footer={footer}
