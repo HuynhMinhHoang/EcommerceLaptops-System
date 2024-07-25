@@ -1,0 +1,86 @@
+.card {
+  padding: 0px;
+  height: 843px;
+  overflow: auto;
+  border: none;
+
+  .p-tag.p-tag-success {
+    background-color: #22c55e;
+    color: #ffffff;
+    width: 60px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.4rem;
+    border-radius: 6px;
+  }
+  .p-tag.p-tag-danger {
+    background-color: #f97316;
+    color: #ffffff;
+    width: 80px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.4rem;
+    border-radius: 6px;
+  }
+
+  .p-datatable .p-column-header-content {
+    display: block;
+  }
+
+  .p-datatable .p-column-header-content {
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .p-datatable table {
+    border-collapse: collapse;
+  }
+
+  .p-datatable table td,
+  .p-datatable table th {
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-width: none;
+    text-align: center;
+  }
+
+  .text-name {
+    width: 200px;
+  }
+
+  .bg-action {
+    width: 120px;
+  }
+}
+
+.pi-trash,
+.pi-pen-to-square {
+  font-size: 23px;
+  font-weight: 700;
+  transition: transform 0.4s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.p-button.p-button-danger,
+.p-button-group.p-button-danger > .p-button,
+.p-splitbutton.p-button-danger > .p-button,
+.p-fileupload-choose.p-button-danger {
+  border-radius: 5px !important;
+  margin-left: 5px;
+  background-color: transparent;
+  color: #d32f2f;
+}
+
+.p-button.p-button-success,
+.p-button-group.p-button-success > .p-button,
+.p-splitbutton.p-button-success > .p-button,
+.p-fileupload-choose.p-button-success {
+  border-radius: 5px !important;
+  margin-right: 5px;
+  background-color: transparent;
+  color: #6c757d;
+  // height: 20px;
+  // width: 20px;
+}
