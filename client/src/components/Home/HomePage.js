@@ -12,8 +12,12 @@ import picture1 from "../../assets/picture1.png";
 import picture2 from "../../assets/picture2.png";
 import banner6 from "../../assets/banner6.png";
 import banner7 from "../../assets/banner7.png";
-import LaptopList from "./ContentHome/LaptopList";
+import ProductList from "./ContentHome/ProductList";
 import PCList from "./ContentHome/PCList";
+import pic1 from "../../assets/pic1.png";
+import pic2 from "../../assets/pic2.png";
+import pic3 from "../../assets/pic3.png";
+import CategoryList from "./ContentHome/CategoryList";
 
 const HomePage = () => {
   return (
@@ -134,8 +138,35 @@ const HomePage = () => {
         </div>
       </div>
 
+      <div className="product-laptopGM-list">
+        <ProductList category={"LAPTOP GAMING"} />
+      </div>
+
       <div className="product-laptop-list">
-        <LaptopList />
+        <ProductList category={"LAPTOP"} />
+      </div>
+
+      <div className="banner-sale">
+        <div className="bg-img1">
+          <img src={pic1} alt="pic1" />
+        </div>
+
+        <div className="bg-img2">
+          <img src={pic2} alt="pic1" />
+          <img src={pic3} alt="pic1" />
+        </div>
+      </div>
+
+      <div className="product-mouse-list">
+        <ProductList category={"MOUSE"} />
+      </div>
+
+      <div className="product-keyboard-list">
+        <ProductList category={"KEY BOARD"} />
+      </div>
+
+      <div className="category-list">
+        <CategoryList />
       </div>
     </div>
   );

@@ -1,12 +1,17 @@
 .form-user-container {
   .bg-row-1 {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    align-items: start;
     margin: 15px 0px;
 
     .custom-margin {
       margin: 0 80px;
+    }
+
+    .custom-role {
+      margin-left: 78px;
+      margin-right: 0px;
     }
   }
   .title {
@@ -76,7 +81,7 @@
 
     .bg-upload {
       border: 1px solid rgb(222, 222, 222);
-      width: 30%;
+      width: 46%;
       border-radius: 5px;
       margin-bottom: 40px;
 
@@ -130,7 +135,7 @@
           .bg-img {
             img {
               height: auto;
-              width: 150px;
+              width: 100px;
             }
           }
 
@@ -191,4 +196,18 @@
 
 .p-inputswitch.p-highlight .p-inputswitch-slider {
   background: #dc3545 !important;
+}
+
+.p-float-label {
+  position: relative;
+
+  .set-password {
+    color: gray;
+    position: absolute;
+    left: 20px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    font-size: 23px;
+    cursor: pointer;
+  }
 }

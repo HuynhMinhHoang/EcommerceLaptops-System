@@ -5,10 +5,12 @@ import { Tag } from "primereact/tag";
 import "./TableUserList.scss";
 import { Button } from "primereact/button";
 
-const TableUserList = ({ toast, fetchListUser, listUser }) => {
+const TableUserList = ({ toast, fetchListUser, listUser, setUpdateUser }) => {
   useEffect(() => {
     fetchListUser();
   }, []);
+
+  // console.log("listUser", listUser);
 
   const genderBodyTemplate = (user) => {
     return user.gender ? user.gender : "N/A";
@@ -42,7 +44,7 @@ const TableUserList = ({ toast, fetchListUser, listUser }) => {
         <Button
           icon="pi pi-pen-to-square"
           className="p-button-rounded p-button-success p-mr-2"
-          onClick={() => handleEdit(user)}
+          onClick={() => setUpdateUser(user)}
         />
         <Button
           icon="pi pi-trash"

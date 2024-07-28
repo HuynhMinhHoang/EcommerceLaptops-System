@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   background-color: #f0f0f0;
+  padding: 1px;
   .sub-header {
     .sub-main {
       background-color: white;
@@ -75,9 +76,26 @@
     background-image: url("../../assets/bg-product.png");
   }
 
+  .product-laptopGM-list {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
   .product-laptop-list {
     width: 85%;
     margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  .product-mouse-list {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+
+  .product-keyboard-list {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 15px;
   }
 
   .picture-list {
@@ -95,5 +113,44 @@
         width: 50%;
       }
     }
+  }
+
+  .banner-sale {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .bg-img1 {
+      width: 65%;
+      img {
+        width: 100%;
+        height: 350px;
+        padding: 8px;
+        border-radius: 15px;
+        padding-left: 0px;
+      }
+    }
+
+    .bg-img2 {
+      width: 35%;
+
+      img {
+        padding: 8px;
+        width: 100%;
+        height: 174px;
+        border-radius: 15px;
+        padding-right: 0px;
+      }
+    }
+  }
+
+  .category-list {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 70px;
+    margin-top: 20px;
   }
 }

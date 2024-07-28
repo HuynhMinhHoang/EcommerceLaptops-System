@@ -53,11 +53,7 @@ const Login = ({ toast }) => {
         });
 
         console.log(res);
-        if (res.data.role === "ADMIN") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+
       } else {
         setIsLoading(false);
       }

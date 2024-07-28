@@ -119,8 +119,9 @@ const TableProductList = ({
         let timerInterval;
         Swal.fire({
           title: "Deleting the product is in progress!",
-          // html: "Please wait <b></b> milliseconds.",
           timer: 2500,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
           timerProgressBar: true,
           didOpen: () => {
             Swal.showLoading();
@@ -131,8 +132,6 @@ const TableProductList = ({
           },
         }).then((result) => {
           handleDeleteProduct(id);
-          // if (result.dismiss === Swal.DismissReason.timer) {
-          // }
         });
       } else if (result.isDismissed) {
         toast.current.show({

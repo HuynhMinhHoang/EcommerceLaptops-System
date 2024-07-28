@@ -14,6 +14,7 @@ import HomePage from "./components/Home/HomePage";
 import PrivateRoute from "./routes/PrivateRoute";
 import LaptopDetail from "./components/Home/ContentHome/LaptopDetail";
 import ManageProduct from "./components/Admin/Content/ManageProduct";
+import AuthGuard from "./routes/AuthGuard";
 
 const Layout = () => {
   const toast = useRef(null);
@@ -27,17 +28,24 @@ const Layout = () => {
         {/* </Route> */}
 
         <Route path="/" element={<App />}>
-          <Route path="login" element={<Login toast={toast} />} />
-          <Route path="register" element={<Register toast={toast} />} />
-          <Route index element={<HomePage />} />
           <Route
-            path="laptopdetail"
+            path="login"
             element={
-              <PrivateRoute>
-                <LaptopDetail />
-              </PrivateRoute>
+              <AuthGuard>
+                <Login toast={toast} />
+              </AuthGuard>
             }
           />
+          <Route
+            path="register"
+            element={
+              <AuthGuard>
+                <Register toast={toast} />
+              </AuthGuard>
+            }
+          />
+          <Route index element={<HomePage />} />
+          <Route path="laptopdetail" element={<PrivateRoute></PrivateRoute>} />
         </Route>
 
         {/* admin */}

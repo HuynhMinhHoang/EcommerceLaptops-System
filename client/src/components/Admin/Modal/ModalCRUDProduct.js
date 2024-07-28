@@ -19,7 +19,12 @@ import {
 import { ProgressSpinner } from "primereact/progressspinner";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
-const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
+const ModalCRUDProduct = ({
+  toast,
+  fetchListProducts,
+  editProduct,
+  setEditProduct,
+}) => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
@@ -258,6 +263,7 @@ const ModalCRUDProduct = ({ toast, fetchListProducts, editProduct }) => {
         });
         fetchListProducts();
         resetInput();
+        setEditProduct("");
       }
     } catch (error) {
       toast.current.show({

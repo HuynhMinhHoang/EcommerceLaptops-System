@@ -9,7 +9,7 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaSignOutAlt } from "react-icons/fa";
 import "./SideBar.scss";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaTools } from "react-icons/fa";
@@ -18,6 +18,8 @@ import Game from "../../assets/game.png";
 import { FaKey } from "react-icons/fa";
 import { FaLaptop } from "react-icons/fa";
 import logo from "../../assets/logoadmin.png";
+import { doLogout } from "../../redux/action/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 // import { logoutUser } from "../../services/APIService";
 // import { toast } from "react-toastify";
@@ -31,8 +33,12 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
     setActiveMenuItem(menuItem);
   };
 
-  // const user = useSelector((state) => state.userRedux.user);
+  const user = useSelector((state) => state.userRedux.user);
 
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(doLogout());
+  };
   return (
     <>
       <ProSidebar
@@ -97,7 +103,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
             </SubMenu>
           </Menu>
 
-          {/* <Menu iconShape="circle" className="bg-logout">
+          <Menu iconShape="circle" className="bg-logout">
             <MenuItem
               className={`custom-menu-item ${
                 activeMenuItem === "logout" ? "active" : ""
@@ -107,7 +113,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
             >
               Logout
             </MenuItem>
-          </Menu> */}
+          </Menu>
         </SidebarContent>
 
         <SidebarFooter style={{ textAlign: "center" }}>

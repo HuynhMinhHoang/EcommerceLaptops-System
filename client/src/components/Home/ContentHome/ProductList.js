@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./LaptopList.scss";
+import "./ProductList.scss";
 import laptop1 from "../../../assets/laptop1.png";
 import { FaTruck, FaStar } from "react-icons/fa";
 import { Carousel } from "primereact/carousel";
@@ -10,7 +10,7 @@ import { getListProductHome } from "../../../service/APIService";
 import { HiMiniCpuChip } from "react-icons/hi2";
 import { FaLaptop } from "react-icons/fa";
 
-const LaptopList = () => {
+const ProductList = ({ category }) => {
   const [laptopGMList, setLaptopGMList] = useState();
 
   const responsiveOptions = [
@@ -37,7 +37,7 @@ const LaptopList = () => {
 
   const fetchLaptopGMList = async () => {
     try {
-      const response = await getListProductHome("LAPTOP GAMING");
+      const response = await getListProductHome(category);
       setLaptopGMList(response.data.data);
       // console.log("====", response.data.data);
     } catch (error) {
@@ -61,8 +61,22 @@ const LaptopList = () => {
           <img src={product.images[0]?.thumbnail} alt={product.nameProduct} />
         </div>
         <div className="product-info">
-          <h3 className="product-name">{product.nameProduct}</h3>
-          <p className="product-description">
+          <h3
+            className={
+              category === "MOUSE" || "KEY BOARD"
+                ? "product-name-mouse"
+                : "product-name"
+            }
+          >
+            {product.nameProduct}
+          </h3>
+          <p
+            className={
+              category === "MOUSE" || category === "KEY BOARD"
+                ? "product-description-mouse"
+                : "product-description"
+            }
+          >
             <span className="category">
               <FaLaptop
                 style={{
@@ -111,10 +125,23 @@ const LaptopList = () => {
     );
   };
 
+  const capitalizeWords = (string) => {
+    return string
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
   return (
     <div className="product-container">
       <div className="tilte-product">
-        <span>Laptop gaming bán chạy</span>
+        {category === "MOUSE" ? (
+          <span>Chuột bán chạy</span>
+        ) : category === "KEY BOARD" ? (
+          <span>Bàn phím bán chạy</span>
+        ) : (
+          <span>{capitalizeWords(category)} bán chạy</span>
+        )}
+
         <div className="br"></div>
         <span className="ship">
           <FaTruck
@@ -125,7 +152,9 @@ const LaptopList = () => {
               marginBottom: "3px",
             }}
           />
-          Miễn phí giao hàng
+          {category === "MOUSE" || category === "KEY BOARD"
+            ? "Giao hàng toàn quốc"
+            : "Miễn phí giao hàng"}
         </span>
         <p>Xem tất cả</p>
       </div>
@@ -142,4 +171,4 @@ const LaptopList = () => {
   );
 };
 
-export default LaptopList;
+export default ProductList;

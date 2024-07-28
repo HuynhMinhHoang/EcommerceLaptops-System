@@ -69,6 +69,26 @@ const deleteProduct = (idProduct) => {
   return axios.delete(`/api/v1/product/delete/${idProduct}`);
 };
 
+const updateAccount = (idUser, formData) => {
+  return axios.put(`/api/v1/admin/user/${idUser}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const getRoles = () => {
+  return axios.get("/api/v1/admin/roles");
+};
+
+const createAccountByAdmin = (formData) => {
+  return axios.post("/api/v1/admin/user/create-user", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -81,4 +101,7 @@ export {
   deleteImageFromProduct,
   getListUser,
   deleteProduct,
+  updateAccount,
+  getRoles,
+  createAccountByAdmin,
 };

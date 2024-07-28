@@ -29,6 +29,7 @@ const ManageProduct = ({ toast }) => {
               toast={toast}
               fetchListProducts={fetchListProducts}
               editProduct={editProduct}
+              setEditProduct={setEditProduct}
             />
           </div>
 

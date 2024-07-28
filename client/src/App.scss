@@ -2,15 +2,31 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Nunito", sans-serif;
-  // border: 1px solid rgb(51, 255, 0);
-  height: 100%;
-  width: 100%;
+  // height: 100%;
+  // width: 100%;
 }
 html,
 #root,
 .app-container {
-  height: 100%;
-  width: 100%;
+  // height: 100%;
+  // width: 100%;
+}
+
+.bg-loading-web {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  border-radius: 10px;
+
+  span {
+    border-color: #ec001c #ec001c transparent !important;
+  }
 }
 
 #nprogress .bar {
@@ -27,7 +43,16 @@ html,
   border-top-color: #0dcaf0 !important;
   border-left-color: #0dcaf0 !important;
 }
-
+.main-container {
+  background-color: #f30000;
+  // .app-content {
+  //   height: 100%;
+  //   background-color: #f0f0f0;
+  // }
+}
+.footer-container {
+  // border: 1px solid red;
+}
 // .p-toast .p-toast-message .p-toast-message-content {
 //   background-color: rgba(255, 242, 226, 0.5); /* Màu nền với độ trong suốt */
 //   color: #000; /* Màu chữ để đảm bảo độ tương phản với nền */
