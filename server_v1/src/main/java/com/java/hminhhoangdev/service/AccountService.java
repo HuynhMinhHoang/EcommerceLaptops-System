@@ -18,4 +18,7 @@ public interface AccountService extends UserDetailsService {
 
     List<Account> getListAccountAdmin();
 
+    Account updateAccountByAdmin(int id, AccountRequestDTO accountRequestDTO);
+
+    Account createUserByAdmin(AccountRequestDTO accountRequestDTO);
 }

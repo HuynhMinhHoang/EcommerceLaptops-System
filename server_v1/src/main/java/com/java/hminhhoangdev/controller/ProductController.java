@@ -5,7 +5,6 @@ import com.java.hminhhoangdev.dto.response.ResponseData;
 import com.java.hminhhoangdev.dto.response.ResponseError;
 import com.java.hminhhoangdev.model.Product;
 import com.java.hminhhoangdev.service.ProductService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -21,6 +21,21 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Integer id) {
+        if (id == null || id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid product ID");
+        }
+
+        Optional<Product> product = productService.getProductById(id);
+
+        if (product.isPresent()) {
+            return ResponseEntity.ok(product.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+    }
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
     public ResponseData<?> addProduct(@ModelAttribute ProductRequestDTO productRequestDTO, Authentication authentication) {

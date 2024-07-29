@@ -4,9 +4,11 @@ import com.java.hminhhoangdev.model.Role;
 import com.java.hminhhoangdev.repository.RoleRepository;
 import com.java.hminhhoangdev.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -14,7 +16,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRoles() {
-        System.out.println("+>>>>>>>>>>>> role:" + roleRepository.findAll());
         return roleRepository.findAll();
     }
 }

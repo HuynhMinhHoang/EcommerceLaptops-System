@@ -5,6 +5,7 @@ import com.java.hminhhoangdev.model.Product;
 import io.swagger.models.auth.In;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     void addProduct(ProductRequestDTO productRequestDTO);
@@ -16,4 +17,6 @@ public interface ProductService {
     void updateProduct(Integer productId, ProductRequestDTO productRequestDTO);
 
     void deleteProduct(Integer productId);
+
+    Optional<Product> getProductById(Integer id);
 }

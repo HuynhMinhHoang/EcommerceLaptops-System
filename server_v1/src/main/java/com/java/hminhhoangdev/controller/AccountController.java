@@ -1,6 +1,7 @@
 package com.java.hminhhoangdev.controller;
 
 import com.java.hminhhoangdev.dto.request.AccountRequestDTO;
+import com.java.hminhhoangdev.dto.request.ProductRequestDTO;
 import com.java.hminhhoangdev.dto.response.ResponseData;
 import com.java.hminhhoangdev.dto.response.ResponseError;
 import com.java.hminhhoangdev.dto.response.ResponseLoginDTO;
@@ -114,10 +115,35 @@ public class AccountController {
         }
     }
 
-
     @GetMapping("/admin/list-user")
     public List<Account> getAllAccounts() {
         return accountService.getListAccountAdmin();
+    }
+
+    @PostMapping(value = "admin/user/create-user", consumes = "multipart/form-data")
+    public ResponseEntity<ResponseData<String>> createUserByAdmin(@Valid @ModelAttribute AccountRequestDTO accountRequestDTO) {
+        try {
+            accountService.createUserByAdmin(accountRequestDTO);
+            return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Create Account successful!"));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseData<>(e.getStatusCode().value(), e.getReason()));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseData<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+        }
+    }
+
+    @PutMapping(value = "admin/user/{id}", consumes = "multipart/form-data")
+    public ResponseData<?> updateUser(@PathVariable int id, @ModelAttribute AccountRequestDTO accountRequestDTO) {
+        try {
+            accountService.updateAccountByAdmin(id, accountRequestDTO);
+            return new ResponseData<>(HttpStatus.OK.value(), "Account updated successfully!");
+        } catch (ResponseStatusException e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        }
     }
 
 

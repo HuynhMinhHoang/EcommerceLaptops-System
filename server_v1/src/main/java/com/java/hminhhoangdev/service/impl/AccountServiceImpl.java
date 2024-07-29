@@ -48,16 +48,6 @@ public class AccountServiceImpl implements AccountService {
 
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    private String randomAlphaNumeric(int count) {
-        StringBuilder builder = new StringBuilder();
-        while (count-- != 0) {
-            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-        }
-        return builder.toString();
-    }
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Account> userOptional = accountRepository.findByUsername(username);
@@ -73,6 +63,14 @@ public class AccountServiceImpl implements AccountService {
         return userDetails;
     }
 
+    private String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
 
     @Override
     public Account registerUser(AccountRequestDTO accountRequestDTO) {
@@ -123,5 +121,90 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findAll();
     }
 
+    @Override
+    public Account updateAccountByAdmin(int id, AccountRequestDTO accountRequestDTO) {
+        Account account = accountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + id));
+        Optional<Role> roleOptional = roleRepository.findById(accountRequestDTO.getRoleId());
+
+//        if (accountRepository.existsByUsername(accountRequestDTO.getUsername())) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already in use!");
+//        }
+//        if (accountRepository.existsByEmail(accountRequestDTO.getEmail())) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use!");
+//        }
+//        if (accountRepository.existsByPhone(accountRequestDTO.getPhone())) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number already in use!");
+//        }
+
+        account.setFullName(accountRequestDTO.getFullName());
+        account.setGender(accountRequestDTO.getGender());
+        account.setDateOfBirth(accountRequestDTO.getDateOfBirth());
+        account.setEmail(accountRequestDTO.getEmail());
+        account.setUsername(accountRequestDTO.getUsername());
+        if (accountRequestDTO.getPassword() != null && !accountRequestDTO.getPassword().isEmpty()) {
+            account.setPassword(passwordEncoder.encode(accountRequestDTO.getPassword()));
+        }
+        account.setPhone(accountRequestDTO.getPhone());
+        account.setAddress(accountRequestDTO.getAddress());
+        account.setStatus(accountRequestDTO.getStatus());
+
+        Role role = roleOptional.get();
+        account.setRole(role);
+
+        if (accountRequestDTO.getAvt() != null && !accountRequestDTO.getAvt().isEmpty()) {
+            try {
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(accountRequestDTO.getAvt().getBytes(), ObjectUtils.emptyMap());
+                String avatarUrl = (String) uploadResult.get("url");
+                account.setAvt(avatarUrl);
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to upload avatar", e);
+            }
+        }
+
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account createUserByAdmin(AccountRequestDTO accountRequestDTO) {
+        if (accountRepository.existsByUsername(accountRequestDTO.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already in use!");
+        }
+        if (accountRepository.existsByEmail(accountRequestDTO.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use!");
+        }
+        if (accountRepository.existsByPhone(accountRequestDTO.getPhone())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number already in use!");
+        }
+
+        Optional<Role> roleOptional = roleRepository.findById(accountRequestDTO.getRoleId());
+        Role role = roleOptional.get();
+
+
+        Account account = new Account();
+        account.setFullName(accountRequestDTO.getFullName());
+        account.setGender(accountRequestDTO.getGender());
+        account.setDateOfBirth(accountRequestDTO.getDateOfBirth());
+        account.setEmail(accountRequestDTO.getEmail());
+        account.setUsername(accountRequestDTO.getUsername());
+        account.setPassword(passwordEncoder.encode(accountRequestDTO.getPassword()));
+        account.setPhone(accountRequestDTO.getPhone());
+        account.setAddress(accountRequestDTO.getAddress());
+        account.setStatus(accountRequestDTO.getStatus());
+        account.setRole(role);
+
+        if (accountRequestDTO.getAvt() != null && !accountRequestDTO.getAvt().isEmpty()) {
+            try {
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(accountRequestDTO.getAvt().getBytes(), ObjectUtils.emptyMap());
+                String avatarUrl = (String) uploadResult.get("url");
+                account.setAvt(avatarUrl);
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to upload avatar", e);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Avatar is required");
+        }
+
+        return accountRepository.save(account);
+    }
 
 }

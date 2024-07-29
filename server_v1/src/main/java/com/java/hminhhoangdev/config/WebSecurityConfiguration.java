@@ -42,6 +42,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/home", "/api/v1/user/**").permitAll();
+            authorize.requestMatchers("/api/v1/product/**").permitAll();
             authorize.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/add").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/update").hasRole("ADMIN");
