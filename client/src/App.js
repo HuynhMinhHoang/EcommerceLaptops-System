@@ -27,10 +27,14 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useState, CSSProperties, useEffect } from "react";
 import FadeLoader from "react-spinners/ClipLoader";
 import { ThreeDots } from "react-loader-spinner";
+import { path } from "./utils/Constants";
 
 const App = () => {
   const location = useLocation();
-  const excludeFooter = ["/login", "/register"].includes(location.pathname);
+  const excludeFooter = [
+    `${path.HOMEPAGE}/${path.LOGIN}`,
+    `${path.HOMEPAGE}/${path.REGISTER}`,
+  ].includes(location.pathname);
   let [loading, setLoading] = useState(false);
 
   useEffect(() => {

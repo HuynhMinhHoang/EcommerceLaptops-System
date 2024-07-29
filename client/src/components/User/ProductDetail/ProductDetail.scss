@@ -1,0 +1,204 @@
+.product-page {
+  width: 70%;
+  border-radius: 5px;
+  margin: 40px auto;
+  display: flex;
+  align-items: center;
+  // gap: 40px;
+  background: white;
+  // border: 3px solid #1eff00;
+
+  .bg-image-gallery {
+    // border: 1px solid #ff0000;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .image-gallery-slide img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      // border: 1px solid #ddd;
+    }
+
+    .image-gallery-thumbnails {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      overflow-x: auto; /* Cho phép cuộn ngang nếu cần */
+      padding: 10px;
+    }
+
+    .image-gallery-thumbnail img {
+      padding: 6px;
+      width: 80px;
+      height: 70px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      object-fit: cover;
+      transition: border 0.3s ease;
+    }
+
+    .image-gallery-thumbnail.active img {
+      border: 0.3px solid #e30019;
+      border-radius: 5px;
+    }
+  }
+
+  .product-details {
+    padding: 30px;
+    border-left: 1px solid #ececec;
+    // border: 1px solid #5d00ff;
+    width: 60%;
+
+    .product-rating {
+      margin-bottom: 20px;
+      .rating-score {
+        font-size: 18px;
+        color: #ffa726;
+        font-weight: bold;
+        margin-right: 20px;
+      }
+
+      .rating-reviews {
+        color: #1982f9;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 700;
+      color: #e30019;
+      margin-bottom: 40px;
+    }
+
+    .buy-now {
+      width: 55%;
+      display: grid;
+      text-align: center;
+      padding: 10px 10px 10px;
+      color: #fff;
+      background-color: #e30019;
+      border-radius: 5px;
+      border: 1px solid #e30019;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: 0.4s;
+
+      .maintext {
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      .subtext {
+        font-weight: 500;
+        font-size: 15px;
+        // margin-top: 3px;
+      }
+
+      &:hover {
+        background-color: #c20118;
+      }
+    }
+
+    .description {
+      p {
+        color: #ff0000;
+        font-size: 18px;
+        font-weight: 800;
+        margin: 0;
+
+        span {
+          color: #3498db;
+        }
+      }
+      .bg-des {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        padding-bottom: 15px;
+        margin-top: 30px;
+      }
+      h2 {
+        text-decoration: underline;
+        color: #ff0000;
+        margin-bottom: 20px;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 10px;
+          font-size: 18px;
+          color: #111111;
+          font-weight: 600;
+          // &:before {
+          //   content: "✔";
+          //   color: green;
+          //   margin-right: 5px;
+          // }
+        }
+      }
+    }
+  }
+}
+
+.image-gallery {
+  padding: 30px;
+  width: 100%;
+}
+
+.image-gallery-thumbnail.active,
+.image-gallery-thumbnail:focus,
+.image-gallery-thumbnail:hover,
+.image-gallery-thumbnail {
+  border: none !important;
+}
+
+.product-page .bg-image-gallery .image-gallery-slide img {
+  width: 372px !important;
+  height: 300px !important;
+}
+.image-gallery-play-button {
+  display: none;
+}
+
+.image-gallery-fullscreen-button {
+  display: none;
+}
+
+.product-page .bg-image-gallery .image-gallery-thumbnails {
+  overflow-x: hidden;
+  margin-top: 30px;
+  gap: 5px;
+}
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.image-gallery-left-nav:hover,
+.image-gallery-right-nav:hover {
+  color: #e30019 !important;
+}
+
+.image-gallery-thumbnail {
+  // width: 90px;
+}

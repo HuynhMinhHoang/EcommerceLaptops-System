@@ -13,6 +13,7 @@ import { FiUser } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../redux/action/userAction";
+import { path } from "../../utils/Constants";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -50,7 +51,7 @@ const Header = () => {
         <nav className="navigation">
           <ul>
             <li>
-              <NavLink to="/" className="logo">
+              <NavLink to={path.HOMEPAGE} className="logo">
                 <div className="logo-1 animate__animated animate__fadeInLeft">
                   <img src={logo} alt="logo" />
                 </div>
@@ -126,17 +127,17 @@ const Header = () => {
 
             {!isAuthenticated ? (
               <li className="auth-link">
-                <NavLink to="/login" className="bg-login">
+                <NavLink to={path.LOGIN} className="bg-login">
                   <FiUser style={{ fontSize: "23px", marginRight: "8px" }} />
                   Đăng nhập
                 </NavLink>
-                <NavLink to="/register">Đăng ký</NavLink>
+                <NavLink to={path.REGISTER}>Đăng ký</NavLink>
               </li>
             ) : (
               <>
                 <li className="auth-link">
                   <span className="name-user">Chào, {user.fullName}!</span>
-                  <NavLink to="/" onClick={handleLogout} className="bg-login">
+                  <NavLink onClick={handleLogout} className="bg-login">
                     <IoMdLogOut
                       style={{
                         fontSize: "23px",

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { store } from "../redux/store";
 import { doLogout } from "../redux/action/userAction";
+import { path } from "./Constants";
 
 const instance = axios.create({
   baseURL: "http://localhost:8080",
@@ -30,9 +31,8 @@ instance.interceptors.response.use(
     // const originalRequest = error.config;
 
     if (error.response.status === 403) {
-      // store.dispatch(doLogout());
-
-      // window.location.href = '/login';
+      store.dispatch(doLogout());
+      window.location.href = `${path.HOMEPAGE}/${path.LOGIN}`;
 
       console.log("error.response.status === 403");
 

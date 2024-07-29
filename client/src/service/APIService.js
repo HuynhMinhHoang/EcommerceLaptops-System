@@ -89,6 +89,10 @@ const createAccountByAdmin = (formData) => {
   });
 };
 
+const getProductById = (id) => {
+  return axios.get(`/api/v1/product/${id}`);
+};
+
 export {
   loginUser,
   registerUser,
@@ -104,4 +108,5 @@ export {
   updateAccount,
   getRoles,
   createAccountByAdmin,
+  getProductById,
 };

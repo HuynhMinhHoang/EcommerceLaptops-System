@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { path } from "../utils/Constants";
 
 const AdminRoute = (props) => {
   const isAuthenticated = useSelector(
@@ -9,11 +10,11 @@ const AdminRoute = (props) => {
   const userRole = useSelector((state) => state.userRedux.user.role);
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to={path.DASHBOARD} />;
   }
 
   if (userRole !== "ADMIN") {
-    return <Navigate to="/" />;
+    return <Navigate to={path.HOMEPAGE} />;
   }
 
   return <>{props.children}</>;

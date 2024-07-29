@@ -9,8 +9,12 @@ import "primeicons/primeicons.css";
 import { getListProductHome } from "../../../service/APIService";
 import { HiMiniCpuChip } from "react-icons/hi2";
 import { FaLaptop } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { path } from "../../../utils/Constants";
 
 const ProductList = ({ category }) => {
+  const navigate = useNavigate();
+
   const [laptopGMList, setLaptopGMList] = useState();
 
   const responsiveOptions = [
@@ -55,8 +59,31 @@ const ProductList = ({ category }) => {
   const productTemplate = (product) => {
     const descriptionLines = product.description.split(",");
 
+    const slugify = (text) => {
+      return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/\-\-+/g, "-")
+        .replace(/^-+/, "")
+        .replace(/-+$/, "");
+    };
+
+    const handleClickDetail = (id, name) => {
+      const slug = slugify(name);
+      navigate(`${path.PRODUCT_DETAIL.replace(":slug", slug)}`, {
+        state: { id },
+      });
+    };
+
     return (
-      <div className="laptop-card">
+      <div
+        className="laptop-card"
+        onClick={() => {
+          handleClickDetail(product.idProduct, product.nameProduct);
+        }}
+      >
         <div className="product-image">
           <img src={product.images[0]?.thumbnail} alt={product.nameProduct} />
         </div>

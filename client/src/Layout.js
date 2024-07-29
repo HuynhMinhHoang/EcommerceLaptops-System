@@ -1,5 +1,5 @@
 import React, { Suspense, useRef } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import App from "./App";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
@@ -12,9 +12,10 @@ import AdminRoute from "./routes/AdminRoute";
 import DashBoard from "./components/Admin/Content/DashBoard";
 import HomePage from "./components/Home/HomePage";
 import PrivateRoute from "./routes/PrivateRoute";
-import LaptopDetail from "./components/Home/ContentHome/LaptopDetail";
 import ManageProduct from "./components/Admin/Content/ManageProduct";
 import AuthGuard from "./routes/AuthGuard";
+import { path } from "./utils/Constants";
+import ProductDetail from "./components/User/ProductDetail/ProductDetail";
 
 const Layout = () => {
   const toast = useRef(null);
@@ -22,14 +23,10 @@ const Layout = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         {/* user */}
-
-        {/* <Route path="/" element={<App />}> */}
-
-        {/* </Route> */}
-
-        <Route path="/" element={<App />}>
+        <Route path={path.HOMEPAGE} element={<App />}>
+          <Route index element={<HomePage />} />
           <Route
-            path="login"
+            path={path.LOGIN}
             element={
               <AuthGuard>
                 <Login toast={toast} />
@@ -37,35 +34,29 @@ const Layout = () => {
             }
           />
           <Route
-            path="register"
+            path={path.REGISTER}
             element={
               <AuthGuard>
                 <Register toast={toast} />
               </AuthGuard>
             }
           />
-          <Route index element={<HomePage />} />
-          <Route path="laptopdetail" element={<PrivateRoute></PrivateRoute>} />
+          <Route path={path.PRODUCT_DETAIL} element={<ProductDetail />} />
         </Route>
 
         {/* admin */}
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <Admin />
-            </AdminRoute>
-          }
-        >
-          <Route index element={<DashBoard />} />
-          <Route path="manage-users" element={<ManageUser toast={toast} />} />
+        <Route path={path.ADMIN} element={<Admin />}>
           <Route
-            path="manage-products"
-            element={<ManageProduct toast={toast} />}
+            path={path.DASHBOARD}
+            index
+            element={<DashBoard />}
+            toast={toast}
           />
+          <Route path={path.MANAGE_USER} element={<ManageUser />} />
+          <Route path={path.MANAGE_PRODUCT} element={<ManageProduct />} />
         </Route>
 
-        {/* NotFound404 */}
+        <Route path="/" element={<Navigate to={path.HOMEPAGE} />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 

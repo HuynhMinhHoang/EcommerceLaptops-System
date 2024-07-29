@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { path } from "../utils/Constants";
 
 const PrivateRoute = (props) => {
   const isAuthenticated = useSelector(
@@ -8,7 +9,7 @@ const PrivateRoute = (props) => {
   );
 
   if (!isAuthenticated) {
-    return <Navigate to={"/login"}></Navigate>;
+    return <Navigate to={path.LOGIN}></Navigate>;
   }
 
   return <>{props.children}</>;

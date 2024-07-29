@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ManageUser.scss";
 import ModalCRUDUser from "../Modal/ModalCRUDUser";
 import { getListUser } from "../../../service/APIService";
 import TableUserList from "../Modal/TableUserList";
-const ManageUser = ({ toast }) => {
+import { Toast } from "primereact/toast";
+
+const ManageUser = () => {
+  const toast = useRef(null);
+
   const [listUser, setListUser] = useState();
   const [updateUser, setUpdateUser] = useState();
   useEffect(() => {
@@ -41,6 +45,7 @@ const ManageUser = ({ toast }) => {
           </div>
         </div>
       </div>
+      <Toast ref={toast} position="bottom-right" />
     </>
   );
 };

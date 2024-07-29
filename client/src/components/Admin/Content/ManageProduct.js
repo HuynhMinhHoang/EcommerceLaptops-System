@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ManageProduct.scss";
 import ModalCRUDProduct from "../Modal/ModalCRUDProduct";
 import TableProductList from "../Modal/TableProductList";
 import { getListProductAdmin } from "../../../service/APIService";
+import { Toast } from "primereact/toast";
 
-const ManageProduct = ({ toast }) => {
+const ManageProduct = () => {
+  const toast = useRef(null);
+
   const [listProducts, setListProducts] = useState([]);
   const [editProduct, setEditProduct] = useState();
 
@@ -43,6 +46,7 @@ const ManageProduct = ({ toast }) => {
           </div>
         </div>
       </div>
+      <Toast ref={toast} position="bottom-right" />
     </>
   );
 };

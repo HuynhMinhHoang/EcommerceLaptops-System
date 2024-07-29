@@ -13,13 +13,14 @@ import { FaGithub, FaSignOutAlt } from "react-icons/fa";
 import "./SideBar.scss";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaTools } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Game from "../../assets/game.png";
 import { FaKey } from "react-icons/fa";
 import { FaLaptop } from "react-icons/fa";
 import logo from "../../assets/logoadmin.png";
 import { doLogout } from "../../redux/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { path } from "../../utils/Constants";
 
 // import { logoutUser } from "../../services/APIService";
 // import { toast } from "react-toastify";
@@ -36,8 +37,11 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
   const user = useSelector((state) => state.userRedux.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     dispatch(doLogout());
+    navigate(`${path.HOMEPAGE}/${path.LOGIN}`);
   };
   return (
     <>
@@ -66,15 +70,15 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
           <Menu iconShape="circle">
             <MenuItem
               className={`custom-menu-item ${
-                activeMenuItem === "dashboard" ? "active" : ""
+                activeMenuItem === path.DASHBOARD ? "active" : ""
               }`}
               icon={
                 <MdSpaceDashboard size={"20px"} color={"rgb(221, 51, 68)"} />
               }
-              onClick={() => handleMenuItemClick("dashboard")}
+              onClick={() => handleMenuItemClick(path.DASHBOARD)}
             >
               Dashboard
-              <Link to="/admin" />
+              <Link to={path.DASHBOARD} />
             </MenuItem>
           </Menu>
 
@@ -85,20 +89,20 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
             >
               <MenuItem
                 className={`custom-menu-item ${
-                  activeMenuItem === "manage-users" ? "active" : ""
+                  activeMenuItem === path.MANAGE_USER ? "active" : ""
                 }`}
-                onClick={() => handleMenuItemClick("manage-users")}
+                onClick={() => handleMenuItemClick(path.MANAGE_USER)}
               >
-                Manage Users <Link to="/admin/manage-users" />
+                Manage Users <Link to={path.MANAGE_USER} />
               </MenuItem>
 
               <MenuItem
                 className={`custom-menu-item ${
-                  activeMenuItem === "manage-products" ? "active" : ""
+                  activeMenuItem === path.MANAGE_PRODUCT ? "active" : ""
                 }`}
-                onClick={() => handleMenuItemClick("manage-products")}
+                onClick={() => handleMenuItemClick(path.MANAGE_PRODUCT)}
               >
-                Manage Products <Link to="/admin/manage-products" />
+                Manage Products <Link to={path.MANAGE_PRODUCT} />
               </MenuItem>
             </SubMenu>
           </Menu>

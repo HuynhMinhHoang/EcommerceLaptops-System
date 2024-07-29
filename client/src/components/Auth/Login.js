@@ -53,7 +53,6 @@ const Login = ({ toast }) => {
         });
 
         console.log(res);
-
       } else {
         setIsLoading(false);
       }

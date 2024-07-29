@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { path } from "../utils/Constants";
 
 const AuthGuard = ({ children }) => {
   const isAuthenticated = useSelector(
@@ -11,9 +12,9 @@ const AuthGuard = ({ children }) => {
 
   if (isAuthenticated) {
     if (user && user.role === "ADMIN") {
-      return <Navigate to="/admin" replace />;
+      return <Navigate to={path.DASHBOARD} replace />;
     }
-    return <Navigate to="/" replace />;
+    return <Navigate to={path.HOMEPAGE} replace />;
   }
 
   return children;
