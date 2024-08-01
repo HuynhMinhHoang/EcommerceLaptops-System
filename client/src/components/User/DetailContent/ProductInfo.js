@@ -1,42 +1,28 @@
 import React, { useEffect, useState } from "react";
-import "./ProductDetail.scss";
-import { getProductById } from "../../../service/APIService";
-import { useLocation, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Gallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
+import "./ProductInfo.scss";
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { addToCart } from "../../../redux/action/cartActions";
+import { useDispatch, useSelector } from "react-redux";
+import { ProgressSpinner } from "primereact/progressspinner";
 
-const ProductDetail = () => {
-  const [product, setProduct] = useState(null);
-  const [selectedImage, setSelectedImage] = useState("");
-
-  const { slug } = useParams();
-  const location = useLocation();
-  const { id } = location.state || {};
-
-  useEffect(() => {
-    fetchProductById();
-  }, [slug, id]);
-
-  const fetchProductById = async () => {
-    try {
-      const response = await getProductById(id);
-      // console.log(response);
-      setProduct(response.data);
-      setSelectedImage(response.data.images[0].thumbnail);
-    } catch (error) {
-      console.error("Error fetching product data:", error);
-    }
-  };
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+const ProductInfo = ({ product }) => {
+  const dispatch = useDispatch();
+  const isShowNotifications = useSelector(
+    (state) => state.cartRedux.isShowNotifications
+  );
 
   const galleryImages = product.images.map((image) => ({
     original: image.thumbnail,
     thumbnail: image.thumbnail,
   }));
+
+  const handleAddToCart = () => {
+    if (!isShowNotifications) {
+      dispatch(addToCart(product));
+    }
+  };
 
   return (
     <div className="product-page">
@@ -60,10 +46,28 @@ const ProductDetail = () => {
           <span className="rating-reviews">Xem đánh giá</span>
         </div>
         <p className="price">{product.price.toLocaleString("vi-VN")}đ</p>
-        <button className="buy-now">
-          <span className="maintext">MUA NGAY</span>
-          <span className="subtext">Giao tận nơi hoặc nhận tại cửa hàng</span>
-        </button>
+        <div className="bg-btn">
+          <div className="buy-now">
+            <button>
+              <span className="maintext">MUA NGAY</span>
+              <span className="subtext">
+                Giao tận nơi hoặc nhận tại cửa hàng
+              </span>
+            </button>
+          </div>
+
+          <div className="add-now">
+            <button
+              onClick={() => {
+                handleAddToCart();
+              }}
+              disabled={isShowNotifications}
+              className={isShowNotifications ? "custom-btn" : ""}
+            >
+              <MdOutlineAddShoppingCart style={{ fontSize: "25px" }} />
+            </button>
+          </div>
+        </div>
         <div className="description">
           <h2>Quà tặng:</h2>
           <ul>
@@ -85,4 +89,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductInfo;

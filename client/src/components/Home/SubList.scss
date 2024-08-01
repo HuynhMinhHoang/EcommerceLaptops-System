@@ -1,0 +1,33 @@
+.sub-header {
+  border-bottom: 1px solid rgb(224, 224, 224);
+  box-shadow: 0 0 15px #ff94a0;
+
+  .sub-main {
+    background-color: white;
+    // margin-bottom: 15px;
+    ul {
+      margin: 0 auto;
+      width: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      li {
+        cursor: pointer;
+        list-style-type: none;
+        padding: 10px;
+        // border-right: 1px solid red;
+        display: flex;
+        align-items: flex-end;
+
+        span:last-child {
+          font-weight: 700;
+          font-size: 14px;
+          transition: 0.3s;
+        }
+      }
+      li:hover {
+        color: #e30019 !important;
+      }
+    }
+  }
+}

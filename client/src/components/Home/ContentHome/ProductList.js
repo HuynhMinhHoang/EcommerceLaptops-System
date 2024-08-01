@@ -11,11 +11,12 @@ import { HiMiniCpuChip } from "react-icons/hi2";
 import { FaLaptop } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { path } from "../../../utils/Constants";
+import categories from "../../../utils/categoriesProduct";
 
 const ProductList = ({ category }) => {
   const navigate = useNavigate();
 
-  const [laptopGMList, setLaptopGMList] = useState();
+  const [productList, setProductList] = useState();
 
   const responsiveOptions = [
     {
@@ -36,19 +37,20 @@ const ProductList = ({ category }) => {
   ];
 
   useEffect(() => {
-    fetchLaptopGMList();
+    fetchProductList();
   }, []);
 
-  const fetchLaptopGMList = async () => {
+  const fetchProductList = async () => {
     try {
       const response = await getListProductHome(category);
-      setLaptopGMList(response.data.data);
+      setProductList(response.data.data);
       // console.log("====", response.data.data);
     } catch (error) {
       console.log("Error fetching laptop list");
     }
   };
 
+  // console.log(productList);
   const formatCurrency = (value) => {
     return value.toLocaleString("vi-VN", {
       style: "currency",
@@ -90,7 +92,7 @@ const ProductList = ({ category }) => {
         <div className="product-info">
           <h3
             className={
-              category === "MOUSE" || "KEY BOARD"
+              category === categories.MOUSE || categories.KEYBOARD
                 ? "product-name-mouse"
                 : "product-name"
             }
@@ -99,7 +101,7 @@ const ProductList = ({ category }) => {
           </h3>
           <p
             className={
-              category === "MOUSE" || category === "KEY BOARD"
+              category === categories.MOUSE || category === categories.KEYBOARD
                 ? "product-description-mouse"
                 : "product-description"
             }
@@ -161,9 +163,9 @@ const ProductList = ({ category }) => {
   return (
     <div className="product-container">
       <div className="tilte-product">
-        {category === "MOUSE" ? (
+        {category === categories.MOUSE ? (
           <span>Chuột bán chạy</span>
-        ) : category === "KEY BOARD" ? (
+        ) : category === categories.KEYBOARD ? (
           <span>Bàn phím bán chạy</span>
         ) : (
           <span>{capitalizeWords(category)} bán chạy</span>
@@ -179,7 +181,7 @@ const ProductList = ({ category }) => {
               marginBottom: "3px",
             }}
           />
-          {category === "MOUSE" || category === "KEY BOARD"
+          {category === categories.MOUSE || category === categories.KEYBOARD
             ? "Giao hàng toàn quốc"
             : "Miễn phí giao hàng"}
         </span>
@@ -187,7 +189,7 @@ const ProductList = ({ category }) => {
       </div>
       <div className="product-list">
         <Carousel
-          value={laptopGMList}
+          value={productList}
           numScroll={1}
           numVisible={5}
           responsiveOptions={responsiveOptions}

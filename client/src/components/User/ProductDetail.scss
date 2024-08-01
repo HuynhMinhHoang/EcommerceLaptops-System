@@ -1,0 +1,90 @@
+.pro-detail-container {
+  width: 70%;
+  margin: 10px auto;
+  position: relative;
+
+  .pro-description {
+    display: flex;
+    justify-content: space-between;
+
+    .bg-left {
+      width: 61.5%;
+    }
+
+    .bg-right {
+      width: 37%;
+    }
+  }
+
+  .banner-left,
+  .banner-right {
+    position: fixed;
+    top: 0;
+    width: 160px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-out;
+
+    img {
+      height: 450px;
+      width: 150px;
+      border-radius: 5px;
+    }
+  }
+
+  .banner-left {
+    left: 90px;
+  }
+
+  .banner-right {
+    right: 90px;
+  }
+
+  .container-fluid {
+    padding: 0px;
+    .breadcrumb {
+      background: transparent;
+      padding: 14px 0;
+      white-space: nowrap;
+      margin-bottom: 0;
+
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        a {
+          text-decoration: none;
+          color: #1982f9;
+          font-weight: 600;
+          font-size: 16px;
+        }
+
+        &:not(:first-child)::before {
+          content: "/";
+          color: #1982f9;
+          margin-right: 10px;
+          margin-left: 10px;
+        }
+        span {
+          color: #1982f9;
+          font-weight: 600;
+          font-size: 16px;
+        }
+      }
+
+      li:last-child span {
+        color: #6d6e72;
+      }
+    }
+  }
+
+  .bg-noti-add {
+    position: absolute;
+    right: 100px;
+    top: -70px;
+    z-index: 100;
+  }
+}

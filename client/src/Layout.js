@@ -15,7 +15,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import ManageProduct from "./components/Admin/Content/ManageProduct";
 import AuthGuard from "./routes/AuthGuard";
 import { path } from "./utils/Constants";
-import ProductDetail from "./components/User/ProductDetail/ProductDetail";
+import ProductDetail from "./components/User/ProductDetail";
 
 const Layout = () => {
   const toast = useRef(null);

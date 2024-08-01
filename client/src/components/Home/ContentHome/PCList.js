@@ -9,8 +9,12 @@ import "primeicons/primeicons.css";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { getListProductHome } from "../../../service/APIService";
 import banner_pc from "../../../assets/banner-pc.png";
+import { useNavigate } from "react-router-dom";
+import { path } from "../../../utils/Constants";
 
 const PCList = () => {
+  const navigate = useNavigate();
+
   const [PCList, setPCList] = useState();
 
   const responsiveOptions = [
@@ -52,9 +56,32 @@ const PCList = () => {
     });
   };
 
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  };
+
+  const handleClickDetail = (id, name) => {
+    const slug = slugify(name);
+    navigate(`${path.PRODUCT_DETAIL.replace(":slug", slug)}`, {
+      state: { id },
+    });
+  };
+
   const productTemplate = (product) => {
     return (
-      <div className="pc-card">
+      <div
+        className="pc-card"
+        onClick={() => {
+          handleClickDetail(product.idProduct, product.nameProduct);
+        }}
+      >
         <div className="product-image">
           <img src={product.images[0]?.thumbnail} alt={product.nameProduct} />
         </div>
