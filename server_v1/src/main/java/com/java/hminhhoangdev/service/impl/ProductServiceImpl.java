@@ -10,6 +10,7 @@ import com.java.hminhhoangdev.repository.CategoryRepository;
 import com.java.hminhhoangdev.repository.ImageRepository;
 import com.java.hminhhoangdev.repository.ProductRepository;
 import com.java.hminhhoangdev.service.ProductService;
+import com.java.hminhhoangdev.util.CategoryType;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,33 +83,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getListProductByCategory(String category) {
         List<Product> allProducts = productRepository.findAll();
-        int categoryId;
+        CategoryType categoryType;
 
-        switch (category.toUpperCase()) {
-            case "LAPTOP GAMING":
-                categoryId = 1;
-                break;
-            case "LAPTOP":
-                categoryId = 2;
-                break;
-            case "PC":
-                categoryId = 3;
-                break;
-            case "HEAD PHONE":
-                categoryId = 4;
-                break;
-            case "MOUSE":
-                categoryId = 5;
-                break;
-            case "SCREEN":
-                categoryId = 6;
-                break;
-            case "KEY BOARD":
-                categoryId = 7;
-                break;
-            default:
-                return Collections.emptyList();
+        try {
+            categoryType = CategoryType.fromName(category);
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
         }
+
+        int categoryId = categoryType.getId();
 
         return allProducts.stream().filter(product -> product.isStatus() && product.getQuantity() > 0 && product.getCategory().getIdCategory() == categoryId).collect(Collectors.toList());
     }
