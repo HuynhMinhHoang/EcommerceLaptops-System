@@ -4,7 +4,6 @@
   background-color: #f0f0f0;
   padding: 1px;
 
-
   .content-main {
     display: flex;
     align-items: start;
@@ -39,6 +38,7 @@
   }
 
   .product-pc-list {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     width: 85%;
     margin: 0 auto;
     border-radius: 5px;
@@ -49,20 +49,24 @@
   .product-laptopGM-list {
     width: 85%;
     margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
   .product-laptop-list {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     width: 85%;
     margin: 0 auto;
     margin-bottom: 20px;
   }
   .product-mouse-list {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     width: 85%;
     margin: 0 auto;
     margin-bottom: 20px;
   }
 
   .product-keyboard-list {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     width: 85%;
     margin: 0 auto;
     margin-bottom: 15px;

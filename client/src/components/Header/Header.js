@@ -16,6 +16,13 @@ import { doLogout } from "../../redux/action/userAction";
 import { path } from "../../utils/Constants";
 import SubList from "../Home/SubList";
 import NotificationAddProduct from "../User/DetailContent/NotificationAddProduct";
+import { MdOutlineWavingHand } from "react-icons/md";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { TbLogout } from "react-icons/tb";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
+import { ThreeDots } from "react-loader-spinner";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -24,10 +31,13 @@ const Header = () => {
   );
   const user = useSelector((state) => state.userRedux.user);
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cartRedux.items);
+  const products = useSelector((state) => state.cartRedux.products) || [];
+  let [loading, setLoading] = useState(false);
+
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications
   );
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -45,7 +55,28 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    dispatch(doLogout());
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(doLogout());
+      setLoading(false);
+      // window.location.reload();
+    }, 1000);
+  };
+
+  const showAlertLogout = () => {
+    Swal.fire({
+      title: "Bạn muốn thoát tài khoản?",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      icon: "warning",
+      confirmButtonText: "Đồng ý",
+      denyButtonText: `Không`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleLogout();
+      }
+    });
   };
 
   return (
@@ -113,7 +144,7 @@ const Header = () => {
               </li>
 
               <li>
-                <NavLink to="/">
+                <NavLink to={path.PRODUCT_PAYMENT}>
                   <div className="bg-item">
                     <div className="item-left">
                       <AiOutlineShoppingCart style={{ fontSize: "27px" }} />
@@ -123,21 +154,26 @@ const Header = () => {
                       <span>hàng</span>
                     </div>
                     <span className="count-product">
-                      <span>{cartItems.length}</span>
+                      <span>{products.length}</span>
                     </span>
                   </div>
-                  <div className="bg-noti-add">
-                    {isShowNotifications && (
-                      <NotificationAddProduct
-                        setStateNoti={(status) => {
-                          if (!status) {
-                            dispatch({ type: "HIDE_NOTIFICATION" });
-                          }
-                        }}
-                      />
-                    )}
-                  </div>
                 </NavLink>
+
+                <div
+                  className={
+                    isShowNotifications ? "bg-noti-add" : "dis-bg-noti-add"
+                  }
+                >
+                  {isShowNotifications && (
+                    <NotificationAddProduct
+                      setStateNoti={(status) => {
+                        if (!status) {
+                          dispatch({ type: "HIDE_NOTIFICATION" });
+                        }
+                      }}
+                    />
+                  )}
+                </div>
               </li>
 
               {!isAuthenticated ? (
@@ -150,18 +186,50 @@ const Header = () => {
                 </li>
               ) : (
                 <>
-                  <li className="auth-link">
-                    <span className="name-user">Chào, {user.fullName}!</span>
-                    <NavLink onClick={handleLogout} className="bg-login">
-                      <IoMdLogOut
-                        style={{
-                          fontSize: "23px",
-                          marginRight: "8px",
-                          marginTop: "2px",
-                        }}
-                      />
-                      Đăng xuất
-                    </NavLink>
+                  <li className="bg-name-user">
+                    <div to={path.LOGIN} className="bg-info-user">
+                      <div>
+                        <FiUser
+                          style={{ fontSize: "25px", marginRight: "12px" }}
+                        />
+                      </div>
+                      <div className="bg-fullname">
+                        <span>Xin chào,</span>
+                        <span>{user.fullName}</span>
+                      </div>
+                    </div>
+
+                    <div className="dropdown-menu-user">
+                      <div className="dropdown-item-custom">custom</div>
+
+                      <div className="dropdown-item-user name-item">
+                        <MdOutlineWavingHand
+                          style={{ fontSize: "20px", marginRight: "12px" }}
+                        />
+                        Xin chào, {user.fullName}
+                      </div>
+                      <div className="dropdown-item-user">
+                        <MdOutlinePendingActions
+                          style={{ fontSize: "20px", marginRight: "12px" }}
+                        />
+                        Đơn hàng của tôi
+                      </div>
+                      <div className="dropdown-item-user">
+                        <MdOutlineRemoveRedEye
+                          style={{ fontSize: "20px", marginRight: "12px" }}
+                        />
+                        Đã xem gần đây
+                      </div>
+                      <div
+                        className="dropdown-item-user logout-item"
+                        onClick={showAlertLogout}
+                      >
+                        <TbLogout
+                          style={{ fontSize: "20px", marginRight: "12px" }}
+                        />
+                        Đăng xuất
+                      </div>
+                    </div>
                   </li>
                 </>
               )}
@@ -171,6 +239,21 @@ const Header = () => {
       </div>
 
       <SubList />
+
+      {loading && (
+        <div className="bg-loading-login">
+          <ThreeDots
+            visible={true}
+            height="100"
+            width="100"
+            color="#ec001c"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      )}
     </>
   );
 };

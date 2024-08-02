@@ -4,6 +4,7 @@ export const path = {
   REGISTER: "register",
   LOG_OUT: "logout",
   PRODUCT_DETAIL: "/gearvn/products/:slug",
+  PRODUCT_PAYMENT: "/gearvn/cart/payment",
   ADMIN: "/admin",
   DASHBOARD: "/admin/dashboard",
   MANAGE_USER: "/admin/manage-users",

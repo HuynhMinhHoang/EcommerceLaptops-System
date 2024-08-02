@@ -16,6 +16,7 @@ import ManageProduct from "./components/Admin/Content/ManageProduct";
 import AuthGuard from "./routes/AuthGuard";
 import { path } from "./utils/Constants";
 import ProductDetail from "./components/User/ProductDetail";
+import ProductPayment from "./components/User/ProductPayment";
 
 const Layout = () => {
   const toast = useRef(null);
@@ -42,6 +43,8 @@ const Layout = () => {
             }
           />
           <Route path={path.PRODUCT_DETAIL} element={<ProductDetail />} />
+
+          <Route path={path.PRODUCT_PAYMENT} element={<ProductPayment />} />
         </Route>
 
         {/* admin */}

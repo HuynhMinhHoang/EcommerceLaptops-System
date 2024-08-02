@@ -4,8 +4,8 @@
   flex-direction: column;
   background-color: #fff;
   border-radius: 5px;
-  //   overflow: hidden; // Đảm bảo không có mục nào vượt quá chiều cao của menu
-
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  
   .menu-item {
     position: relative;
     display: flex;

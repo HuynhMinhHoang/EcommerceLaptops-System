@@ -20,6 +20,7 @@ const ProductInfo = ({ product }) => {
 
   const handleAddToCart = () => {
     if (!isShowNotifications) {
+      console.log("Adding product to cart:", product);
       dispatch(addToCart(product));
     }
   };

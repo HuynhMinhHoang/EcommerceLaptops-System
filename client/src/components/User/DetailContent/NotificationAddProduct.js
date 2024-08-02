@@ -2,21 +2,27 @@ import React, { useEffect, useState } from "react";
 import "./NotificationAddProduct.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../../../redux/action/cartActions";
+import { NavLink, useNavigate } from "react-router-dom";
+import { path } from "../../../utils/Constants";
 
 const NotificationAddProduct = ({ setStateNoti }) => {
   const [visible, setVisible] = useState(true);
   const product = useSelector((state) => state.cartRedux.infoProductAdd);
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleClearCart = () => {
     dispatch(clearCart());
+  };
+
+  const handleViewCart = () => {
+    navigate(path.PRODUCT_PAYMENT);
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 3000);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -32,16 +38,14 @@ const NotificationAddProduct = ({ setStateNoti }) => {
       ? product.images[0].thumbnail
       : "";
 
-  // console.log("productImage", product);
-
   return (
     <>
-      {visible && (
+      {visible && product && (
         <div className="notification">
           <div className="notification-content">
             <div className="notification-header">
               <span>Thêm vào giỏ hàng thành công</span>
-              <span onClick={handleClearCart}>X</span>
+              {/* <span onClick={handleClearCart}>X</span> */}
             </div>
             <div className="notification-body">
               <div className="img">
@@ -55,7 +59,7 @@ const NotificationAddProduct = ({ setStateNoti }) => {
               </div>
             </div>
             <div className="view-cart">
-              <button>Xem giỏ hàng</button>
+              <button onClick={handleViewCart}>Xem giỏ hàng</button>
             </div>
           </div>
         </div>

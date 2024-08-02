@@ -13,6 +13,7 @@ import qc2 from "../../assets/qc2.png";
 import { path } from "../../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import NotificationAddProduct from "./DetailContent/NotificationAddProduct";
+import { ThreeDots } from "react-loader-spinner";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -24,9 +25,6 @@ const ProductDetail = () => {
   const location = useLocation();
   const { id } = location.state || {};
 
-  // const isShowNotifications = useSelector(
-  //   (state) => state.cartRedux.isShowNotifications
-  // );
 
   useEffect(() => {
     if (id) {
@@ -54,10 +52,23 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="bg-loading-product">
+        <ThreeDots
+          visible={true}
+          height="50"
+          width="50"
+          color="#ec001c"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
   }
 
-  // console.log("Loading product", product);
+
 
   return (
     <div className="pro-detail-container">
@@ -73,19 +84,6 @@ const ProductDetail = () => {
       >
         <img src={qc2} alt="Banner Right" />
       </div>
-
-      {/* <div className="bg-noti-add">
-        {isShowNotifications && (
-          <NotificationAddProduct
-            product={product}
-            setStateNoti={(status) => {
-              if (!status) {
-                dispatch({ type: "HIDE_NOTIFICATION" });
-              }
-            }}
-          />
-        )}
-      </div> */}
 
       <div className="container-fluid">
         <ol className="breadcrumb">
@@ -126,7 +124,6 @@ const ProductDetail = () => {
               category={product.category.nameCategory}
             />
           </div>
-          {/* <div className="technology">Technology</div> */}
         </div>
       </div>
     </div>

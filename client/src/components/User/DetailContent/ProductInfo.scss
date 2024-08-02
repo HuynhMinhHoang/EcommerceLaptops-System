@@ -4,7 +4,7 @@
   align-items: center;
   // gap: 40px;
   background: white;
-  // border: 3px solid #1eff00;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   .bg-image-gallery {
     // border: 1px solid #ff0000;
@@ -261,4 +261,7 @@
 
 .image-gallery-thumbnail {
   // width: 90px;
+}
+.image-gallery-slide .image-gallery-image {
+  // object-fit: scale-down;
 }

@@ -9,6 +9,7 @@ import { ImSpinner2 } from "react-icons/im";
 import { registerUser } from "../../service/APIService";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { path } from "../../utils/Constants";
 
 const Register = ({ toast }) => {
   const [username, setUsername] = useState("");
@@ -112,7 +113,7 @@ const Register = ({ toast }) => {
           summary: "Thành công",
           detail: response.data.message,
         });
-        navigate("/login");
+        navigate(path.LOGIN);
       } else {
         toast.current.show({
           severity: "error",

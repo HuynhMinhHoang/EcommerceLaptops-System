@@ -45,7 +45,6 @@ const DashBoard = () => {
     let doughnutChartInstance = null;
 
     if (listStats) {
-      // Bar chart configuration
       const barLabels = ["Quizzes", "Questions", "Answers"];
       const barData = {
         labels: barLabels,
@@ -84,7 +83,6 @@ const DashBoard = () => {
         },
       };
 
-      // Doughnut chart configuration
       const doughnutLabels = ["Quizzes", "Questions", "Answers"];
       const doughnutData = {
         labels: doughnutLabels,
@@ -111,12 +109,10 @@ const DashBoard = () => {
         data: doughnutData,
       };
 
-      // Render bar chart
       if (chartRef.current) {
         barChartInstance = new Chart(chartRef.current, barConfig);
       }
 
-      // Render doughnut chart
       if (doughnutChartRef.current) {
         doughnutChartInstance = new Chart(
           doughnutChartRef.current,
