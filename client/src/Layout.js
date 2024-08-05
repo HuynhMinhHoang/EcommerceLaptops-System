@@ -44,7 +44,10 @@ const Layout = () => {
           />
           <Route path={path.PRODUCT_DETAIL} element={<ProductDetail />} />
 
-          <Route path={path.PRODUCT_PAYMENT} element={<ProductPayment />} />
+          <Route
+            path={path.PRODUCT_PAYMENT}
+            element={<ProductPayment toast={toast} />}
+          />
         </Route>
 
         {/* admin */}

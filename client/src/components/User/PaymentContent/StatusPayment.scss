@@ -1,0 +1,106 @@
+.status-payment {
+  padding: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  .status-message {
+    display: flex;
+    align-items: stretch;
+    // margin: 20px 0;
+    margin: 32px 0;
+    margin-bottom: 20px;
+    justify-content: center;
+    background-color: #d4f7df;
+    border-radius: 5px;
+    padding: 20px;
+    .message {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4caf50;
+    }
+  }
+
+  .status-message-error {
+    display: flex;
+    align-items: stretch;
+    // margin: 20px 0;
+    margin: 32px 0;
+    margin-bottom: 20px;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #ffeded;
+    .message-error {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f44336;
+    }
+  }
+
+  p {
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .order-details {
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 20px;
+    padding-bottom: 10px;
+    background-color: #ececec;
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #cfcfcf;
+      span {
+        font-weight: 700;
+      }
+
+      a {
+        color: #1e88e5;
+        font-weight: 600;
+        text-decoration: none;
+      }
+    }
+
+    .total-amount {
+      font-size: 17px;
+      color: #e30019;
+      font-weight: 800;
+    }
+
+    .order-info {
+      .bg-info-order {
+        padding: 10px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span:first-child {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .actions {
+    margin: 15px 0px;
+    width: 100%;
+    .chat-button,
+    .continue-button {
+      border-radius: 5px;
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px 20px;
+      border: 1px solid #1e88e5;
+      background-color: #fff;
+      color: #1e88e5;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+    }
+  }
+}

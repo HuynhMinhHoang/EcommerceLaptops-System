@@ -93,6 +93,26 @@ const getProductById = (id) => {
   return axios.get(`/api/v1/product/${id}`);
 };
 
+const getPaymentVNPay = (
+  amount,
+  bankCode,
+  shippingAddress,
+  note,
+  accountId,
+  paymentTypeId
+) => {
+  return axios.get("/api/v1/user/payment/vn-pay", {
+    params: {
+      amount: amount,
+      bankCode: bankCode,
+      shippingAddress: shippingAddress,
+      note: note,
+      accountId: accountId,
+      paymentTypeId: paymentTypeId,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -109,4 +129,5 @@ export {
   getRoles,
   createAccountByAdmin,
   getProductById,
+  getPaymentVNPay,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./Header.scss";
 import { IconField } from "primereact/iconfield";
@@ -34,6 +34,12 @@ const Header = () => {
   const products = useSelector((state) => state.cartRedux.products) || [];
   let [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+  const isPaymentPage = currentPath === path.PRODUCT_PAYMENT;
+
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications
   );
@@ -59,7 +65,7 @@ const Header = () => {
     setTimeout(() => {
       dispatch(doLogout());
       setLoading(false);
-      // window.location.reload();
+      navigate(path.HOMEPAGE);
     }, 1000);
   };
 
@@ -144,8 +150,16 @@ const Header = () => {
               </li>
 
               <li>
-                <NavLink to={path.PRODUCT_PAYMENT}>
-                  <div className="bg-item">
+                <NavLink
+                  to={path.PRODUCT_PAYMENT}
+                  className={isPaymentPage ? "disabled-link" : ""}
+                  onClick={(e) => {
+                    if (isPaymentPage) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  <div className={`bg-item ${isPaymentPage ? "disabled" : ""}`}>
                     <div className="item-left">
                       <AiOutlineShoppingCart style={{ fontSize: "27px" }} />
                     </div>
@@ -158,22 +172,6 @@ const Header = () => {
                     </span>
                   </div>
                 </NavLink>
-
-                <div
-                  className={
-                    isShowNotifications ? "bg-noti-add" : "dis-bg-noti-add"
-                  }
-                >
-                  {isShowNotifications && (
-                    <NotificationAddProduct
-                      setStateNoti={(status) => {
-                        if (!status) {
-                          dispatch({ type: "HIDE_NOTIFICATION" });
-                        }
-                      }}
-                    />
-                  )}
-                </div>
               </li>
 
               {!isAuthenticated ? (

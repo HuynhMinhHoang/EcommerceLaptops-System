@@ -1,0 +1,38 @@
+.confirm-info-container {
+  //   border: 1px solid red;
+  padding: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  .confirm-form {
+    margin-top: 32px;
+    .cart-title {
+      margin-bottom: 15px;
+      h2 {
+        font-size: 22px;
+        font-weight: 700;
+      }
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 18px;
+
+      .label {
+        font-weight: bold;
+      }
+
+      .value {
+        color: #000000;
+        font-weight: 600;
+      }
+
+      &.red .value {
+        color: #e30019;
+        font-weight: 700;
+      }
+    }
+
+ 
+  }
+}
