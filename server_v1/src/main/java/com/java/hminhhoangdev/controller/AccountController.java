@@ -15,6 +15,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,9 +48,9 @@ public class AccountController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
     @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody AccountRequestDTO accountRequestDTO) {
+
         try {
             UserDetails userDetails = accountService.loadUserByUsername(accountRequestDTO.getUsername());
 
