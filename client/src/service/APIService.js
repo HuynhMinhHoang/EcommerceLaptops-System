@@ -113,6 +113,15 @@ const getPaymentVNPay = (
   });
 };
 
+const getPaymentCOD = (shippingAddress, note, accountId, paymentTypeId) => {
+  return axios.post("/api/v1/user/payment/cod", {
+    shippingAddress: shippingAddress,
+    note: note,
+    accountId: accountId,
+    paymentTypeId: paymentTypeId,
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -130,4 +139,5 @@ export {
   createAccountByAdmin,
   getProductById,
   getPaymentVNPay,
+  getPaymentCOD,
 };

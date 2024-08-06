@@ -7,25 +7,17 @@ import { clearCart } from "../../../redux/action/cartActions";
 import { useNavigate } from "react-router-dom";
 import { MdError } from "react-icons/md";
 
-const StatusPayment = ({
-  // shippingAddress,
-  note,
-  setShippingAddress,
-  setNote,
-  paymentStatus,
-  paymentMethod,
-  fullName,
-  phone,
-  email,
-}) => {
+const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const shippingAddress = localStorage.getItem("shippingAddress") || "";
 
   useEffect(() => {
+    if (paymentStatus === "success") {
+      dispatch(clearCart());
+    }
     return () => {
       dispatch(resetOrderId());
-      console.log("StatusPayment---2", paymentStatus, shippingAddress);
     };
   }, [dispatch]);
 
@@ -49,7 +41,7 @@ const StatusPayment = ({
           </p>
           <div className="order-details">
             <div className="order-header">
-              <span>ĐƠN HÀNG #203455</span>
+              <span>ĐƠN HÀNG #{idOrder}</span>
               <a href="#">Quản lý đơn hàng</a>
             </div>
             <div className="order-info">
@@ -106,8 +98,32 @@ const StatusPayment = ({
             khách hàng.
           </p>
 
+          <div className="order-details">
+            <div className="order-header">
+              <span>ĐƠN HÀNG #{idOrder}</span>
+              <a href="#">Quản lý đơn hàng</a>
+            </div>
+            <div className="order-info">
+              <div className="bg-info-order">
+                <span>Khách hàng:</span>
+                <span>{fullName}</span>
+              </div>
+
+              <div className="bg-info-order">
+                <span>Số điện thoại:</span>
+                <span>{phone}</span>
+              </div>
+
+              <div className="bg-info-order">
+                <span>Email:</span>
+                <span>{email}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="actions">
             <button className="chat-button">Chat với GEARVN</button>
+            <button className="continue-button">Tiếp tục mua hàng</button>
           </div>
         </div>
       ) : (

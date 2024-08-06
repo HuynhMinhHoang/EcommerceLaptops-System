@@ -24,6 +24,7 @@ const ProductPayment = ({ toast }) => {
   const [shippingAddress, setShippingAddress] = useState("");
   const [note, setNote] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(1);
+  const [isClearCart, setIsClearCart] = useState(false);
 
   const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ const ProductPayment = ({ toast }) => {
         toast.current.show({
           severity: "error",
           summary: "Thông báo",
-          detail: "Vui lòng điền thông tin địa chỉ giao hàng!",
+          detail: "Vui lòng điền địa chỉ giao hàng!",
         });
         return;
       }
@@ -237,7 +238,6 @@ const ProductPayment = ({ toast }) => {
             fullName={fullName}
             phone={phone}
             paymentStatus={paymentStatus}
-
             // shippingAddress={shippingAddress}
             // note={note}
             // paymentMethod={paymentMethod}
@@ -251,6 +251,7 @@ const ProductPayment = ({ toast }) => {
             phone={phone}
             email={user.email}
             shippingAddress={shippingAddress}
+            idOrder={idOrder}
           />
         )}
 

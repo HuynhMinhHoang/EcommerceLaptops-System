@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ConfirmInformation.scss";
 import COD from "../../../assets/cod.png";
-import { getPaymentVNPay } from "../../../service/APIService";
+import { getPaymentCOD, getPaymentVNPay } from "../../../service/APIService";
 import { path } from "../../../utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,29 +30,53 @@ const ConfirmInformation = ({
 
   const handlePaymentOrder = async () => {
     try {
-      const amount = totalPrice;
-      const bankCode = "NCB";
-      const userId = user.idAccount;
+      if (paymentMethod === 1) {
+        const response = await getPaymentCOD(
+          shippingAddress,
+          note,
+          user.idAccount,
+          paymentMethod
+        );
+        console.log(response);
+        if (response.status === 201) {
+          const orderId = response.data.orderId;
+          // console.log("orderId", orderId);
+          dispatch(setOrderId(orderId));
+          dispatch(setPaymentStatus("success"));
 
-      const response = await getPaymentVNPay(
-        amount,
-        bankCode,
-        shippingAddress,
-        note,
-        userId,
-        paymentMethod
-      );
-
-      if (response.status === 200) {
-        const paymentUrl = response.data.data.paymentUrl;
-        const orderId = response.data.data.orderId;
-
-        dispatch(setOrderId(orderId));
-        dispatch(setPaymentStatus("pending"));
-
-        window.location.href = paymentUrl;
+          setCurrentStep(4);
+          setTimeout(() => {
+            navigate("/gearvn/cart/payment?step=4");
+          }, 0);
+        } else {
+          dispatch(setPaymentStatus("failed"));
+          console.error("Failed to create order:", response);
+        }
       } else {
-        console.error("Failed to initiate payment:", response.message);
+        const amount = totalPrice;
+        const bankCode = "NCB";
+        const userId = user.idAccount;
+
+        const response = await getPaymentVNPay(
+          amount,
+          bankCode,
+          shippingAddress,
+          note,
+          userId,
+          paymentMethod
+        );
+
+        if (response.status === 200) {
+          const paymentUrl = response.data.data.paymentUrl;
+          const orderId = response.data.data.orderId;
+          dispatch(setOrderId(orderId));
+          dispatch(setPaymentStatus("success"));
+
+          window.location.href = paymentUrl;
+        } else {
+          dispatch(setPaymentStatus("failed"));
+          console.error("Failed to initiate payment:", response.message);
+        }
       }
     } catch (error) {
       console.error("Error initiating payment:", error);
@@ -64,7 +88,6 @@ const ConfirmInformation = ({
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     }
-
     const queryParams = new URLSearchParams(window.location.search);
     const status = queryParams.get("status");
 
@@ -76,13 +99,10 @@ const ConfirmInformation = ({
         dispatch(setPaymentStatus(status));
       }
       setTimeout(() => {
+        console.log("Statisusus");
         navigate("/gearvn/cart/payment?step=4");
       }, 0);
     }
-
-    // return () => {
-    //   dispatch(resetOrderState());
-    // };
   }, [navigate, paymentStatus]);
 
   return (
