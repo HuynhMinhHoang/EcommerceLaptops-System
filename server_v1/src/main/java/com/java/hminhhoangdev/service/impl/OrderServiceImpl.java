@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.service.impl;
 
+import com.java.hminhhoangdev.dto.request.OrderRequestDTO;
 import com.java.hminhhoangdev.model.Order;
 import com.java.hminhhoangdev.model.Account;
 import com.java.hminhhoangdev.model.PaymentType;
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private PaymentTypeRepository paymentTypeRepository;
 
     @Override
-    public Order createOrder(HttpServletRequest request, int paymentTypeId) {
+    public Order createOrderVNPay(HttpServletRequest request, int paymentTypeId) {
         Order order = new Order();
         order.setShippingAddress(request.getParameter("shippingAddress"));
         order.setNote(request.getParameter("note"));
@@ -43,6 +44,25 @@ public class OrderServiceImpl implements OrderService {
         order.setAccount(account);
 
         return orderRepository.save(order);
+    }
+
+    @Override
+    public Order createOrderCOD(OrderRequestDTO request) {
+        Order order = new Order();
+        order.setShippingAddress(request.getShippingAddress());
+        order.setNote(request.getNote());
+        order.setCreated_at(new Date());
+        order.setStatus_pay(true);
+        order.setStatus_order(true);
+
+        PaymentType paymentType = paymentTypeRepository.findById(request.getPaymentTypeId()).orElseThrow(() -> new RuntimeException("Payment type not found"));
+        order.setPaymentType(paymentType);
+
+        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new RuntimeException("Account not found"));
+        order.setAccount(account);
+
+        return orderRepository.save(order);
+
     }
 
     @Override

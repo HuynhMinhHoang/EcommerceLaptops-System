@@ -2,14 +2,13 @@ package com.java.hminhhoangdev.service.impl;
 
 
 import com.java.hminhhoangdev.config.VNPAYConfig;
-import com.java.hminhhoangdev.dto.request.PaymentDTO;
+import com.java.hminhhoangdev.dto.request.PaymentRequestDTO;
 import com.java.hminhhoangdev.model.Order;
 import com.java.hminhhoangdev.service.OrderService;
 import com.java.hminhhoangdev.service.PaymentService;
 import com.java.hminhhoangdev.util.VNPayUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -23,8 +22,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final OrderService orderService;
 
     @Override
-    public PaymentDTO.VNPayResponse createVnPayPayment(HttpServletRequest request, int paymentTypeId) {
-        Order order = orderService.createOrder(request, paymentTypeId);
+    public PaymentRequestDTO.VNPayResponse createVnPayPayment(HttpServletRequest request, int paymentTypeId) {
+        Order order = orderService.createOrderVNPay(request, paymentTypeId);
 
         long amount = Integer.parseInt(request.getParameter("amount")) * 100L;
         String bankCode = request.getParameter("bankCode");
@@ -43,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
         queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
         String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
 
-        return PaymentDTO.VNPayResponse.builder().code("ok").message("success").paymentUrl(paymentUrl).orderId(order.getIdOrder()).build();
+        return PaymentRequestDTO.VNPayResponse.builder().code("ok").message("success").paymentUrl(paymentUrl).orderId(order.getIdOrder()).build();
     }
 
 }

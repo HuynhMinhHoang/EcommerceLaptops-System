@@ -1,20 +1,21 @@
 package com.java.hminhhoangdev.controller;
 
-import com.java.hminhhoangdev.dto.request.PaymentDTO;
+import com.java.hminhhoangdev.dto.request.OrderRequestDTO;
+import com.java.hminhhoangdev.dto.request.PaymentRequestDTO;
 import com.java.hminhhoangdev.dto.response.ResponseData;
+import com.java.hminhhoangdev.model.Order;
 import com.java.hminhhoangdev.service.OrderService;
 import com.java.hminhhoangdev.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/user/payment")
@@ -28,7 +29,7 @@ public class PaymentController {
     private OrderService orderService;
 
     @GetMapping("/vn-pay")
-    public ResponseData<PaymentDTO.VNPayResponse> pay(HttpServletRequest request, @RequestParam int paymentTypeId) {
+    public ResponseData<PaymentRequestDTO.VNPayResponse> pay(HttpServletRequest request, @RequestParam int paymentTypeId) {
         try {
             return new ResponseData<>(HttpStatus.OK.value(), "Success", paymentService.createVnPayPayment(request, paymentTypeId));
         } catch (Exception e) {
@@ -52,7 +53,7 @@ public class PaymentController {
                 returnUrl += "&status=failed";
                 response.sendRedirect(returnUrl);
             }
-            
+
         } catch (Exception e) {
             try {
                 response.sendRedirect("http://localhost:3000/gearvn/cart/payment?step=3&status=error");
@@ -61,6 +62,22 @@ public class PaymentController {
             }
         }
     }
+
+
+    @PostMapping("/cod")
+    public ResponseEntity<Map<String, Object>> cod(@RequestBody OrderRequestDTO request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            int orderId = orderService.createOrderCOD(request).getIdOrder();
+            response.put("orderId", orderId);
+            response.put("status", "success");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            response.put("status", "failed");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
 
