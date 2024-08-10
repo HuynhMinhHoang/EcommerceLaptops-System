@@ -4,6 +4,7 @@ import com.java.hminhhoangdev.dto.request.OrderRequestDTO;
 import com.java.hminhhoangdev.model.Order;
 import com.java.hminhhoangdev.model.Account;
 import com.java.hminhhoangdev.model.PaymentType;
+import com.java.hminhhoangdev.repository.OrderDetailRepository;
 import com.java.hminhhoangdev.repository.OrderRepository;
 import com.java.hminhhoangdev.repository.AccountRepository;
 import com.java.hminhhoangdev.repository.PaymentTypeRepository;
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createOrderVNPay(HttpServletRequest request, int paymentTypeId) {
         Order order = new Order();
+        order.setTotal_amount(Double.parseDouble(request.getParameter("total_amount")));
         order.setShippingAddress(request.getParameter("shippingAddress"));
         order.setNote(request.getParameter("note"));
         order.setCreated_at(new Date());
@@ -49,6 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createOrderCOD(OrderRequestDTO request) {
         Order order = new Order();
+        order.setTotal_amount(request.getTotal_amount());
         order.setShippingAddress(request.getShippingAddress());
         order.setNote(request.getNote());
         order.setCreated_at(new Date());

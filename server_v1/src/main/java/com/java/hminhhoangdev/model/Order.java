@@ -17,6 +17,7 @@ public class Order {
     private Date created_at;
     private boolean status_pay;
     private boolean status_order;
+    private double total_amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
@@ -52,6 +53,14 @@ public class Order {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    public double getTotal_amount() {
+        return total_amount;
+    }
+
+    public void setTotal_amount(double total_amount) {
+        this.total_amount = total_amount;
     }
 
     public String getNote() {
@@ -104,16 +113,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "account=" + account +
-                ", idOrder=" + idOrder +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", note='" + note + '\'' +
-                ", created_at=" + created_at +
-                ", status_pay=" + status_pay +
-                ", status_order=" + status_order +
-                ", paymentType=" + paymentType +
-                ", orderDetails=" + orderDetails +
-                '}';
+        return "Order{" + "account=" + account + ", idOrder=" + idOrder + ", shippingAddress='" + shippingAddress + '\'' + ", note='" + note + '\'' + ", created_at=" + created_at + ", status_pay=" + status_pay + ", status_order=" + status_order + ", paymentType=" + paymentType + ", orderDetails=" + orderDetails + '}';
     }
 }
