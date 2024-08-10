@@ -1,18 +1,41 @@
 import React, { useEffect, useState } from "react";
 import "./StatusPayment.scss";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { resetOrderId } from "../../../redux/action/orderActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetOrderId,
+  resetTotalAmount,
+  setPaymentStatus,
+} from "../../../redux/action/orderActions";
 import { clearCart } from "../../../redux/action/cartActions";
 import { useNavigate } from "react-router-dom";
 import { MdError } from "react-icons/md";
+import axios from "axios";
+import { sendEmailConfirmOrders } from "../../../service/APIService";
 
-const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
+const StatusPayment = ({
+  idOrder,
+  paymentStatus,
+  fullName,
+  phone,
+  email,
+  setOpen,
+  open,
+  products,
+  user,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const shippingAddress = localStorage.getItem("shippingAddress") || "";
+  const { price } = useSelector((state) => state.orderRedux);
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+
     if (paymentStatus === "success") {
       dispatch(clearCart());
     }
@@ -21,9 +44,50 @@ const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    const sendEmailAndResetState = async () => {
+      if (paymentStatus === "success" && paymentStatus !== null && !emailSent) {
+        await handleSendEmail();
+        setEmailSent(true);
+      }
+    };
+    sendEmailAndResetState();
+  }, [paymentStatus, idOrder, dispatch, emailSent]);
+
+  const handleSendEmail = async () => {
+    try {
+      const imageUrls = products.map((product) => product.images[0].thumbnail);
+
+      const imageFiles = await Promise.all(
+        imageUrls.map(async (url) => {
+          const response = await axios.get(url, { responseType: "blob" });
+          return new File([response.data], url.split("/").pop(), {
+            type: response.data.type,
+          });
+        })
+      );
+
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("orderId", idOrder);
+      formData.append("fullName", fullName);
+      formData.append("phone", phone);
+      formData.append("shippingAddress", shippingAddress);
+      formData.append("price", price);
+
+      imageFiles.forEach((file) => {
+        formData.append("productImages", file);
+      });
+
+      await sendEmailConfirmOrders(formData);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   return (
     <>
-      {paymentStatus === "success" ? (
+      {paymentStatus === "success" && open === false ? (
         <div className="status-payment">
           <div className="status-message">
             <BsFillCartCheckFill
@@ -36,8 +100,8 @@ const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
             <div className="message">ĐẶT HÀNG THÀNH CÔNG</div>
           </div>
           <p>
-            Cảm ơn quý khách đã cho GEARVN có cơ hội được phục vụ. Nhân viên
-            GEARVN sẽ liên hệ với quý khách trong thời gian sớm nhất.
+            Cảm ơn quý khách đã cho GEARVN có cơ hội được phục vụ.{" "}
+            <span>Vui lòng kiểm tra email để xem thông tin đơn hàng!</span>
           </p>
           <div className="order-details">
             <div className="order-header">
@@ -65,15 +129,15 @@ const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
                 <span>{shippingAddress}</span>
               </div>
 
-              {/* <div className="bg-info-order">
+              <div className="bg-info-order">
                 <span>Tổng tiền:</span>
                 <span className="total-amount">
-                  {totalPrice.toLocaleString("vi-VN", {
+                  {price.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })}
                 </span>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="actions">
@@ -81,7 +145,7 @@ const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
             <button className="continue-button">Tiếp tục mua hàng</button>
           </div>
         </div>
-      ) : paymentStatus === "failed" ? (
+      ) : paymentStatus === "failed" && open === false ? (
         <div className="status-payment">
           <div className="status-message-error">
             <MdError
@@ -127,7 +191,7 @@ const StatusPayment = ({ idOrder, paymentStatus, fullName, phone, email }) => {
           </div>
         </div>
       ) : (
-        <div>Đang xử lý...</div>
+        <div className="pending">Đang xử lý đơn hàng...</div>
       )}
     </>
   );

@@ -14,17 +14,22 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderInformation from "./PaymentContent/OrderInformation";
 import ConfirmInformation from "./PaymentContent/ConfirmInformation";
 import StatusPayment from "./PaymentContent/StatusPayment";
-import { resetStatePayment } from "../../redux/action/orderActions";
+import {
+  resetStatePayment,
+  resetTotalAmount,
+  setTotalAmount,
+} from "../../redux/action/orderActions";
+import { Backdrop, Button, CircularProgress } from "@mui/material";
 
 const ProductPayment = ({ toast }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userRedux.user);
+  const [open, setOpen] = React.useState(false);
   const [fullName, setFullName] = useState(user.fullName);
   const [phone, setPhone] = useState(user.phone);
   const [shippingAddress, setShippingAddress] = useState("");
   const [note, setNote] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(1);
-  const [isClearCart, setIsClearCart] = useState(false);
 
   const [scrollY, setScrollY] = useState(0);
   const navigate = useNavigate();
@@ -33,7 +38,7 @@ const ProductPayment = ({ toast }) => {
     new URLSearchParams(location.search).get("step")
   );
   const products = useSelector((state) => state.cartRedux.products) || [];
-
+  // console.log("products", products);
   const getCurrentStep = () => {
     if (stepFromURL >= 1 && stepFromURL <= 4) {
       if (products.length === 0 && stepFromURL !== 4) {
@@ -65,7 +70,15 @@ const ProductPayment = ({ toast }) => {
   }, [currentStep]);
 
   useEffect(() => {
-    if (products.length === 0 && currentStep !== 4) {
+    if (!isAuthenticated) {
+      toast.current.show({
+        severity: "info",
+        summary: "Thông báo",
+        detail: "Vui lòng đăng nhập để thực hiện thanh toán!",
+      });
+      setCurrentStep(1);
+      navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
+    } else if (products.length === 0 && currentStep !== 4) {
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else if (paymentStatus === "pending" && currentStep === 4) {
@@ -85,6 +98,7 @@ const ProductPayment = ({ toast }) => {
   useEffect(() => {
     if (idOrder === null) {
       dispatch(resetStatePayment());
+      dispatch(resetTotalAmount());
     }
   }, [idOrder, dispatch]);
 
@@ -116,7 +130,12 @@ const ProductPayment = ({ toast }) => {
       }
     }
     if (isAuthenticated) {
-      setCurrentStep(currentStep + 1);
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+        dispatch(setTotalAmount(totalPrice));
+        setCurrentStep(currentStep + 1);
+      }, 500);
     } else {
       toast.current.show({
         severity: "info",
@@ -127,9 +146,11 @@ const ProductPayment = ({ toast }) => {
   };
 
   const handleReturn = () => {
-    setCurrentStep(currentStep - 1);
-    console.log("erroree");
-    // navigate(`${path.PRODUCT_PAYMENT}?step=${currentStep}`);
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+      setCurrentStep(currentStep - 1);
+    }, 500);
   };
 
   return (
@@ -238,9 +259,7 @@ const ProductPayment = ({ toast }) => {
             fullName={fullName}
             phone={phone}
             paymentStatus={paymentStatus}
-            // shippingAddress={shippingAddress}
-            // note={note}
-            // paymentMethod={paymentMethod}
+            products={products}
           />
         )}
         {currentStep === 4 && (
@@ -252,6 +271,10 @@ const ProductPayment = ({ toast }) => {
             email={user.email}
             shippingAddress={shippingAddress}
             idOrder={idOrder}
+            setOpen={setOpen}
+            open={open}
+            products={products}
+            user={user}
           />
         )}
 
@@ -288,6 +311,12 @@ const ProductPayment = ({ toast }) => {
           </div>
         )}
       </div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };

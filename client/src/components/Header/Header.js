@@ -23,9 +23,12 @@ import { TbLogout } from "react-icons/tb";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { ThreeDots } from "react-loader-spinner";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
+  // const [open, setOpen] = useState(false);
+
   const isAuthenticated = useSelector(
     (state) => state.userRedux.isAuthenticated
   );
@@ -39,6 +42,7 @@ const Header = () => {
 
   const currentPath = location.pathname;
   const isPaymentPage = currentPath === path.PRODUCT_PAYMENT;
+  const isHomePage = currentPath === path.HOMEPAGE;
 
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications
@@ -69,6 +73,14 @@ const Header = () => {
     }, 1000);
   };
 
+  const handleGoToHome = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate(path.HOMEPAGE);
+    }, 500);
+  };
+
   const showAlertLogout = () => {
     Swal.fire({
       title: "Bạn muốn thoát tài khoản?",
@@ -92,7 +104,16 @@ const Header = () => {
           <nav className="navigation">
             <ul>
               <li>
-                <NavLink to={path.HOMEPAGE} className="logo">
+                <NavLink
+                  onClick={(e) => {
+                    if (isHomePage) {
+                      e.preventDefault();
+                    } else {
+                      handleGoToHome();
+                    }
+                  }}
+                  className="logo"
+                >
                   <div className="logo-1 animate__animated animate__fadeInLeft">
                     <img src={logo} alt="logo" />
                   </div>
@@ -172,6 +193,17 @@ const Header = () => {
                     </span>
                   </div>
                 </NavLink>
+                <div className="bg-noti-add">
+                  {isShowNotifications && (
+                    <NotificationAddProduct
+                      setStateNoti={(status) => {
+                        if (!status) {
+                          dispatch({ type: "HIDE_NOTIFICATION" });
+                        }
+                      }}
+                    />
+                  )}
+                </div>
               </li>
 
               {!isAuthenticated ? (

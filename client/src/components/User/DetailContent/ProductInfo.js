@@ -49,15 +49,6 @@ const ProductInfo = ({ product }) => {
         <p className="price">{product.price.toLocaleString("vi-VN")}đ</p>
         <div className="bg-btn">
           <div className="buy-now">
-            <button>
-              <span className="maintext">MUA NGAY</span>
-              <span className="subtext">
-                Giao tận nơi hoặc nhận tại cửa hàng
-              </span>
-            </button>
-          </div>
-
-          <div className="add-now">
             <button
               onClick={() => {
                 handleAddToCart();
@@ -65,7 +56,10 @@ const ProductInfo = ({ product }) => {
               disabled={isShowNotifications}
               className={isShowNotifications ? "custom-btn" : ""}
             >
-              <MdOutlineAddShoppingCart style={{ fontSize: "25px" }} />
+              <span className="maintext">MUA NGAY</span>
+              <span className="subtext">
+                Giao tận nơi hoặc nhận tại cửa hàng
+              </span>
             </button>
           </div>
         </div>

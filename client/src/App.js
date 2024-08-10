@@ -7,6 +7,7 @@ import { useState, CSSProperties, useEffect } from "react";
 import FadeLoader from "react-spinners/ClipLoader";
 import { ThreeDots } from "react-loader-spinner";
 import { path } from "./utils/Constants";
+import GoToTop from "./components/Header/GoToTop";
 
 const App = () => {
   const location = useLocation();
@@ -44,9 +45,8 @@ const App = () => {
             <Header />
           </div>
           <div className="main-container">
-            {/* <div className="app-content"> */}
             <Outlet />
-            {/* </div> */}
+            <GoToTop />
           </div>
 
           {!excludeFooter && (

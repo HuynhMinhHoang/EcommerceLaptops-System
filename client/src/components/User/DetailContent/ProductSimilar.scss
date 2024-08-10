@@ -1,9 +1,11 @@
 .product-similar {
-  background: #fff;
-  border-radius: 5px;
-  margin: 20px 0px;
-  padding: 30px 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  // height: 420px;
+  // background: #fff;
+  // border-radius: 5px;
+  // margin: 20px 0px;
+  // padding: 30px 20px;
+  // padding-bottom: 20px;
+  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   .product-heading {
     padding: 0px 20px 20px 20px;
@@ -15,9 +17,13 @@
   }
 
   .product-list {
+    // height: 80%;
     padding: 0 20px;
     .product-item {
+      border-radius: 5px;
+      border: 1px solid #dedede;
       cursor: pointer;
+      padding: 10px;
       display: flex;
       align-items: center;
       margin-bottom: 1rem;

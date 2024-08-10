@@ -14,6 +14,7 @@ import { path } from "../../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import NotificationAddProduct from "./DetailContent/NotificationAddProduct";
 import { ThreeDots } from "react-loader-spinner";
+import ProductReview from "./DetailContent/ProductReview";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ const ProductDetail = () => {
   const { slug } = useParams();
   const location = useLocation();
   const { id } = location.state || {};
-
 
   useEffect(() => {
     if (id) {
@@ -67,8 +67,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-
 
   return (
     <div className="pro-detail-container">
@@ -125,6 +123,10 @@ const ProductDetail = () => {
             />
           </div>
         </div>
+      </div>
+
+      <div className="pro-review">
+        <ProductReview product={product} />
       </div>
     </div>
   );

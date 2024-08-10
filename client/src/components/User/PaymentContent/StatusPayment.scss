@@ -3,6 +3,13 @@
   padding-top: 0px;
   padding-bottom: 0px;
 
+  p {
+    span {
+      color: #212529;
+      font-weight: 700;
+    }
+  }
+
   .status-message {
     display: flex;
     align-items: stretch;
@@ -103,4 +110,11 @@
       font-weight: 800;
     }
   }
+}
+
+.pending {
+  color: #292929;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
 }

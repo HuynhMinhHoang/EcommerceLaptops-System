@@ -11,9 +11,6 @@ const NotificationAddProduct = ({ setStateNoti }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleClearCart = () => {
-    dispatch(clearCart());
-  };
 
   const handleViewCart = () => {
     navigate(path.PRODUCT_PAYMENT);
@@ -22,7 +19,7 @@ const NotificationAddProduct = ({ setStateNoti }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 2500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);

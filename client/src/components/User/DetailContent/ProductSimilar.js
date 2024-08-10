@@ -3,9 +3,12 @@ import "./ProductSimilar.scss";
 import { getListProductHome } from "../../../service/APIService";
 import { FaTruck, FaStar } from "react-icons/fa";
 import categories from "../../../utils/categoriesProduct";
+import { path } from "../../../utils/Constants";
+import { useNavigate } from "react-router-dom";
 
 const ProductSimilar = ({ product, category }) => {
   const [productList, setProductList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProductList();
@@ -32,6 +35,25 @@ const ProductSimilar = ({ product, category }) => {
     });
   };
 
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  };
+
+  const handleClickDetail = (id, name) => {
+    const slug = slugify(name);
+    navigate(`${path.PRODUCT_DETAIL.replace(":slug", slug)}`, {
+      state: { id },
+    });
+    window.location.reload();
+  };
+
   return (
     <div className="product-similar">
       <div className="product-heading">
@@ -39,7 +61,13 @@ const ProductSimilar = ({ product, category }) => {
       </div>
       <div className="product-list">
         {productList.map((p) => (
-          <div key={p.idProduct} className="product-item">
+          <div
+            key={p.idProduct}
+            className="product-item"
+            onClick={() => {
+              handleClickDetail(p.idProduct, p.nameProduct);
+            }}
+          >
             <img src={p.images[0].thumbnail} alt={p.nameProduct} />
             <div className="product-info">
               <h3>{p.nameProduct}</h3>

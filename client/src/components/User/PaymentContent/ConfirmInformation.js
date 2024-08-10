@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./ConfirmInformation.scss";
 import COD from "../../../assets/cod.png";
-import { getPaymentCOD, getPaymentVNPay } from "../../../service/APIService";
+import {
+  createOrderDetail,
+  getPaymentCOD,
+  getPaymentVNPay,
+  sendEmailConfirmOrders,
+} from "../../../service/APIService";
 import { path } from "../../../utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +19,7 @@ import { clearCart } from "../../../redux/action/cartActions";
 
 const ConfirmInformation = ({
   totalPrice,
-  currentStep,
+  products,
   setCurrentStep,
   fullName,
   phone,
@@ -30,56 +35,74 @@ const ConfirmInformation = ({
 
   const handlePaymentOrder = async () => {
     try {
+      let orderId;
       if (paymentMethod === 1) {
         const response = await getPaymentCOD(
           shippingAddress,
+          totalPrice,
           note,
           user.idAccount,
           paymentMethod
         );
-        console.log(response);
         if (response.status === 201) {
-          const orderId = response.data.orderId;
-          // console.log("orderId", orderId);
+          orderId = response.data.orderId;
           dispatch(setOrderId(orderId));
           dispatch(setPaymentStatus("success"));
-
-          setCurrentStep(4);
-          setTimeout(() => {
-            navigate("/gearvn/cart/payment?step=4");
-          }, 0);
+          await createOrderDetails(orderId, products);
         } else {
           dispatch(setPaymentStatus("failed"));
+          await createOrderDetails(orderId, products);
           console.error("Failed to create order:", response);
+          return;
         }
       } else {
         const amount = totalPrice;
         const bankCode = "NCB";
         const userId = user.idAccount;
-
         const response = await getPaymentVNPay(
           amount,
           bankCode,
           shippingAddress,
+          totalPrice,
           note,
           userId,
           paymentMethod
         );
-
         if (response.status === 200) {
           const paymentUrl = response.data.data.paymentUrl;
-          const orderId = response.data.data.orderId;
+          orderId = response.data.data.orderId;
           dispatch(setOrderId(orderId));
           dispatch(setPaymentStatus("success"));
-
+          await createOrderDetails(orderId, products);
           window.location.href = paymentUrl;
+          return;
         } else {
           dispatch(setPaymentStatus("failed"));
+          await createOrderDetails(orderId, products);
           console.error("Failed to initiate payment:", response.message);
+          return;
         }
       }
+      if (!orderId) {
+        console.log("Order ID is not available.");
+      }
+      setCurrentStep(4);
+      setTimeout(() => {
+        navigate("/gearvn/cart/payment?step=4");
+      }, 0);
     } catch (error) {
       console.error("Error initiating payment:", error);
+    }
+  };
+
+  const createOrderDetails = async (orderId, products) => {
+    try {
+      const orderDetailPromises = products.map((product) =>
+        createOrderDetail(orderId, product.idProduct, product.quantityInCart)
+      );
+      await Promise.all(orderDetailPromises);
+    } catch (error) {
+      console.error("Error creating order details:", error);
     }
   };
 
@@ -94,12 +117,12 @@ const ConfirmInformation = ({
     if (status) {
       if (status === "success") {
         dispatch(setPaymentStatus(status));
-        dispatch(clearCart());
+        // dispatch(clearCart());
       } else {
         dispatch(setPaymentStatus(status));
       }
+
       setTimeout(() => {
-        console.log("Statisusus");
         navigate("/gearvn/cart/payment?step=4");
       }, 0);
     }

@@ -1,0 +1,55 @@
+.product-review {
+  background: #fff;
+  border-radius: 5px;
+  //   margin: 20px 0px;
+  margin-bottom: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  .product-heading {
+    padding: 0px 20px 20px 20px;
+    h2 {
+      font-size: 25px;
+      font-weight: 600;
+    }
+  }
+
+  .bg-review-container {
+    // margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .content-left {
+      width: 40%;
+      text-align: center;
+      div {
+        .score {
+          color: #e30019;
+          font-size: 36px;
+          font-weight: 700;
+        }
+
+        .card {
+          margin-top: 10px;
+          border: none;
+          span {
+            margin: 0 auto;
+            color: #fdd835;
+          }
+
+          p {
+            margin: 7px;
+            font-size: 16px;
+            font-weight: 600;
+            span {
+              color: black;
+              font-weight: 800;
+            }
+          }
+        }
+      }
+    }
+    .content-right {
+      width: 40%;
+    }
+  }
+}

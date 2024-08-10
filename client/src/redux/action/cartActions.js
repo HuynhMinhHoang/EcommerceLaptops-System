@@ -6,7 +6,7 @@ export const addToCart = (product) => (dispatch) => {
 
   setTimeout(() => {
     dispatch({ type: "HIDE_NOTIFICATION" });
-  }, 2500);
+  }, 1000);
 };
 
 export const clearCart = () => (dispatch) => {

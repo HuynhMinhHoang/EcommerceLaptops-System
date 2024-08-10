@@ -13,7 +13,20 @@
 
     .bg-right {
       width: 37%;
+      .similar {
+        height: 100%;
+        background: #fff;
+        border-radius: 5px;
+        margin: 20px 0px;
+        padding: 30px 20px;
+        padding-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
     }
+  }
+
+  .pro-review {
+    margin-top: 40px;
   }
 
   .banner-left,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./HomePage.scss";
 import BannerCarousel from "./ContentHome/BannerCarousel";
 
@@ -17,13 +17,48 @@ import SubList from "./SubList";
 import categories from "../../utils/categoriesProduct";
 
 const HomePage = () => {
+  const laptopGamingRef = useRef(null);
+  const laptopRef = useRef(null);
+  const pcRef = useRef(null);
+  const mouseRef = useRef(null);
+  const keyboardRef = useRef(null);
+
+  const handleScrollTo = (ref) => {
+    if (ref.current) {
+      const offsetPosition = ref.current.offsetTop - 210;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <div className="homepage-container">
-      {/* <SubList /> */}
-
       <div className="content-main">
         <div className="category-container">
-          <CategoryMenu />
+          <CategoryMenu
+            onMenuItemClick={(category) => {
+              switch (category) {
+                case categories.LAPTOPGAMING:
+                  handleScrollTo(laptopGamingRef);
+                  break;
+                case categories.LAPTOP:
+                  handleScrollTo(laptopRef);
+                  break;
+                case categories.PC:
+                  handleScrollTo(pcRef);
+                  break;
+                case categories.MOUSE:
+                  handleScrollTo(mouseRef);
+                  break;
+                case categories.KEYBOARD:
+                  handleScrollTo(keyboardRef);
+                  break;
+                default:
+                  break;
+              }
+            }}
+          />
         </div>
 
         <div className="banner-container">
@@ -36,7 +71,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="product-pc-list">
+      <div ref={pcRef} className="product-pc-list">
         <PCList />
       </div>
 
@@ -47,11 +82,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="product-laptopGM-list">
+      <div ref={laptopGamingRef} className="product-laptopGM-list">
         <ProductList category={categories.LAPTOPGAMING} />
       </div>
 
-      <div className="product-laptop-list">
+      <div ref={laptopRef} className="product-laptop-list">
         <ProductList category={categories.LAPTOP} />
       </div>
 
@@ -66,11 +101,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="product-mouse-list">
+      <div ref={mouseRef} className="product-mouse-list">
         <ProductList category={categories.MOUSE} />
       </div>
 
-      <div className="product-keyboard-list">
+      <div ref={keyboardRef} className="product-keyboard-list">
         <ProductList category={categories.KEYBOARD} />
       </div>
 

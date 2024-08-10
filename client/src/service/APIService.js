@@ -97,6 +97,7 @@ const getPaymentVNPay = (
   amount,
   bankCode,
   shippingAddress,
+  total_amount,
   note,
   accountId,
   paymentTypeId
@@ -106,6 +107,7 @@ const getPaymentVNPay = (
       amount: amount,
       bankCode: bankCode,
       shippingAddress: shippingAddress,
+      total_amount: total_amount,
       note: note,
       accountId: accountId,
       paymentTypeId: paymentTypeId,
@@ -113,12 +115,33 @@ const getPaymentVNPay = (
   });
 };
 
-const getPaymentCOD = (shippingAddress, note, accountId, paymentTypeId) => {
+const getPaymentCOD = (
+  shippingAddress,
+  total_amount,
+  note,
+  accountId,
+  paymentTypeId
+) => {
   return axios.post("/api/v1/user/payment/cod", {
     shippingAddress: shippingAddress,
+    total_amount: total_amount,
     note: note,
     accountId: accountId,
     paymentTypeId: paymentTypeId,
+  });
+};
+
+const createOrderDetail = (orderId, productId, quantity) => {
+  return axios.post(
+    `/api/v1/user/payment/order-detail?orderId=${orderId}&productId=${productId}&quantity=${quantity}`
+  );
+};
+
+const sendEmailConfirmOrders = (formData) => {
+  return axios.post("/api/v1/user/send-email", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
@@ -140,4 +163,6 @@ export {
   getProductById,
   getPaymentVNPay,
   getPaymentCOD,
+  createOrderDetail,
+  sendEmailConfirmOrders,
 };
