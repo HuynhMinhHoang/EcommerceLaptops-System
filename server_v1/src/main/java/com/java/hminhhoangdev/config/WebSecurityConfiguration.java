@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -43,6 +44,7 @@ public class WebSecurityConfiguration {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/home", "/api/v1/user/**").permitAll();
             authorize.requestMatchers("/api/v1/product/**").permitAll();
+            authorize.requestMatchers("/api/v1/orders/**").permitAll();
             authorize.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/add").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/update").hasRole("ADMIN");
@@ -89,11 +91,17 @@ public class WebSecurityConfiguration {
         return new StandardServletMultipartResolver();
     }
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    abstract class HibernateMixIn {
+    }
+
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.addMixIn(Object.class, HibernateMixIn.class);
         return mapper;
     }
 }

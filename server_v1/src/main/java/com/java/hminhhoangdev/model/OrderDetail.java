@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class OrderDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +57,6 @@ public class OrderDetail {
         return "OrderDetail{" +
                 "idOrderDetail=" + idOrderDetail +
                 ", quantity=" + quantity +
-                ", order=" + order +
                 ", product=" + product +
                 '}';
     }

@@ -11,21 +11,6 @@ import java.util.Set;
 
 @Entity
 public class Account {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    private String username;
-//    private String password;
-//
-//    private String fullName;
-//    private Gender gender;
-//    private Date dateOfBirth;
-//    private String email;
-//    private String phone;
-//    private String address;
-//    private AccountStatus status;
-//    private int roleId;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAccount;

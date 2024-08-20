@@ -78,6 +78,7 @@ public class PaymentController {
     public ResponseEntity<Map<String, Object>> cod(@RequestBody OrderRequestDTO request) {
         Map<String, Object> response = new HashMap<>();
         try {
+            System.out.println(request.getAccountId());
             int orderId = orderService.createOrderCOD(request).getIdOrder();
             response.put("orderId", orderId);
             response.put("status", "success");
