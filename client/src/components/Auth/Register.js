@@ -113,7 +113,7 @@ const Register = ({ toast }) => {
           summary: "Thành công",
           detail: response.data.message,
         });
-        navigate(path.LOGIN);
+        navigate(`${path.HOMEPAGE}/${path.LOGIN}`);
       } else {
         toast.current.show({
           severity: "error",

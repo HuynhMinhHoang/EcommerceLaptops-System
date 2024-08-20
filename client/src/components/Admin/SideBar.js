@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
 import {
   ProSidebar,
@@ -13,7 +13,7 @@ import { FaGithub, FaSignOutAlt } from "react-icons/fa";
 import "./SideBar.scss";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaTools } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Game from "../../assets/game.png";
 import { FaKey } from "react-icons/fa";
 import { FaLaptop } from "react-icons/fa";
@@ -29,12 +29,18 @@ import { path } from "../../utils/Constants";
 // import Swal from "sweetalert2";
 
 const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
-  const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
-  const handleMenuItemClick = (menuItem) => {
-    setActiveMenuItem(menuItem);
-  };
+  const location = useLocation();
+  const [activeMenuItem, setActiveMenuItem] = useState("");
 
-  const user = useSelector((state) => state.userRedux.user);
+  useEffect(() => {
+    if (location.pathname.includes(path.DASHBOARD)) {
+      setActiveMenuItem(path.DASHBOARD);
+    } else if (location.pathname.includes(path.MANAGE_USER)) {
+      setActiveMenuItem(path.MANAGE_USER);
+    } else if (location.pathname.includes(path.MANAGE_PRODUCT)) {
+      setActiveMenuItem(path.MANAGE_PRODUCT);
+    }
+  }, [location]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,7 +81,6 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
               icon={
                 <MdSpaceDashboard size={"20px"} color={"rgb(221, 51, 68)"} />
               }
-              onClick={() => handleMenuItemClick(path.DASHBOARD)}
             >
               Dashboard
               <Link to={path.DASHBOARD} />
@@ -91,7 +96,6 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
                 className={`custom-menu-item ${
                   activeMenuItem === path.MANAGE_USER ? "active" : ""
                 }`}
-                onClick={() => handleMenuItemClick(path.MANAGE_USER)}
               >
                 Manage Users <Link to={path.MANAGE_USER} />
               </MenuItem>
@@ -100,7 +104,6 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
                 className={`custom-menu-item ${
                   activeMenuItem === path.MANAGE_PRODUCT ? "active" : ""
                 }`}
-                onClick={() => handleMenuItemClick(path.MANAGE_PRODUCT)}
               >
                 Manage Products <Link to={path.MANAGE_PRODUCT} />
               </MenuItem>

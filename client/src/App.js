@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { path } from "./utils/Constants";
 import GoToTop from "./components/Header/GoToTop";
 
-const App = () => {
+const App = ({ toast }) => {
   const location = useLocation();
   const excludeFooter = [
     `${path.HOMEPAGE}/${path.LOGIN}`,
@@ -42,7 +42,7 @@ const App = () => {
       ) : (
         <div className="app-container">
           <div className="header-container">
-            <Header />
+            <Header toast={toast} />
           </div>
           <div className="main-container">
             <Outlet />

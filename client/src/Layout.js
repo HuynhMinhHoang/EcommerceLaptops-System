@@ -8,15 +8,16 @@ import "sweetalert2/src/sweetalert2.scss";
 import NotFound404 from "./components/Error/NotFound404";
 import Admin from "./components/Admin/Admin";
 import ManageUser from "./components/Admin/Content/ManageUser";
-import AdminRoute from "./routes/AdminRoute";
 import DashBoard from "./components/Admin/Content/DashBoard";
 import HomePage from "./components/Home/HomePage";
-import PrivateRoute from "./routes/PrivateRoute";
 import ManageProduct from "./components/Admin/Content/ManageProduct";
 import AuthGuard from "./routes/AuthGuard";
 import { path } from "./utils/Constants";
 import ProductDetail from "./components/User/ProductDetail";
 import ProductPayment from "./components/User/ProductPayment";
+import OrderHistory from "./components/User/ProfileContent/OrderHistory";
+import AccountProfile from "./components/User/ProfileContent/AccountProfile";
+import AccountManage from "./components/User/AccountManage";
 
 const Layout = () => {
   const toast = useRef(null);
@@ -24,7 +25,7 @@ const Layout = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         {/* user */}
-        <Route path={path.HOMEPAGE} element={<App />}>
+        <Route path={path.HOMEPAGE} element={<App toast={toast} />}>
           <Route index element={<HomePage />} />
           <Route
             path={path.LOGIN}
@@ -48,6 +49,14 @@ const Layout = () => {
             path={path.PRODUCT_PAYMENT}
             element={<ProductPayment toast={toast} />}
           />
+
+          {/* <Route path={path.ACCOUNT_MANAGE} element={<AccountManage />} /> */}
+
+          <Route path={path.ACCOUNT_MANAGE} element={<AccountManage />}>
+            <Route index element={<Navigate to={path.PROFILE} />} />
+            <Route path={path.PROFILE} element={<AccountProfile />} />
+            <Route path={path.ORDER_HISTORY} element={<OrderHistory />} />
+          </Route>
         </Route>
 
         {/* admin */}

@@ -145,6 +145,14 @@ const sendEmailConfirmOrders = (formData) => {
   });
 };
 
+const getOrderByAccountId = (idAccount) => {
+  return axios.get("/api/v1/orders", {
+    params: {
+      idAccount: idAccount,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -165,4 +173,5 @@ export {
   getPaymentCOD,
   createOrderDetail,
   sendEmailConfirmOrders,
+  getOrderByAccountId,
 };

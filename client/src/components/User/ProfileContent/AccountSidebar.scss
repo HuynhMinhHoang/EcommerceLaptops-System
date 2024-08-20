@@ -1,0 +1,68 @@
+.account-sidebar {
+  width: 100%;
+  height: 100%;
+  background: white;
+  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ddd;
+
+    .user-icon {
+      margin-right: 15px;
+      width: 55px;
+      height: 55px;
+      .logo-profile {
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        border: 1px solid #dcdcdc;
+      }
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      text-transform: uppercase;
+    }
+  }
+
+  .sidebar-content {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        a {
+          display: flex;
+          align-items: center;
+          padding: 15px 30px;
+          color: #333;
+          text-decoration: none;
+          transition: background-color 0.3s;
+          transition: 0.2s;
+          font-weight: 700;
+
+          svg {
+            margin-right: 15px;
+            font-size: 18px;
+            color: #535353;
+          }
+        }
+      }
+      .active {
+        a {
+          color: #e30019;
+        }
+        svg {
+          color: #e30019;
+        }
+      }
+    }
+  }
+}

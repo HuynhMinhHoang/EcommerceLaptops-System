@@ -25,7 +25,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import { ThreeDots } from "react-loader-spinner";
 import { Backdrop, CircularProgress } from "@mui/material";
 
-const Header = () => {
+const Header = ({ toast }) => {
   const [isSticky, setIsSticky] = useState(false);
   // const [open, setOpen] = useState(false);
 
@@ -35,6 +35,11 @@ const Header = () => {
   const user = useSelector((state) => state.userRedux.user);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cartRedux.products) || [];
+
+  const totalQuantityInCart = products.reduce((total, product) => {
+    return total + product.quantityInCart;
+  }, 0);
+
   let [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -97,6 +102,22 @@ const Header = () => {
     });
   };
 
+  const handleAccountProfile = () => {
+    navigate(path.ACCOUNT_MANAGE);
+  };
+
+  const handleOrderHistory = () => {
+    if (!isAuthenticated) {
+      toast.current.show({
+        severity: "info",
+        summary: "Thông báo",
+        detail: "Vui lòng đăng nhập để thực hiện!",
+      });
+    } else {
+      navigate(`${path.ACCOUNT}/${path.ORDER_HISTORY}`);
+    }
+  };
+
   return (
     <>
       <div className={`header ${isSticky ? "sticky" : ""}`}>
@@ -157,17 +178,15 @@ const Header = () => {
               </li>
 
               <li>
-                <NavLink to="/">
-                  <div className="bg-item">
-                    <div className="item-left">
-                      <MdPendingActions style={{ fontSize: "26px" }} />
-                    </div>
-                    <div className="item-right">
-                      <span>Tra cứu</span>
-                      <span>đơn hàng</span>
-                    </div>
+                <div className="bg-item" onClick={handleOrderHistory}>
+                  <div className="item-left">
+                    <MdPendingActions style={{ fontSize: "26px" }} />
                   </div>
-                </NavLink>
+                  <div className="item-right">
+                    <span>Tra cứu</span>
+                    <span>đơn hàng</span>
+                  </div>
+                </div>
               </li>
 
               <li>
@@ -189,7 +208,7 @@ const Header = () => {
                       <span>hàng</span>
                     </div>
                     <span className="count-product">
-                      <span>{products.length}</span>
+                      <span>{totalQuantityInCart}</span>
                     </span>
                   </div>
                 </NavLink>
@@ -238,11 +257,14 @@ const Header = () => {
                         />
                         Xin chào, {user.fullName}
                       </div>
-                      <div className="dropdown-item-user">
+                      <div
+                        className="dropdown-item-user"
+                        onClick={handleAccountProfile}
+                      >
                         <MdOutlinePendingActions
                           style={{ fontSize: "20px", marginRight: "12px" }}
                         />
-                        Đơn hàng của tôi
+                        Thông tin hồ sơ
                       </div>
                       <div className="dropdown-item-user">
                         <MdOutlineRemoveRedEye

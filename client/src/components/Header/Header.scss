@@ -3,13 +3,15 @@
   z-index: 1000;
   background-color: #ec001c;
   width: 100%;
-  transition: top 0.5s ease, background-color 0.5s ease, opacity 0.5s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0);
   display: flex;
   justify-content: center;
   &.sticky {
     position: fixed;
     top: 0;
     left: 0;
+    transform: translateY(0);
     box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
     background-color: #ec001c;
     // opacity: 0.9s;
@@ -54,6 +56,14 @@
       li {
         position: relative;
         padding: 0 8px;
+        position: relative;
+        text-decoration: none;
+        color: white;
+        transition: color 0.3s;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+
         .bg-item {
           display: flex;
           justify-content: center;
@@ -63,7 +73,7 @@
           .count-product {
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
             background: #fdd835;
             border: 2px solid #fff;
             color: #111111;
@@ -128,27 +138,6 @@
           transition: color 0.3s;
           font-size: 18px;
           font-weight: 500;
-
-          // &::after {
-          //   content: "";
-          //   position: absolute;
-          //   bottom: 0;
-          //   height: 2px;
-          //   width: 0;
-          //   border-radius: 50%;
-          //   background-color: white;
-          //   transition: width 0.5s;
-          //   left: 50%;
-          //   transform: translateX(-50%);
-          // }
-
-          // &:hover::after {
-          //   width: 85%;
-          // }
-
-          // &.active::after {
-          //   width: 85%;
-          // }
         }
 
         &:hover a::after {
