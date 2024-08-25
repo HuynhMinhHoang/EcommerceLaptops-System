@@ -1,4 +1,8 @@
-import { LOGIN_USER_SUCCESS, LOGOUT_USER_SUCCESS } from "../action/userAction";
+import {
+  LOGIN_USER_SUCCESS,
+  LOGOUT_USER_SUCCESS,
+  UPDATE_PROFILE_USER,
+} from "../action/userAction";
 
 const INITIAL_STATE = {
   user: {
@@ -23,7 +27,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
       const data = action.payload.data;
-      console.log("--------------", data);
       return {
         ...state,
         user: {
@@ -41,6 +44,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
         user: INITIAL_STATE.user,
         isAuthenticated: false,
       };
+
+    case UPDATE_PROFILE_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload.data,
+        },
+      };
+
+    // case UPDATE_PASSWORD_USER:
 
     default:
       return state;

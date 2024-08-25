@@ -27,8 +27,9 @@
       width: 70%;
 
       .input-form {
-        // margin-left: 30px;
+        margin-left: 50px;
         width: 100%;
+        text-align: start;
 
         .calendar {
           width: 95%;
@@ -42,7 +43,7 @@
       }
 
       label {
-        width: 150px;
+        width: 250px;
         font-weight: 600;
         text-align: end;
       }

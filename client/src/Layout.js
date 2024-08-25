@@ -52,10 +52,19 @@ const Layout = () => {
 
           {/* <Route path={path.ACCOUNT_MANAGE} element={<AccountManage />} /> */}
 
-          <Route path={path.ACCOUNT_MANAGE} element={<AccountManage />}>
+          <Route
+            path={path.ACCOUNT_MANAGE}
+            element={<AccountManage toast={toast} />}
+          >
             <Route index element={<Navigate to={path.PROFILE} />} />
-            <Route path={path.PROFILE} element={<AccountProfile />} />
-            <Route path={path.ORDER_HISTORY} element={<OrderHistory />} />
+            <Route
+              path={path.PROFILE}
+              element={<AccountProfile toast={toast} />}
+            />
+            <Route
+              path={path.ORDER_HISTORY}
+              element={<OrderHistory toast={toast} />}
+            />
           </Route>
         </Route>
 

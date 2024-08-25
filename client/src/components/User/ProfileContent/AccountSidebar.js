@@ -77,11 +77,11 @@ const AccountSidebar = () => {
                 <FaBoxOpen className="red-icon" /> Quản lý đơn hàng
               </Link>
             </li>
-            <li className={activeLink === "viewed-products" ? "active" : ""}>
+            {/* <li className={activeLink === "viewed-products" ? "active" : ""}>
               <Link to="/viewed-products">
                 <FaEye /> Sản phẩm đã xem
               </Link>
-            </li>
+            </li> */}
             <li onClick={showAlertLogout}>
               <Link>
                 <FaSignOutAlt /> Đăng xuất

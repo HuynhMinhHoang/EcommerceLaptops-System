@@ -8,13 +8,13 @@
   .sidebar-header {
     display: flex;
     align-items: center;
-    padding: 20px 30px;
+    padding: 20px 20px;
     border-bottom: 1px solid #ddd;
 
     .user-icon {
-      margin-right: 15px;
-      width: 55px;
-      height: 55px;
+      margin-right: 10px;
+      width: 70px;
+      height: 70px;
       .logo-profile {
         height: 100%;
         width: 100%;
@@ -24,6 +24,7 @@
     }
 
     .user-name {
+      // width: 100%;
       font-weight: 700;
       font-size: 18px;
       line-height: 22px;

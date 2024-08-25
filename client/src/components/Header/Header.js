@@ -150,31 +150,31 @@ const Header = ({ toast }) => {
               </li>
 
               <li className="hotline">
-                <NavLink to="/">
-                  <div className="bg-item">
-                    <div className="item-left">
-                      <SlEarphonesAlt style={{ fontSize: "22px" }} />
-                    </div>
-                    <div className="item-right">
-                      <span>Hotline</span>
-                      <span>1900.5310</span>
-                    </div>
+                {/* <NavLink to="/"> */}
+                <div className="bg-item">
+                  <div className="item-left">
+                    <SlEarphonesAlt style={{ fontSize: "22px" }} />
                   </div>
-                </NavLink>
+                  <div className="item-right">
+                    <span>Hotline</span>
+                    <span>1900.5310</span>
+                  </div>
+                </div>
+                {/* </NavLink> */}
               </li>
 
               <li>
-                <NavLink to="/">
-                  <div className="bg-item">
-                    <div className="item-left">
-                      <IoLocationOutline style={{ fontSize: "26px" }} />
-                    </div>
-                    <div className="item-right">
-                      <span>Hệ thống</span>
-                      <span>Showroom</span>
-                    </div>
+                {/* <NavLink to="/"> */}
+                <div className="bg-item">
+                  <div className="item-left">
+                    <IoLocationOutline style={{ fontSize: "26px" }} />
                   </div>
-                </NavLink>
+                  <div className="item-right">
+                    <span>Hệ thống</span>
+                    <span>Showroom</span>
+                  </div>
+                </div>
+                {/* </NavLink> */}
               </li>
 
               <li>

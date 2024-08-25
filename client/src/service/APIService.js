@@ -153,6 +153,15 @@ const getOrderByAccountId = (idAccount) => {
   });
 };
 
+const updateAccountByUser = (id, formData) => {
+  console.log("formData", formData);
+  return axios.patch(`/api/v1/user/update/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -174,4 +183,5 @@ export {
   createOrderDetail,
   sendEmailConfirmOrders,
   getOrderByAccountId,
+  updateAccountByUser,
 };
