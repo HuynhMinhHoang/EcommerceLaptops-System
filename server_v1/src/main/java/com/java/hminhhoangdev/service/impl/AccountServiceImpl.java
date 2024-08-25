@@ -2,6 +2,7 @@ package com.java.hminhhoangdev.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.java.hminhhoangdev.dto.request.ACUpdateByUserRequestDTO;
 import com.java.hminhhoangdev.dto.request.AccountRequestDTO;
 import com.java.hminhhoangdev.exception.ResourceNotFoundException;
 import com.java.hminhhoangdev.model.Account;
@@ -11,6 +12,7 @@ import com.java.hminhhoangdev.repository.AccountRepository;
 import com.java.hminhhoangdev.repository.RoleRepository;
 import com.java.hminhhoangdev.service.AccountService;
 import com.java.hminhhoangdev.util.AccountStatus;
+import com.java.hminhhoangdev.util.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -204,6 +206,17 @@ public class AccountServiceImpl implements AccountService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Avatar is required");
         }
 
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account updateAccountByUser(int id, ACUpdateByUserRequestDTO acUpdateByUserRequestDTO) {
+
+        Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found!"));
+        account.setFullName(acUpdateByUserRequestDTO.getFullName());
+        account.setGender(acUpdateByUserRequestDTO.getGender());
+        account.setDateOfBirth(acUpdateByUserRequestDTO.getDateOfBirth());
+        account.setAddress(acUpdateByUserRequestDTO.getAddress());
         return accountRepository.save(account);
     }
 

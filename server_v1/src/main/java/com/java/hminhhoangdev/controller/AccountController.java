@@ -1,5 +1,6 @@
 package com.java.hminhhoangdev.controller;
 
+import com.java.hminhhoangdev.dto.request.ACUpdateByUserRequestDTO;
 import com.java.hminhhoangdev.dto.request.AccountRequestDTO;
 import com.java.hminhhoangdev.dto.request.ProductRequestDTO;
 import com.java.hminhhoangdev.dto.response.ResponseData;
@@ -147,5 +148,17 @@ public class AccountController {
         }
     }
 
-
+    @PatchMapping(value = "/user/update/{id}", consumes = "multipart/form-data")
+    public ResponseData<?> updateAccount(@PathVariable int id, @ModelAttribute ACUpdateByUserRequestDTO acUpdateByUserRequestDTO) {
+        try {
+            accountService.updateAccountByUser(id, acUpdateByUserRequestDTO);
+            return new ResponseData<>(HttpStatus.OK.value(), "Account updated by User successfully!");
+        } catch (ResponseStatusException e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        }
+    }
 }
+
+
