@@ -17,5 +17,6 @@ public interface OrderService {
 
     List<Order> getOrdersByAccountId(int accountId);
 
+    List<Order> searchOrders(int accountId, long idOrder);
 
 }

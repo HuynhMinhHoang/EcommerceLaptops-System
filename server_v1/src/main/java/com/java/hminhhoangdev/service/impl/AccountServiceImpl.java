@@ -211,13 +211,33 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateAccountByUser(int id, ACUpdateByUserRequestDTO acUpdateByUserRequestDTO) {
-
         Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found!"));
-        account.setFullName(acUpdateByUserRequestDTO.getFullName());
-        account.setGender(acUpdateByUserRequestDTO.getGender());
-        account.setDateOfBirth(acUpdateByUserRequestDTO.getDateOfBirth());
-        account.setAddress(acUpdateByUserRequestDTO.getAddress());
-        return accountRepository.save(account);
+
+        boolean isUpdated = false;
+
+        if (!account.getFullName().equals(acUpdateByUserRequestDTO.getFullName())) {
+            account.setFullName(acUpdateByUserRequestDTO.getFullName());
+            isUpdated = true;
+        }
+        if (!account.getGender().equals(acUpdateByUserRequestDTO.getGender())) {
+            account.setGender(acUpdateByUserRequestDTO.getGender());
+            isUpdated = true;
+        }
+        if (account.getDateOfBirth() == null || !account.getDateOfBirth().equals(acUpdateByUserRequestDTO.getDateOfBirth())) {
+            account.setDateOfBirth(acUpdateByUserRequestDTO.getDateOfBirth());
+            isUpdated = true;
+        }
+        if (!account.getAddress().equals(acUpdateByUserRequestDTO.getAddress())) {
+            account.setAddress(acUpdateByUserRequestDTO.getAddress());
+            isUpdated = true;
+        }
+
+        if (isUpdated) {
+            return accountRepository.save(account);
+        } else {
+            return account;
+        }
     }
+
 
 }

@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByAccount_IdAccount(int idAccount);
-    
+
+    List<Order> findByAccount_IdAccountAndIdOrder(int accountId, long idOrder);
+
 }
 
 

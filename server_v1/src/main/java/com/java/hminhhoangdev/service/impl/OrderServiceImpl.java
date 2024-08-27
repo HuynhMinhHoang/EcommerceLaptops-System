@@ -86,5 +86,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByAccount_IdAccount(accountId);
     }
 
+    @Override
+    public List<Order> searchOrders(int accountId, long idOrder) {
+        return orderRepository.findByAccount_IdAccountAndIdOrder(accountId, idOrder);
+    }
+
 
 }
