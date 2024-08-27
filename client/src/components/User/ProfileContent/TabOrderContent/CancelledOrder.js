@@ -113,7 +113,7 @@ const CancelledOrder = ({ listOrder }) => {
             <div className="icon">
               <img src={noData} alt="noData" />
             </div>
-            <div className="message">Quý khách chưa có đơn hàng nào!</div>
+            <div className="message">Không tìm đơn hàng nào của Quý Khách!</div>
             <NavLink to={path.HOMEPAGE}>
               <button className="shop-button">TIẾP TỤC MUA HÀNG</button>
             </NavLink>

@@ -12,8 +12,6 @@ import { NavLink } from "react-router-dom";
 import { path } from "../../../../utils/Constants";
 
 const ListOrder = ({ listOrder }) => {
-  console.log("listOrder", listOrder);
-
   return (
     <>
       {listOrder && listOrder.length > 0 ? (
@@ -101,7 +99,7 @@ const ListOrder = ({ listOrder }) => {
           <div className="icon">
             <img src={noData} alt="noData" />
           </div>
-          <div className="message">Quý khách chưa có đơn hàng nào!</div>
+          <div className="message">Không tìm đơn hàng nào của Quý Khách!</div>
           <NavLink to={path.HOMEPAGE}>
             <button className="shop-button">TIẾP TỤC MUA HÀNG</button>
           </NavLink>

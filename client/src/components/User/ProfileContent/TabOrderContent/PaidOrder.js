@@ -7,7 +7,6 @@ import noData from "../../../../assets/no-data.png";
 import { path } from "../../../../utils/Constants";
 import { NavLink } from "react-router-dom";
 
-
 const PaidOrder = ({ listOrder }) => {
   const paidOrders = listOrder.filter((order) => order.status_pay);
 
@@ -78,7 +77,7 @@ const PaidOrder = ({ listOrder }) => {
           <div className="icon">
             <img src={noData} alt="noData" />
           </div>
-          <div className="message">Quý khách chưa có đơn hàng nào!</div>
+          <div className="message">Không tìm đơn hàng nào của Quý Khách!</div>
           <NavLink to={path.HOMEPAGE}>
             <button className="shop-button">TIẾP TỤC MUA HÀNG</button>
           </NavLink>

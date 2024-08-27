@@ -29,14 +29,27 @@ const AccountProfile = ({ toast }) => {
     const formattedDateOfBirth = dateOfBirth
       ? dateOfBirth instanceof Date
         ? dateOfBirth.toISOString().split("T")[0]
-        : ""
+        : dateOfBirth
       : dateOfBirth;
-    setDateOfBirth(formattedDateOfBirth);
+
+    if (
+      fullName === user.fullName &&
+      gender === user.gender &&
+      formattedDateOfBirth === user.dateOfBirth &&
+      address === user.address
+    ) {
+      toast.current.show({
+        severity: "info",
+        summary: "Notification",
+        detail: "Không có thay đổi nào được thực hiện!",
+      });
+      return;
+    }
 
     const updateData = {
       fullName,
       gender,
-      dateOfBirth,
+      dateOfBirth: formattedDateOfBirth,
       address,
     };
 
@@ -54,6 +67,7 @@ const AccountProfile = ({ toast }) => {
           summary: "Success",
           detail: "Cập nhật thông tin thành công!",
         });
+        dispatch(updateProfileUser(updateData));
       } else {
         toast.current.show({
           severity: "error",
@@ -61,7 +75,6 @@ const AccountProfile = ({ toast }) => {
           detail: "Cập nhật thông tin thất bại!",
         });
       }
-      dispatch(updateProfileUser(updateData));
     } catch (error) {
       console.error("Update error", error);
     }
@@ -107,7 +120,7 @@ const AccountProfile = ({ toast }) => {
 
         Swal.fire({
           title: "Đang thực hiện cập nhật...",
-          timer: 2500,
+          timer: 2000,
           timerProgressBar: true,
           allowOutsideClick: false,
           allowEscapeKey: false,

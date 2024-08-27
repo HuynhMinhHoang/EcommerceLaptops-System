@@ -3,16 +3,17 @@ import "./OrderHistory.scss";
 import ListOrder from "./TabOrderContent/ListOrder";
 import PaidOrder from "./TabOrderContent/PaidOrder";
 import UnpaidOrder from "./TabOrderContent/UnpaidOrder";
-import { getOrderByAccountId } from "../../../service/APIService";
+import { getOrderByAccountId, searchOrders } from "../../../service/APIService";
 import { useSelector } from "react-redux";
 import CompletedOrder from "./TabOrderContent/CompletedOrder";
 import CancelledOrder from "./TabOrderContent/CancelledOrder";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 
-const OrderHistory = () => {
+const OrderHistory = ({ toast }) => {
   const [activeTab, setActiveTab] = useState("all");
   const [listOrder, setListOrder] = useState();
   const [open, setOpen] = React.useState(false);
+  const [idOrder, setIdOrder] = useState("");
 
   const user = useSelector((state) => state.userRedux.user);
 
@@ -39,6 +40,33 @@ const OrderHistory = () => {
     } catch (e) {
       console.log("Error fetch list order", e);
     }
+  };
+
+  const handleSearch = async (value) => {
+    if (value === "") {
+      fetchListOrder();
+      return;
+    }
+    if (value.length > 10 || parseInt(value, 10) <= 0) {
+      toast.current.show({
+        severity: "info",
+        summary: "Thông báo",
+        detail: "Mã đơn hàng không hợp lệ!",
+      });
+      return;
+    }
+    try {
+      let res = await searchOrders(user.idAccount, value);
+      setListOrder(res.data);
+    } catch (e) {
+      console.log("Error searching orders", e);
+    }
+  };
+
+  const handleChangeSearch = (e) => {
+    const value = e.target.value;
+    setIdOrder(value);
+    handleSearch(value);
   };
 
   return (
@@ -82,8 +110,13 @@ const OrderHistory = () => {
       </div>
 
       <div className="search-bar">
-        <input type="text" placeholder="Tìm đơn hàng theo Mã đơn hàng" />
-        <button>Tìm đơn hàng</button>
+        <input
+          type="number"
+          value={idOrder}
+          onChange={handleChangeSearch}
+          placeholder="Tìm đơn hàng theo Mã đơn hàng"
+        />
+        {/* <button onClick={handleSearch}>Tìm đơn hàng</button> */}
       </div>
 
       <div className="bg-content">

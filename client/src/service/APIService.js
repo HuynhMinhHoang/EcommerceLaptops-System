@@ -162,6 +162,12 @@ const updateAccountByUser = (id, formData) => {
   });
 };
 
+const searchOrders = (accountId, idOrder) => {
+  return axios.get(`/api/v1/orders/search`, {
+    params: { accountId, idOrder },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -184,4 +190,5 @@ export {
   sendEmailConfirmOrders,
   getOrderByAccountId,
   updateAccountByUser,
+  searchOrders,
 };
