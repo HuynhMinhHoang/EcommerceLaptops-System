@@ -44,6 +44,7 @@ public class WebSecurityConfiguration {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/home", "/api/v1/user/**").permitAll();
             authorize.requestMatchers("/api/v1/product/**").permitAll();
+            authorize.requestMatchers("/api/v1/ws/**").permitAll();
             authorize.requestMatchers("/api/v1/orders/**").permitAll();
             authorize.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
             authorize.requestMatchers("/api/v1/product/add").hasRole("ADMIN");
