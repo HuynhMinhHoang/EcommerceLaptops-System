@@ -15,6 +15,7 @@ import pic3 from "../../assets/pic3.png";
 import CategoryList from "./ContentHome/CategoryList";
 import SubList from "./SubList";
 import categories from "../../utils/categoriesProduct";
+import ChatMessage from "../User/ChatMessage";
 
 const HomePage = () => {
   const laptopGamingRef = useRef(null);
@@ -70,26 +71,21 @@ const HomePage = () => {
           <img src={banner7} alt="banner7" />
         </div>
       </div>
-
       <div ref={pcRef} className="product-pc-list">
         <PCList />
       </div>
-
       <div className="picture-list">
         <div className="bg-img">
           <img src={picture1} alt="picture1" />
           <img src={picture2} alt="picture2" />
         </div>
       </div>
-
       <div ref={laptopGamingRef} className="product-laptopGM-list">
         <ProductList category={categories.LAPTOPGAMING} />
       </div>
-
       <div ref={laptopRef} className="product-laptop-list">
         <ProductList category={categories.LAPTOP} />
       </div>
-
       <div className="banner-sale">
         <div className="bg-img1">
           <img src={pic1} alt="pic1" />
@@ -100,18 +96,16 @@ const HomePage = () => {
           <img src={pic3} alt="pic1" />
         </div>
       </div>
-
       <div ref={mouseRef} className="product-mouse-list">
         <ProductList category={categories.MOUSE} />
       </div>
-
       <div ref={keyboardRef} className="product-keyboard-list">
         <ProductList category={categories.KEYBOARD} />
       </div>
-
       <div className="category-list">
         <CategoryList />
       </div>
+      <ChatMessage />
     </div>
   );
 };

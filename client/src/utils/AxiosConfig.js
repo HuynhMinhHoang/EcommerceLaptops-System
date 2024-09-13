@@ -31,8 +31,8 @@ instance.interceptors.response.use(
     // const originalRequest = error.config;
 
     if (error.response.status === 403) {
-      // store.dispatch(doLogout());
-      // window.location.href = `${path.HOMEPAGE}/${path.LOGIN}`;
+      store.dispatch(doLogout());
+      window.location.href = `${path.HOMEPAGE}/${path.LOGIN}`;
 
       console.log("error.response.status === 403");
 
