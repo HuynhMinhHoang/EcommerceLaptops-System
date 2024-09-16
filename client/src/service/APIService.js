@@ -168,6 +168,10 @@ const searchOrders = (accountId, idOrder) => {
   });
 };
 
+const verifyFBToken = (token) => {
+  return axios.post("/api/v1/user/verify-fb-token", { token });
+};
+
 export {
   loginUser,
   registerUser,
@@ -191,4 +195,5 @@ export {
   getOrderByAccountId,
   updateAccountByUser,
   searchOrders,
+  verifyFBToken,
 };

@@ -77,6 +77,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account registerUser(AccountRequestDTO accountRequestDTO) {
         Optional<Role> roleOptional = roleRepository.findById(2); // role id = 2
+
         if (roleOptional.isEmpty()) {
             throw new ResourceNotFoundException("Default role with id 2 not found");
         }
@@ -127,16 +128,6 @@ public class AccountServiceImpl implements AccountService {
     public Account updateAccountByAdmin(int id, AccountRequestDTO accountRequestDTO) {
         Account account = accountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + id));
         Optional<Role> roleOptional = roleRepository.findById(accountRequestDTO.getRoleId());
-
-//        if (accountRepository.existsByUsername(accountRequestDTO.getUsername())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already in use!");
-//        }
-//        if (accountRepository.existsByEmail(accountRequestDTO.getEmail())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use!");
-//        }
-//        if (accountRepository.existsByPhone(accountRequestDTO.getPhone())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number already in use!");
-//        }
 
         account.setFullName(accountRequestDTO.getFullName());
         account.setGender(accountRequestDTO.getGender());
@@ -237,6 +228,21 @@ public class AccountServiceImpl implements AccountService {
         } else {
             return account;
         }
+    }
+
+
+    public Account createAccountFromFb(AccountRequestDTO accountRequestDTO) {
+        Optional<Role> roleOptional = roleRepository.findById(2); // role id = 2
+        Account account = new Account();
+        account.setUsername(accountRequestDTO.getUsername());
+        account.setPassword(passwordEncoder.encode("facebook"));
+        account.setEmail(accountRequestDTO.getEmail());
+        account.setFullName(accountRequestDTO.getFullName());
+        account.setSocialAccountId(accountRequestDTO.getSocialAccountId());
+        account.setStatus(accountRequestDTO.getStatus());
+        Role role = roleOptional.get();
+        account.setRole(role);
+        return accountRepository.save(account);
     }
 
 

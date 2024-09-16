@@ -26,4 +26,6 @@ public interface AccountService extends UserDetailsService {
     Account createUserByAdmin(AccountRequestDTO accountRequestDTO);
 
     Account updateAccountByUser(int id, ACUpdateByUserRequestDTO acUpdateByUserRequestDTO);
+
+    Account createAccountFromFb(AccountRequestDTO accountRequestDTO);
 }

@@ -2,6 +2,7 @@ import {
   LOGIN_USER_SUCCESS,
   LOGOUT_USER_SUCCESS,
   UPDATE_PROFILE_USER,
+  LOGIN_USER_SUCCESS_FB,
 } from "../action/userAction";
 
 const INITIAL_STATE = {
@@ -34,6 +35,18 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ...data,
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
+        },
+        isAuthenticated: true,
+      };
+
+    case LOGIN_USER_SUCCESS_FB:
+      const pay = action.payload;
+      console.log("paypaypaypaypay", pay);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
         },
         isAuthenticated: true,
       };

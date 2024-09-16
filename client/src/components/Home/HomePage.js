@@ -105,7 +105,7 @@ const HomePage = () => {
       <div className="category-list">
         <CategoryList />
       </div>
-      <ChatMessage />
+      {/* <ChatMessage /> */}
     </div>
   );
 };

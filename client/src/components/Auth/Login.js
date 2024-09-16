@@ -8,9 +8,11 @@ import eye2 from "../../assets/eye2.png";
 import { ImSpinner2 } from "react-icons/im";
 import { useTranslation, Trans } from "react-i18next";
 import axios from "../../utils/AxiosConfig";
-import { loginUser } from "../../service/APIService";
+import { loginUser, verifyFBToken } from "../../service/APIService";
 import { useDispatch } from "react-redux";
-import { doLogin } from "../../redux/action/userAction";
+import { doLogin, doLoginFB } from "../../redux/action/userAction";
+import { auth } from "../../firebase/configFireBase";
+import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Login = ({ toast }) => {
   const [username, setUsername] = useState("");
@@ -91,6 +93,50 @@ const Login = ({ toast }) => {
     }
   };
 
+  const handleLoginFB = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const user = result.user;
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log("Facebook token:", token);
+
+        const res = await verifyFBToken(token);
+        console.log("res", res);
+        const userData = {
+          idAccount: user.uid,
+          fullName: user.displayName || "",
+          dateOfBirth: null,
+          gender: "",
+          address: "",
+          email: user.email || "",
+          phone: user.phoneNumber || "",
+          username: user.displayName || "",
+          avt: user.photoURL || null,
+          status: "",
+          role: "",
+          accessToken: res.data.token,
+          refreshToken: res.data.token.refreshToken,
+        };
+        dispatch(doLoginFB(userData));
+        navigate("/");
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Login successful!",
+        });
+      })
+      .catch((error) => {
+        console.error("Login with Facebook error", error);
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Login with Facebook failed!",
+        });
+      });
+  };
+
   return (
     <div className="login-container">
       <div className="login-content">
@@ -150,7 +196,7 @@ const Login = ({ toast }) => {
                   <img src={google} alt="gg" />
                   <p>Đăng nhập với Google</p>
                 </div>
-                <div className="facebook">
+                <div className="facebook" onClick={handleLoginFB}>
                   <img src={facebook} alt="fb" />
                   <p>Đăng nhập với Facebook</p>
                 </div>

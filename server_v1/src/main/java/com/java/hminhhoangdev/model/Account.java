@@ -14,7 +14,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAccount;
-
+    private String socialAccountId;
     private String fullName;
     private LocalDate dateOfBirth;
     private Gender gender;
@@ -114,6 +114,14 @@ public class Account {
         this.phone = phone;
     }
 
+    public String getSocialAccountId() {
+        return socialAccountId;
+    }
+
+    public void setSocialAccountId(String socialAccountId) {
+        this.socialAccountId = socialAccountId;
+    }
+
     @Transient
     public Role getRole() {
         return role;
@@ -141,19 +149,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "address='" + address + '\'' +
-                ", idAccount=" + idAccount +
-                ", fullName='" + fullName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", gender=" + gender +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", avt='" + avt + '\'' +
-                ", status=" + status +
-                ", role=" + role +
+        return "Account{" + "address='" + address + '\'' + ", idAccount=" + idAccount + ", fullName='" + fullName + '\'' + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", avt='" + avt + '\'' + ", status=" + status + ", role=" + role +
 //                ", orders=" + orders +
                 '}';
     }

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AccountRequestDTO implements Serializable {
     private int idAccount;
+    private String socialAccountId;
 
     @NotBlank(message = "Username must not be blank")
     private String username;
@@ -52,7 +53,7 @@ public class AccountRequestDTO implements Serializable {
     public AccountRequestDTO() {
     }
 
-    public AccountRequestDTO(String address, MultipartFile avt, LocalDate dateOfBirth, String email, String fullName, Gender gender, int idAccount, String password, String phone, int roleId, String roleName, AccountStatus status, String username) {
+    public AccountRequestDTO(String address, MultipartFile avt, LocalDate dateOfBirth, String email, String fullName, Gender gender, int idAccount, String password, String phone, int roleId, String roleName, AccountStatus status, String username, String socialAccountId) {
         this.address = address;
         this.avt = avt;
         this.dateOfBirth = dateOfBirth;
@@ -66,7 +67,9 @@ public class AccountRequestDTO implements Serializable {
         this.roleName = roleName;
         this.status = status;
         this.username = username;
+        this.socialAccountId = socialAccountId;
     }
+
 
     public String getAddress() {
         return address;
@@ -171,4 +174,13 @@ public class AccountRequestDTO implements Serializable {
     public void setUsername(@NotBlank(message = "Username must not be blank") String username) {
         this.username = username;
     }
+
+    public String getSocialAccountId() {
+        return socialAccountId;
+    }
+
+    public void setSocialAccountId(String socialAccountId) {
+        this.socialAccountId = socialAccountId;
+    }
+
 }
