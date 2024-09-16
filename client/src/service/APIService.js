@@ -168,8 +168,8 @@ const searchOrders = (accountId, idOrder) => {
   });
 };
 
-const verifyFBToken = (token) => {
-  return axios.post("/api/v1/user/verify-fb-token", { token });
+const verifyFBToken = (token, email) => {
+  return axios.post("/api/v1/user/verify-fb-token", { token, email });
 };
 
 export {

@@ -100,24 +100,18 @@ const Login = ({ toast }) => {
         const user = result.user;
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log("Facebook token:", token);
+        const email = user.email;
 
-        const res = await verifyFBToken(token);
-        console.log("res", res);
+        const res = await verifyFBToken(token, email);
+        // console.log("res", res);
         const userData = {
-          idAccount: user.uid,
-          fullName: user.displayName || "",
-          dateOfBirth: null,
-          gender: "",
-          address: "",
+          idAccount: res.data.id,
+          fullName: res.data.name || "",
           email: user.email || "",
-          phone: user.phoneNumber || "",
-          username: user.displayName || "",
-          avt: user.photoURL || null,
-          status: "",
-          role: "",
+          username: user.id || "",
+          avt: res.data.profilePictureUrl || null,
           accessToken: res.data.token,
-          refreshToken: res.data.token.refreshToken,
+          refreshToken: res.data.refreshToken,
         };
         dispatch(doLoginFB(userData));
         navigate("/");
