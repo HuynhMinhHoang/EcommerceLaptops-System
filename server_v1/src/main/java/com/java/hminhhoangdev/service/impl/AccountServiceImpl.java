@@ -13,6 +13,12 @@ import com.java.hminhhoangdev.repository.RoleRepository;
 import com.java.hminhhoangdev.service.AccountService;
 import com.java.hminhhoangdev.util.AccountStatus;
 import com.java.hminhhoangdev.util.Gender;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -26,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -210,15 +218,18 @@ public class AccountServiceImpl implements AccountService {
             account.setFullName(acUpdateByUserRequestDTO.getFullName());
             isUpdated = true;
         }
-        if (!account.getGender().equals(acUpdateByUserRequestDTO.getGender())) {
+
+        if (account.getGender() == null || !account.getGender().equals(acUpdateByUserRequestDTO.getGender())) {
             account.setGender(acUpdateByUserRequestDTO.getGender());
             isUpdated = true;
         }
+
         if (account.getDateOfBirth() == null || !account.getDateOfBirth().equals(acUpdateByUserRequestDTO.getDateOfBirth())) {
             account.setDateOfBirth(acUpdateByUserRequestDTO.getDateOfBirth());
             isUpdated = true;
         }
-        if (!account.getAddress().equals(acUpdateByUserRequestDTO.getAddress())) {
+
+        if (account.getAddress() == null || !account.getAddress().equals(acUpdateByUserRequestDTO.getAddress())) {
             account.setAddress(acUpdateByUserRequestDTO.getAddress());
             isUpdated = true;
         }
@@ -232,7 +243,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     public Account createAccountFromFb(AccountRequestDTO accountRequestDTO) {
-        Optional<Role> roleOptional = roleRepository.findById(2); // role id = 2
+        Optional<Role> roleOptional = roleRepository.findById(2);
         Account account = new Account();
         account.setUsername(accountRequestDTO.getUsername());
         account.setPassword(passwordEncoder.encode("facebook"));
@@ -242,6 +253,21 @@ public class AccountServiceImpl implements AccountService {
         account.setStatus(accountRequestDTO.getStatus());
         Role role = roleOptional.get();
         account.setRole(role);
+
+        MultipartFile img = accountRequestDTO.getAvt(); // MultipartFile instead of URL
+        if (img != null && !img.isEmpty()) {
+            try {
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap());
+                String cloudinaryAvatarUrl = (String) uploadResult.get("url");
+                account.setAvt(cloudinaryAvatarUrl);
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to upload avatar", e);
+            }
+        } else {
+            // Set a default avatar URL or handle this case accordingly
+            account.setAvt("default-avatar-url"); // Replace with actual default avatar URL
+        }
+
         return accountRepository.save(account);
     }
 

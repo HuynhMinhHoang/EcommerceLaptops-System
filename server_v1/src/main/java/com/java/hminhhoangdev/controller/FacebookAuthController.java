@@ -1,12 +1,19 @@
 package com.java.hminhhoangdev.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.java.hminhhoangdev.dto.request.AccountRequestDTO;
+import com.java.hminhhoangdev.dto.request.TokenRequestDTO;
+import com.java.hminhhoangdev.dto.response.ResponseUser;
 import com.java.hminhhoangdev.model.Account;
+import com.java.hminhhoangdev.model.Role;
 import com.java.hminhhoangdev.repository.AccountRepository;
 import com.java.hminhhoangdev.service.AccountService;
 import com.java.hminhhoangdev.util.AccountStatus;
+import com.java.hminhhoangdev.util.Gender;
 import com.java.hminhhoangdev.webtoken.JwtService;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +21,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +39,8 @@ public class FacebookAuthController {
     private AccountService accountService;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private Cloudinary cloudinary;
 
     private static final String FB_VERIFY_URL = "https://graph.facebook.com/me?access_token=";
     private static final String FB_INFO_ID_USER = "https://graph.facebook.com/USER-ID?fields=id,name,email,picture&access_token=";
@@ -35,7 +52,7 @@ public class FacebookAuthController {
     }
 
     @PostMapping("/verify-fb-token")
-    public ResponseEntity<?> verifyFacebookToken(@RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<?> verifyFacebookToken(@RequestBody TokenRequestDTO tokenRequest) {
         String token = tokenRequest.getToken();
         String email = tokenRequest.getEmail();
         String url = FB_VERIFY_URL + token;
@@ -57,7 +74,6 @@ public class FacebookAuthController {
                 if (fullInfoResponse != null && fullInfoResponse.has("id")) {
                     String fullName = fullInfoResponse.get("name").asText();
                     String profilePicUrl = fullInfoResponse.get("picture").get("data").get("url").asText();
-
                     Optional<Account> existingAccountOptional = accountRepository.findBySocialAccountId(facebookId);
                     Account existingAccount = existingAccountOptional.orElse(null);
 
@@ -70,7 +86,20 @@ public class FacebookAuthController {
                         accountRequestDTO.setStatus(AccountStatus.INACTIVE);
                         accountRequestDTO.setSocialAccountId(facebookId);
                         accountRequestDTO.setRoleId(2);
+                        accountRequestDTO.setAvt(null);
+
                         existingAccount = accountService.createAccountFromFb(accountRequestDTO);
+
+                        if (profilePicUrl != null) {
+                            try {
+                                Map<String, Object> uploadResult = cloudinary.uploader().upload(profilePicUrl, ObjectUtils.emptyMap());
+                                String avatarUrl = (String) uploadResult.get("url");
+                                existingAccount.setAvt(avatarUrl);
+                                accountRepository.save(existingAccount);
+                            } catch (IOException e) {
+                                logger.error("Failed to upload avatar to Cloudinary: {}", e.getMessage());
+                            }
+                        }
                     }
 
                     UserDetails userDetails = accountService.loadUserByUsername(existingAccount.getUsername());
@@ -78,7 +107,7 @@ public class FacebookAuthController {
                     String newRefreshToken = jwtService.generateRefreshToken(userDetails);
 
 
-                    UserResponse userResponse = new UserResponse(existingAccount.getIdAccount(), fullInfoResponse.get("name").asText(), profilePicUrl, jwtToken, newRefreshToken);
+                    ResponseUser userResponse = new ResponseUser(existingAccount.getIdAccount(), fullInfoResponse.get("name").asText(), existingAccount.getAvt(), jwtToken, newRefreshToken, existingAccount.getEmail(), existingAccount.getAddress(), existingAccount.getDateOfBirth(), existingAccount.getGender(), existingAccount.getPhone(), existingAccount.getRole(), existingAccount.getStatus(), existingAccount.getSocialAccountId(), existingAccount.getUsername());
                     return ResponseEntity.ok(userResponse);
                 } else {
                     logger.error("Facebook API full info response is invalid");
@@ -91,84 +120,6 @@ public class FacebookAuthController {
         } catch (Exception e) {
             logger.error("Error verifying token: {}", e.getMessage());
             return ResponseEntity.status(500).body("Error verifying token");
-        }
-    }
-
-    public static class UserResponse {
-        private int id;
-        private String name;
-        private String profilePictureUrl;
-        private String token;
-        private String refreshToken;
-
-        public UserResponse(int id, String name, String profilePictureUrl, String token, String refreshToken) {
-            this.id = id;
-            this.name = name;
-            this.profilePictureUrl = profilePictureUrl;
-            this.token = token;
-            this.refreshToken = refreshToken;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getProfilePictureUrl() {
-            return profilePictureUrl;
-        }
-
-        public void setProfilePictureUrl(String profilePictureUrl) {
-            this.profilePictureUrl = profilePictureUrl;
-        }
-
-        public String getToken() {
-            return token;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
-        }
-
-        public String getRefreshToken() {
-            return refreshToken;
-        }
-
-        public void setRefreshToken(String refreshToken) {
-            this.refreshToken = refreshToken;
-        }
-    }
-
-
-    public static class TokenRequest {
-        private String token;
-        private String email;
-
-        public String getToken() {
-            return token;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
         }
     }
 
