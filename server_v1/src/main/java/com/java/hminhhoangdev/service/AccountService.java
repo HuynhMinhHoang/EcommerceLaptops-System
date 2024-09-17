@@ -28,4 +28,6 @@ public interface AccountService extends UserDetailsService {
     Account updateAccountByUser(int id, ACUpdateByUserRequestDTO acUpdateByUserRequestDTO);
 
     Account createAccountFromFb(AccountRequestDTO accountRequestDTO);
+
+    Account createAccountFromGoogle(String socialAccountId, String fullName, String email, String avtUrl, String username);
 }

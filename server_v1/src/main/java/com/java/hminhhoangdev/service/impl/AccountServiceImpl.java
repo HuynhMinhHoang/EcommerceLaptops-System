@@ -241,7 +241,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-
+    @Override
     public Account createAccountFromFb(AccountRequestDTO accountRequestDTO) {
         Optional<Role> roleOptional = roleRepository.findById(2);
         Account account = new Account();
@@ -264,9 +264,41 @@ public class AccountServiceImpl implements AccountService {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to upload avatar", e);
             }
         } else {
-            // Set a default avatar URL or handle this case accordingly
-            account.setAvt("default-avatar-url"); // Replace with actual default avatar URL
+            account.setAvt("default-avatar-url");
         }
+
+        return accountRepository.save(account);
+    }
+
+
+    @Override
+    public Account createAccountFromGoogle(String socialAccountId, String fullName, String email, String avtUrl, String username) {
+        Optional<Account> existingAccountOptional = accountRepository.findBySocialAccountId(socialAccountId);
+
+        if (existingAccountOptional.isPresent()) {
+            return existingAccountOptional.get();
+        }
+
+        Optional<Role> roleOptional = roleRepository.findById(2);
+        if (roleOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Default role with id 2 not found");
+        }
+
+        System.out.println("setFullName" + fullName);
+        System.out.println("setEmail" + email);
+        System.out.println("setSocialAccountId" + socialAccountId);
+
+        Account account = new Account();
+        account.setSocialAccountId(socialAccountId);
+        account.setFullName(fullName);
+        account.setEmail(email);
+        account.setAvt(avtUrl);
+        account.setUsername(socialAccountId);
+        account.setPassword(passwordEncoder.encode("google"));
+        Role role = roleOptional.get();
+        account.setRole(role);
+        account.setStatus(AccountStatus.INACTIVE);
+
 
         return accountRepository.save(account);
     }
