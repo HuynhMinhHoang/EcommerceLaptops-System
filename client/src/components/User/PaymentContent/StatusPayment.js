@@ -36,52 +36,50 @@ const StatusPayment = ({
       setOpen(false);
     }, 1000);
 
-    if (paymentStatus === "success") {
-      dispatch(clearCart());
-    }
     return () => {
       dispatch(resetOrderId());
     };
-  }, [dispatch]);
+  }, [dispatch, setOpen]);
 
   useEffect(() => {
-    const sendEmailAndResetState = async () => {
-      if (paymentStatus === "success" && paymentStatus !== null && !emailSent) {
-        await handleSendEmail();
-        setEmailSent(true);
-      }
-    };
-    sendEmailAndResetState();
-  }, [paymentStatus, idOrder, dispatch, emailSent]);
+    if (paymentStatus === "success" && !emailSent) {
+      handleSendEmail();
+      setEmailSent(true);
+    }
+  }, [paymentStatus, emailSent]);
 
   const handleSendEmail = async () => {
-    try {
-      const imageUrls = products.map((product) => product.images[0].thumbnail);
+    if (products && products.length > 0) {
+      try {
+        const imageUrls = products.map(
+          (product) => product.images[0].thumbnail
+        );
+        const imageFiles = await Promise.all(
+          imageUrls.map(async (url) => {
+            const response = await axios.get(url, { responseType: "blob" });
+            return new File([response.data], url.split("/").pop(), {
+              type: response.data.type,
+            });
+          })
+        );
 
-      const imageFiles = await Promise.all(
-        imageUrls.map(async (url) => {
-          const response = await axios.get(url, { responseType: "blob" });
-          return new File([response.data], url.split("/").pop(), {
-            type: response.data.type,
-          });
-        })
-      );
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("orderId", idOrder);
+        formData.append("fullName", fullName);
+        formData.append("phone", phone);
+        formData.append("shippingAddress", shippingAddress);
+        formData.append("price", price);
 
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("orderId", idOrder);
-      formData.append("fullName", fullName);
-      formData.append("phone", phone);
-      formData.append("shippingAddress", shippingAddress);
-      formData.append("price", price);
+        imageFiles.forEach((file) => {
+          formData.append("productImages", file);
+        });
 
-      imageFiles.forEach((file) => {
-        formData.append("productImages", file);
-      });
-
-      await sendEmailConfirmOrders(formData);
-    } catch (error) {
-      console.error("Error sending email:", error);
+        await sendEmailConfirmOrders(formData);
+        dispatch(clearCart());
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
     }
   };
 

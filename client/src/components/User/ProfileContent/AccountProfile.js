@@ -11,7 +11,7 @@ const AccountProfile = ({ toast }) => {
   const dispatch = useDispatch();
 
   const [fullName, setFullName] = useState(user.fullName || "");
-  const [gender, setGender] = useState(user.gender || "");
+  const [gender, setGender] = useState(user.gender || null);
   const [dateOfBirth, setDateOfBirth] = useState(user.dateOfBirth || null);
   const [email, setEmail] = useState(user.email || "");
   const [address, setAddress] = useState(user.address || "");
@@ -22,6 +22,7 @@ const AccountProfile = ({ toast }) => {
   };
 
   const handleGenderChange = (e) => {
+    console.log("e.target.value", e.target.value);
     setGender(e.target.value);
   };
 
@@ -33,10 +34,10 @@ const AccountProfile = ({ toast }) => {
       : dateOfBirth;
 
     if (
-      fullName === user.fullName &&
-      gender === user.gender &&
-      formattedDateOfBirth === user.dateOfBirth &&
-      address === user.address
+      (fullName === user.fullName && gender === user.gender) ||
+      (null &&
+        formattedDateOfBirth === user.dateOfBirth &&
+        address === user.address)
     ) {
       toast.current.show({
         severity: "info",
@@ -48,7 +49,7 @@ const AccountProfile = ({ toast }) => {
 
     const updateData = {
       fullName,
-      gender,
+      gender: gender || null,
       dateOfBirth: formattedDateOfBirth,
       address,
     };
@@ -61,6 +62,7 @@ const AccountProfile = ({ toast }) => {
 
     try {
       let res = await updateAccountByUser(user.idAccount, formData);
+      console.log("res account", res);
       if (res && res.data && res.data.status === 200) {
         toast.current.show({
           severity: "success",

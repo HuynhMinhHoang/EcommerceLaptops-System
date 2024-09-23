@@ -71,11 +71,11 @@ const ProductPayment = ({ toast }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      toast.current.show({
-        severity: "info",
-        summary: "Thông báo",
-        detail: "Vui lòng đăng nhập để thực hiện thanh toán!",
-      });
+      // toast.current.show({
+      //   severity: "info",
+      //   summary: "Thông báo",
+      //   detail: "Vui lòng đăng nhập để thực hiện thanh toán!",
+      // });
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else if (products.length === 0 && currentStep !== 4) {

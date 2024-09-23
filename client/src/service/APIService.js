@@ -172,6 +172,18 @@ const verifyFBToken = (token, email) => {
   return axios.post("/api/v1/user/verify-fb-token", { token, email });
 };
 
+const verifyGGToken = (socialAccountId, fullName, email, avt, token) => {
+  return axios.get("/api/v1/user/verify-gg-token", {
+    params: {
+      socialAccountId: socialAccountId,
+      fullName: fullName,
+      email: email,
+      avt: avt,
+      id_token: token,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -196,4 +208,5 @@ export {
   updateAccountByUser,
   searchOrders,
   verifyFBToken,
+  verifyGGToken,
 };

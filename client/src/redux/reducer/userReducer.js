@@ -41,7 +41,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
     case LOGIN_USER_SUCCESS_FB:
       const datas = action.payload;
-      console.log("cccccccc", datas);
+      console.log("reducer", datas);
       return {
         ...state,
         user: {
