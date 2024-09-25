@@ -15,7 +15,6 @@ import pic3 from "../../assets/pic3.png";
 import CategoryList from "./ContentHome/CategoryList";
 import SubList from "./SubList";
 import categories from "../../utils/categoriesProduct";
-import ChatMessage from "../User/ChatMessage";
 
 const HomePage = () => {
   const laptopGamingRef = useRef(null);
@@ -105,7 +104,6 @@ const HomePage = () => {
       <div className="category-list">
         <CategoryList />
       </div>
-      {/* <ChatMessage /> */}
     </div>
   );
 };

@@ -9,6 +9,7 @@ export const path = {
   PROFILE: "profile",
   ACCOUNT: "account",
   ORDER_HISTORY: "order-history",
+  MESSAGE_ACCOUNT: "message-account",
   ADMIN: "/admin",
   DASHBOARD: "/admin/dashboard",
   MANAGE_USER: "/admin/manage-users",

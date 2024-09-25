@@ -47,18 +47,14 @@ html,
   border: 0.1px solid transparent;
   background-color: #f0f0f0;
   border-bottom: 0.1px solid #fff;
-  // border-top: 0px;
-  // border-bottom: 0;
 }
-.footer-container {
-  // border: 1px solid red;
-}
-// .p-toast .p-toast-message .p-toast-message-content {
-//   background-color: rgba(255, 242, 226, 0.5); /* Màu nền với độ trong suốt */
-//   color: #000; /* Màu chữ để đảm bảo độ tương phản với nền */
-//   backdrop-filter: blur(8px);
-// }
 
-.css-1idz92c-MuiCircularProgress-svg {
-  color: #ec001c;
+#nprogress .bar {
+  height: 2px !important;
+  border-radius: 10px;
+  background: #d3d3d3 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #e7e7e7, 0 0 5px #e4e4e4 !important; /* Đổi màu hiệu ứng sáng thành đỏ */
 }

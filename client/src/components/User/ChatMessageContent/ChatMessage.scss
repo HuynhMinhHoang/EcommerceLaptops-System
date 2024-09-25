@@ -1,0 +1,109 @@
+.chat-container {
+  border-top: 1px solid #e6e6e6;
+  height: 90%;
+
+  //   border: 1px solid red;
+  .chat-list {
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .chat-input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+
+    textarea {
+      padding: 7px 14px !important;
+      font-size: 15px !important;
+      height: 35px !important;
+      max-height: 40px !important;
+      min-height: 40px !important;
+    }
+
+    button {
+      height: 40px;
+    }
+  }
+
+  .input-content-message {
+    // display: flex;
+    // align-items: center;
+
+    .message-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+      align-items: center;
+
+      .message-avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 100%;
+        border: 1px solid rgb(211, 211, 211);
+        margin-right: 15px;
+      }
+
+      .message-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .message-nickname {
+          text-transform: capitalize;
+          font-weight: 500;
+          color: #212529;
+          font-size: 15px;
+        }
+
+        .message-time {
+          display: flex;
+          align-items: center;
+          color: #828282;
+          margin-top: 2px;
+          font-style: italic;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .message-content {
+      width: 100%;
+      text-align: end;
+      p {
+        border-radius: 5px;
+        padding: 8px 15px;
+        display: inline-block;
+        background-color: #0a80ff;
+        color: #fff;
+        margin: 0;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .message-input {
+    flex: 1;
+    margin-right: 15px;
+    // margin-left: 15px;
+  }
+
+  .btn-send {
+    // width: 45px;
+    // height: 35px;
+
+    svg {
+      font-size: 20px;
+    }
+  }
+}
+
+.ant-list-item {
+  display: list-item !important;
+  margin: 20px 0px !important;
+}
+
+.ant-list-item {
+  border: none !important;
+}

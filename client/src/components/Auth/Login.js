@@ -23,6 +23,8 @@ const Login = ({ toast }) => {
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingSocial, setIsLoadingSocial] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,50 +43,53 @@ const Login = ({ toast }) => {
         summary: "Error",
         detail: "Password is empty!",
       });
-
       return;
     }
+
     setIsLoading(true);
-    try {
-      const res = await loginUser(username, password);
 
-      if (res && res.status === 200) {
-        setIsLoading(false);
-        dispatch(doLogin(res));
-        navigate("/");
-        toast.current.show({
-          severity: "success",
-          summary: "Success",
-          detail: "Login successful!",
-        });
-
-        console.log(res);
-      } else {
+    setTimeout(async () => {
+      try {
+        const res = await loginUser(username, password);
+        if (res && res.status === 200) {
+          dispatch(doLogin(res));
+          navigate("/");
+          toast.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Login successful!",
+          });
+          console.log(res);
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        if (
+          error &&
+          error.response &&
+          error.response.data === "User not found"
+        ) {
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "User not found!",
+          });
+        } else if (error && error.response && error.response.status === 401) {
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "Incorrect password!",
+          });
+        } else {
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "Unexpected error occurred!",
+          });
+        }
+      } finally {
         setIsLoading(false);
       }
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Login failed:", error);
-      if (error && error.response && error.response.data === "User not found") {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "User not found!",
-        });
-      } else if (error && error.response && error.response.status === 401) {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Incorrect password!",
-        });
-      } else {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Unexpected error occurred!",
-        });
-      }
-    }
+    }, 1500);
   };
 
   const handleHidePassword = () => {
@@ -99,6 +104,7 @@ const Login = ({ toast }) => {
 
   // login facebook
   const handleLoginFB = () => {
+    setIsLoadingSocial(true);
     const provider = new FacebookAuthProvider();
     signInWithPopup(auth, provider)
       .then(async (result) => {
@@ -124,6 +130,7 @@ const Login = ({ toast }) => {
           role: res.data.role.nameRole,
         };
         dispatch(doLoginFB(userData));
+        setIsLoadingSocial(false);
         navigate("/");
         toast.current.show({
           severity: "success",
@@ -132,6 +139,7 @@ const Login = ({ toast }) => {
         });
       })
       .catch((error) => {
+        setIsLoadingSocial(false);
         console.error("Login with Facebook error", error);
         toast.current.show({
           severity: "error",
@@ -143,6 +151,7 @@ const Login = ({ toast }) => {
 
   // login google
   const handleLoginGoogle = () => {
+    setIsLoadingSocial(true);
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(async (result) => {
@@ -177,6 +186,7 @@ const Login = ({ toast }) => {
           role: res.data.role.nameRole,
         };
         dispatch(doLoginFB(userData));
+        setIsLoadingSocial(false);
         navigate("/");
         toast.current.show({
           severity: "success",
@@ -185,6 +195,7 @@ const Login = ({ toast }) => {
         });
       })
       .catch((error) => {
+        setIsLoadingSocial(false);
         console.error("Login with Google error", error);
         toast.current.show({
           severity: "error",
@@ -193,6 +204,7 @@ const Login = ({ toast }) => {
         });
       });
   };
+
   return (
     <div className="login-container">
       <div className="login-content">
@@ -237,7 +249,10 @@ const Login = ({ toast }) => {
               </div>
               <p>Quên mật khẩu?</p>
               <div className="btn-login">
-                <button onClick={handleLogin} disabled={isLoading}>
+                <button
+                  onClick={isLoadingSocial ? null : handleLogin}
+                  disabled={isLoading}
+                >
                   {isLoading && <ImSpinner2 className="loaderIcon" />}
                   Đăng nhập vào Gearvn
                 </button>
@@ -248,11 +263,17 @@ const Login = ({ toast }) => {
               </div>
 
               <div className="bg-login-or">
-                <div className="google" onClick={handleLoginGoogle}>
+                <div
+                  className="google"
+                  onClick={isLoadingSocial ? null : handleLoginGoogle}
+                >
                   <img src={google} alt="gg" />
                   <p>Đăng nhập với Google</p>
                 </div>
-                <div className="facebook" onClick={handleLoginFB}>
+                <div
+                  className="facebook"
+                  onClick={isLoadingSocial ? null : handleLoginFB}
+                >
                   <img src={facebook} alt="fb" />
                   <p>Đăng nhập với Facebook</p>
                 </div>

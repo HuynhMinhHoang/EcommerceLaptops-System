@@ -5,12 +5,18 @@
   align-items: start;
   justify-content: center;
   padding: 15px 0px;
+  height: 600px;
   .profile-sidebar {
-    height: 600px;
+    height: 100%;
     width: 23%;
   }
   .profile-content {
     margin-left: 15px;
     width: 75%;
+    height: 100%;
+
+    .bg-motion-container {
+      height: 100%;
+    }
   }
 }

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../../redux/action/userAction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
+import { BiSolidMessageRoundedDots } from "react-icons/bi";
 
 const AccountSidebar = () => {
   const user = useSelector((state) => state.userRedux.user);
@@ -28,6 +29,8 @@ const AccountSidebar = () => {
       setActiveLink(path.PROFILE);
     } else if (location.pathname.includes(path.ORDER_HISTORY)) {
       setActiveLink(path.ORDER_HISTORY);
+    } else if (location.pathname.includes(path.MESSAGE_ACCOUNT)) {
+      setActiveLink(path.MESSAGE_ACCOUNT);
     }
   }, [location]);
 
@@ -69,19 +72,22 @@ const AccountSidebar = () => {
           <ul>
             <li className={activeLink === path.PROFILE ? "active" : ""}>
               <Link to={`${path.ACCOUNT_MANAGE}/${path.PROFILE}`}>
-                <FaUser /> Thông tin tài khoản
+                <FaUser style={{ fontSize: "18px" }} />
+                Thông tin tài khoản
               </Link>
             </li>
             <li className={activeLink === path.ORDER_HISTORY ? "active" : ""}>
               <Link to={`${path.ACCOUNT_MANAGE}/${path.ORDER_HISTORY}`}>
-                <FaBoxOpen className="red-icon" /> Quản lý đơn hàng
+                <FaBoxOpen className="red-icon" style={{ fontSize: "19px" }} />
+                Quản lý đơn hàng
               </Link>
             </li>
-            {/* <li className={activeLink === "viewed-products" ? "active" : ""}>
-              <Link to="/viewed-products">
-                <FaEye /> Sản phẩm đã xem
+            <li className={activeLink === path.MESSAGE_ACCOUNT ? "active" : ""}>
+              <Link to={`${path.ACCOUNT_MANAGE}/${path.MESSAGE_ACCOUNT}`}>
+                <BiSolidMessageRoundedDots style={{ fontSize: "21px" }} />
+                Tin nhắn
               </Link>
-            </li> */}
+            </li>
             <li onClick={showAlertLogout}>
               <Link>
                 <FaSignOutAlt /> Đăng xuất

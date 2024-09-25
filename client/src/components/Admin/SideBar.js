@@ -49,6 +49,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
     dispatch(doLogout());
     navigate(`${path.HOMEPAGE}/${path.LOGIN}`);
   };
+
   return (
     <>
       <ProSidebar
@@ -108,18 +109,6 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
                 Manage Products <Link to={path.MANAGE_PRODUCT} />
               </MenuItem>
             </SubMenu>
-          </Menu>
-
-          <Menu iconShape="circle" className="bg-logout">
-            <MenuItem
-              className={`custom-menu-item ${
-                activeMenuItem === "logout" ? "active" : ""
-              }`}
-              icon={<FaSignOutAlt size={"20px"} color={"rgb(255 116 116)"} />}
-              onClick={() => handleLogout()}
-            >
-              Logout
-            </MenuItem>
           </Menu>
         </SidebarContent>
 

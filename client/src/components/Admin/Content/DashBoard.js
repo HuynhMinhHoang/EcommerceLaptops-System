@@ -16,12 +16,14 @@ import ImgUser from "../../../assets/user.png";
 import ImgQuizz from "../../../assets/quizz.png";
 import ImgQuestion from "../../../assets/question.png";
 import ImgAnswer from "../../../assets/answer.png";
+import { useNavigate } from "react-router-dom";
+import { path } from "../../../utils/Constants";
 
 const DashBoard = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userRedux.user);
-
+  let [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [listStats, setListStats] = useState(null);
   const chartRef = useRef(null);
   const doughnutChartRef = useRef(null);
@@ -131,27 +133,30 @@ const DashBoard = () => {
     };
   }, [listStats]);
 
-  //   const handleLogout = async () => {
-  //     const result = await Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "Do you want to log out?",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, log out!",
-  //     });
+  const handleLogout = () => {
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(doLogout());
+      setLoading(false);
+      navigate(path.HOMEPAGE);
+    }, 1000);
+  };
 
-  //     if (result.isConfirmed) {
-  //       let res = await logoutUser(user.email, user.refresh_token);
-  //       if (res && res.EC === 0) {
-  //         toast.success(res.EM);
-  //         dispatch(doLogout());
-  //       } else {
-  //         toast.error(res.EM);
-  //       }
-  //     }
-  //   };
+  const showAlertLogout = () => {
+    Swal.fire({
+      title: "Bạn muốn thoát tài khoản?",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      icon: "warning",
+      confirmButtonText: "Đồng ý",
+      denyButtonText: `Không`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleLogout();
+      }
+    });
+  };
 
   return (
     <>
@@ -164,7 +169,7 @@ const DashBoard = () => {
               <FcBusinessman className="settings-icon" />
               <p>{user.fullName}</p>
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={"handleLogout"}>
+            <NavDropdown.Item onClick={showAlertLogout}>
               Log out
             </NavDropdown.Item>
           </NavDropdown>
@@ -247,11 +252,11 @@ const DashBoard = () => {
           <div className="page-content-right">
             <div className="bg-profile">
               <div className="bg-avt profile">
-                <img src={`data:image/jpeg;base64,${user.image}`} alt="avt" />
+                <img src={user.avt} alt="avt" />
               </div>
 
               <div className="bg-text">
-                <p>{user.username}</p>
+                <p>{user.fullName}</p>
                 <p>{user.email}</p>
               </div>
             </div>

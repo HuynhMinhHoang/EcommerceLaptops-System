@@ -162,6 +162,11 @@ const Register = ({ toast }) => {
       return (size / 1048576).toFixed(2) + " MB";
     }
   };
+
+  const goToLogin = () => {
+    navigate(`${path.HOMEPAGE}/${path.LOGIN}`);
+  };
+
   return (
     <>
       <div className="register-container">
@@ -385,18 +390,10 @@ const Register = ({ toast }) => {
 
         <div className="register-or">
           <div className="br">
-            <span>Hoặc</span>
-          </div>
-
-          <div className="bg-register-or">
-            <div className="google">
-              <img src={google} alt="gg" />
-              <p>Đăng nhập với Google</p>
-            </div>
-            <div className="facebook">
-              <img src={facebook} alt="fb" />
-              <p>Đăng nhập với Facebook</p>
-            </div>
+            <span>Bạn đã có tài khoản?</span>
+            <button onClick={goToLogin} className="btn-login-page">
+              Đăng nhập
+            </button>
           </div>
         </div>
       </div>

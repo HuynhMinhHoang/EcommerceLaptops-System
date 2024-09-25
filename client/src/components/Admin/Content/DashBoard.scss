@@ -102,6 +102,7 @@
               margin: 0;
               font-size: 18px;
             }
+
             p:last-child {
               color: #25396f;
               font-weight: 800;
@@ -166,6 +167,9 @@
             color: #25396f;
             margin: 0;
             font-size: 20px;
+          }
+          p:first-child {
+            text-transform: uppercase;
           }
           p:last-child {
             color: rgb(84, 84, 84);

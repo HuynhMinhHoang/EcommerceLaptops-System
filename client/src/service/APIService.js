@@ -1,4 +1,5 @@
 import axios from "../utils/AxiosConfig";
+import SockJS from "sockjs-client";
 
 const loginUser = (username, password) => {
   return axios.post("/api/v1/user/login", {
@@ -184,6 +185,11 @@ const verifyGGToken = (socialAccountId, fullName, email, avt, token) => {
   });
 };
 
+const initWebSocketChatMessage = () => {
+  const socket = new SockJS("http://localhost:8080/api/v1/ws");
+  return socket;
+};
+
 export {
   loginUser,
   registerUser,
@@ -209,4 +215,5 @@ export {
   searchOrders,
   verifyFBToken,
   verifyGGToken,
+  initWebSocketChatMessage,
 };

@@ -21,6 +21,7 @@ const AccountManage = () => {
 
       <div className="profile-content">
         <motion.div
+          className="bg-motion-container"
           key={location.key}
           initial="initial"
           animate="animate"
