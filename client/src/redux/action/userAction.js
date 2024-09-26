@@ -17,6 +17,7 @@ export const doLogin = (data) => {
 };
 
 export const doLoginFB = (data) => {
+  console.log("user-info", data);
   return {
     type: LOGIN_USER_SUCCESS_FB,
     payload: {

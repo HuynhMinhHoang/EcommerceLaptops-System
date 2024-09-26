@@ -190,6 +190,14 @@ const initWebSocketChatMessage = () => {
   return socket;
 };
 
+const getListAccountByRole = (role) => {
+  return axios.get("/api/v1/user/list-user-by-role", {
+    params: {
+      role: role,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -216,4 +224,5 @@ export {
   verifyFBToken,
   verifyGGToken,
   initWebSocketChatMessage,
+  getListAccountByRole,
 };

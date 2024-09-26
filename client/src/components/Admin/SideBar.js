@@ -110,6 +110,20 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
               </MenuItem>
             </SubMenu>
           </Menu>
+
+          <Menu iconShape="circle">
+            <MenuItem
+              className={`custom-menu-item ${
+                activeMenuItem === path.MESSAGE_ACCOUNT ? "active" : ""
+              }`}
+              icon={
+                <MdSpaceDashboard size={"20px"} color={"rgb(221, 51, 68)"} />
+              }
+            >
+              Message
+              <Link to={path.MESSAGE_ACCOUNT} />
+            </MenuItem>
+          </Menu>
         </SidebarContent>
 
         <SidebarFooter style={{ textAlign: "center" }}>
