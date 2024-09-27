@@ -1,3 +1,29 @@
+.bar-search-mess {
+  // border: 1px solid red;
+  padding: 20px 30px;
+  border-bottom: 1px solid #f0f0f0;
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: start;
+  }
+
+  input {
+    width: 100%;
+    border-radius: 5px;
+    height: auto;
+    border: 1px solid #e6e6e6;
+    padding: 5px 10px;
+    outline: none;
+
+    &::placeholder {
+      font-size: 14px;
+    }
+  }
+}
+
 .chat-list {
   width: 100%;
   //   max-width: 400px;
@@ -11,36 +37,44 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px;
   border-bottom: 1px solid #f0f0f0;
-
-  &:last-child {
-    border-bottom: none;
-  }
+  position: relative;
+  margin: 0 7px;
+  border-radius: 5px;
   &.selected {
     background-color: #f0f0f0;
   }
+}
+.chat-item:first-child {
+  margin-top: 7px;
 }
 
 .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .chat-info {
-  flex: 1;
+  // flex: 1;
+  max-width: 150px;
   .chat-name {
     font-weight: bold;
-    margin-bottom: 5px;
+    text-transform: capitalize;
   }
   .chat-message {
     color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
 .chat-time {
+  position: absolute;
+  right: 15px;
   color: #888;
   font-size: 12px;
 }

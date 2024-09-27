@@ -185,10 +185,10 @@ const verifyGGToken = (socialAccountId, fullName, email, avt, token) => {
   });
 };
 
-const initWebSocketChatMessage = () => {
-  const socket = new SockJS("http://localhost:8080/api/v1/ws");
-  return socket;
-};
+// const initWebSocketChatMessage = () => {
+//   const socket = new SockJS("http://localhost:8080/api/v1/ws");
+//   return socket;
+// };
 
 const getListAccountByRole = (role) => {
   return axios.get("/api/v1/user/list-user-by-role", {
@@ -223,6 +223,6 @@ export {
   searchOrders,
   verifyFBToken,
   verifyGGToken,
-  initWebSocketChatMessage,
+  // initWebSocketChatMessage,
   getListAccountByRole,
 };
