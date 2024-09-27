@@ -63,7 +63,12 @@ const ListUserChatMessage = ({ setReceiverIdUser }) => {
   return (
     <>
       <div className="bar-search-mess">
-        <h3>CSKH (GEARVN)</h3>
+        {user.role === "ADMIN" ? (
+          <div className="title">Manage Chats</div>
+        ) : (
+          <h3>CSKH (GEARVN)</h3>
+        )}
+
         <input
           type="text"
           placeholder="Tìm kiếm..."

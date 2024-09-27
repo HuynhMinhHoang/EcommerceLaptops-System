@@ -12,6 +12,7 @@ const OrderInformation = ({
   paymentMethod,
   setShippingAddress,
   setNote,
+  products,
   setPaymentMethod,
 }) => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const OrderInformation = ({
   const handlePaymentChange = (e) => {
     setPaymentMethod(Number(e.target.value));
   };
+
   return (
     <div className="info-order-container">
       <div className="info-form">
@@ -36,32 +38,13 @@ const OrderInformation = ({
           <h2>Thông tin khách mua hàng</h2>
         </div>
         <form>
-          {/* <div className="form-group input-gender">
-            <label>
-              <input type="radio" name="gender" value="Anh" /> Anh
-            </label>
-            <label>
-              <input type="radio" name="gender" value="Chị" /> Chị
-            </label>
-          </div> */}
-
           <div className="form-group input-user">
             <span className="p-float-label">
-              <input
-                id="fullName"
-                value={fullName}
-                // onChange={(e) => setFullName(e.target.value)}
-                disabled={true}
-              />
+              <input id="fullName" value={fullName} disabled={true} />
               <label htmlFor="fullName">Họ và tên</label>
             </span>
             <span className="p-float-label">
-              <input
-                id="phone"
-                value={phone}
-                // onChange={(e) => setPhone(e.target.value)}
-                disabled={true}
-              />
+              <input id="phone" value={phone} disabled={true} />
               <label htmlFor="phone">Số điện thoại</label>
             </span>
           </div>
@@ -103,12 +86,6 @@ const OrderInformation = ({
                 setNote(e.target.value);
               }}
             />
-          </div>
-
-          <div className="form-group">
-            <label className="text-ship">
-              <input type="checkbox" /> Xuất hóa đơn cho đơn hàng
-            </label>
           </div>
 
           <div className="payment-method">

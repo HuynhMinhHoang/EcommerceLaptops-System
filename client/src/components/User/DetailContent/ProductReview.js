@@ -3,7 +3,6 @@ import "./ProductReview.scss";
 import Rating from "@mui/material/Rating";
 
 const ProductReview = ({ product }) => {
-  console.log("product", product);
   return (
     <div className="product-review">
       <div className="product-heading">

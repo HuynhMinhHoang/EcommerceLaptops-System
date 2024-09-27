@@ -8,8 +8,6 @@ body {
 html,
 #root,
 .app-container {
-  // height: 100%;
-  // width: 100%;
 }
 
 .bg-loading-web {
@@ -31,7 +29,6 @@ html,
 
 #nprogress .bar {
   height: 4px !important;
-  // border-radius: 10px !important;
   background: #0dcaf0 !important;
 }
 
@@ -40,8 +37,7 @@ html,
 }
 
 #nprogress .spinner-icon {
-  border-top-color: #0dcaf0 !important;
-  border-left-color: #0dcaf0 !important;
+  display: none;
 }
 .main-container {
   border: 0.1px solid transparent;

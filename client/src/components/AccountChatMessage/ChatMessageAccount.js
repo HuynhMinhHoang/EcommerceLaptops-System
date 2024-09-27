@@ -15,20 +15,28 @@ const ChatMessageAccount = ({ toast }) => {
   const [latestMessages, setLatestMessages] = useState({});
 
   return (
-    <div className="message-profile">
-      <div className="bg-chat-message">
-        <div className="list-user-message">
-          <ListUserChatMessage
-            setReceiverIdUser={setReceiverIdUser}
-            latestMessages={latestMessages}
-          />
-        </div>
+    <div className={user.role === "ADMIN" ? "admin-message-container" : ""}>
+      <div
+        className={
+          user.role === "ADMIN"
+            ? "message-profile admin-message"
+            : "message-profile"
+        }
+      >
+        <div className="bg-chat-message">
+          <div className="list-user-message">
+            <ListUserChatMessage
+              setReceiverIdUser={setReceiverIdUser}
+              latestMessages={latestMessages}
+            />
+          </div>
 
-        <div className="content-message">
-          <ChatMessage
-            receiverIdUser={receiverIdUser}
-            setLatestMessages={setLatestMessages}
-          />
+          <div className="content-message">
+            <ChatMessage
+              receiverIdUser={receiverIdUser}
+              setLatestMessages={setLatestMessages}
+            />
+          </div>
         </div>
       </div>
     </div>

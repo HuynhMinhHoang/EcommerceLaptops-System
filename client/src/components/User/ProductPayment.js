@@ -249,6 +249,7 @@ const ProductPayment = ({ toast }) => {
             shippingAddress={shippingAddress}
             note={note}
             paymentMethod={paymentMethod}
+            products={products}
           />
         )}
         {currentStep === 3 && (

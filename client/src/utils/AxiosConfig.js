@@ -12,7 +12,6 @@ const instance = axios.create({
   },
 });
 
-
 instance.interceptors.request.use(
   (config) => {
     NProgress.start();
@@ -36,8 +35,8 @@ instance.interceptors.response.use(
   async (error) => {
     NProgress.done();
     if (error.response.status === 403) {
+      alert("Hết phiên vui lòng đăng nhập lại!!!");
       store.dispatch(doLogout());
-      // window.location.href = `${path.HOMEPAGE}/${path.LOGIN}`;
       console.log("error.response.status === 403");
       return Promise.reject(error);
     }

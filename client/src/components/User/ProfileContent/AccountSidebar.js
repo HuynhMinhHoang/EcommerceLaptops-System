@@ -15,6 +15,7 @@ import { doLogout } from "../../../redux/action/userAction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { BiSolidMessageRoundedDots } from "react-icons/bi";
+import { FaFacebookMessenger } from "react-icons/fa";
 
 const AccountSidebar = () => {
   const user = useSelector((state) => state.userRedux.user);
@@ -84,8 +85,8 @@ const AccountSidebar = () => {
             </li>
             <li className={activeLink === path.MESSAGE_ACCOUNT ? "active" : ""}>
               <Link to={`${path.ACCOUNT_MANAGE}/${path.MESSAGE_ACCOUNT}`}>
-                <BiSolidMessageRoundedDots style={{ fontSize: "21px" }} />
-                Tin nhắn
+                <FaFacebookMessenger style={{ fontSize: "18px" }} />
+                Trò chuyện
               </Link>
             </li>
             <li onClick={showAlertLogout}>

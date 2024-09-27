@@ -33,3 +33,42 @@
     }
   }
 }
+
+.admin-message-container {
+  padding: 30px 250px;
+  padding-left: 30px;
+  background-color: #f2f7ff;
+  height: 100vh;
+}
+
+.admin-message {
+  // border: 1px solid red;
+  height: 100%;
+
+  .list-user-message {
+    height: 100%;
+  }
+
+  .bar-search-mess {
+    height: 17%;
+  }
+  .chat-list {
+    overflow: auto;
+    height: 82%;
+  }
+
+  .content-message {
+    .bar-info {
+      height: 8%;
+    }
+    .chat-container {
+      // border: 1px solid red;
+      height: 82%;
+
+      .chat-list {
+        height: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}

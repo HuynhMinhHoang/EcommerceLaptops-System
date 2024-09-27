@@ -21,6 +21,7 @@ import logo from "../../assets/logoadmin.png";
 import { doLogout } from "../../redux/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { path } from "../../utils/Constants";
+import { FaFacebookMessenger } from "react-icons/fa";
 
 // import { logoutUser } from "../../services/APIService";
 // import { toast } from "react-toastify";
@@ -39,6 +40,8 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
       setActiveMenuItem(path.MANAGE_USER);
     } else if (location.pathname.includes(path.MANAGE_PRODUCT)) {
       setActiveMenuItem(path.MANAGE_PRODUCT);
+    } else if (location.pathname.includes(path.MESSAGE_ACCOUNT)) {
+      setActiveMenuItem(path.MESSAGE_ACCOUNT);
     }
   }, [location]);
 
@@ -117,7 +120,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
                 activeMenuItem === path.MESSAGE_ACCOUNT ? "active" : ""
               }`}
               icon={
-                <MdSpaceDashboard size={"20px"} color={"rgb(221, 51, 68)"} />
+                <FaFacebookMessenger size={"20px"} color={"rgb(221, 51, 68)"} />
               }
             >
               Message
