@@ -19,6 +19,7 @@ import OrderHistory from "./components/User/ProfileContent/OrderHistory";
 import AccountProfile from "./components/User/ProfileContent/AccountProfile";
 import AccountManage from "./components/User/AccountManage";
 import ChatMessageAccount from "./components/AccountChatMessage/ChatMessageAccount";
+import CategoryCollections from "./components/User/Collection/CategoryCollections";
 
 const Layout = () => {
   const toast = useRef(null);
@@ -51,8 +52,6 @@ const Layout = () => {
             element={<ProductPayment toast={toast} />}
           />
 
-          {/* <Route path={path.ACCOUNT_MANAGE} element={<AccountManage />} /> */}
-
           <Route
             path={path.ACCOUNT_MANAGE}
             element={<AccountManage toast={toast} />}
@@ -71,6 +70,11 @@ const Layout = () => {
               element={<ChatMessageAccount toast={toast} />}
             />
           </Route>
+
+          <Route
+            path={path.CATEGORY_COLLECTIONS}
+            element={<CategoryCollections toast={toast} />}
+          />
         </Route>
 
         {/* admin */}

@@ -86,7 +86,7 @@ const AccountSidebar = () => {
             <li className={activeLink === path.MESSAGE_ACCOUNT ? "active" : ""}>
               <Link to={`${path.ACCOUNT_MANAGE}/${path.MESSAGE_ACCOUNT}`}>
                 <FaFacebookMessenger style={{ fontSize: "18px" }} />
-                Trò chuyện
+                Hỗ trợ CSKH
               </Link>
             </li>
             <li onClick={showAlertLogout}>

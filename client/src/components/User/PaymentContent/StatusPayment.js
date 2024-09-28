@@ -14,6 +14,7 @@ import axios from "axios";
 import { sendEmailConfirmOrders } from "../../../service/APIService";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { path } from "../../../utils/Constants";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const StatusPayment = ({
@@ -200,6 +201,14 @@ const StatusPayment = ({
     }
   };
 
+  const goToChat = () => {
+    navigate(`${path.ACCOUNT_MANAGE}/${path.MESSAGE_ACCOUNT}`);
+  };
+
+  const goToHome = () => {
+    navigate(path.HOMEPAGE);
+  };
+
   return (
     <>
       {paymentStatus === "success" && open === false ? (
@@ -256,8 +265,12 @@ const StatusPayment = ({
             </div>
           </div>
           <div className="actions">
-            <button className="chat-button">Chat với GEARVN</button>
-            <button className="continue-button">Tiếp tục mua hàng</button>
+            <button className="chat-button" onClick={goToChat}>
+              Chat với GEARVN
+            </button>
+            <button className="continue-button" onClick={goToHome}>
+              Tiếp tục mua hàng
+            </button>
           </div>
         </div>
       ) : paymentStatus === "failed" && open === false ? (
@@ -301,8 +314,12 @@ const StatusPayment = ({
           </div>
 
           <div className="actions">
-            <button className="chat-button">Chat với GEARVN</button>
-            <button className="continue-button">Tiếp tục mua hàng</button>
+            <button className="chat-button" onClick={goToChat}>
+              Chat với GEARVN
+            </button>
+            <button className="continue-button" onClick={goToHome}>
+              Tiếp tục mua hàng
+            </button>
           </div>
         </div>
       ) : (

@@ -28,6 +28,7 @@ const ChatMessageAccount = ({ toast }) => {
             <ListUserChatMessage
               setReceiverIdUser={setReceiverIdUser}
               latestMessages={latestMessages}
+              receiverIdUser={receiverIdUser}
             />
           </div>
 

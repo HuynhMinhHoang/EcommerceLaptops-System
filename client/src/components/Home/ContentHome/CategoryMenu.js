@@ -17,24 +17,8 @@ const CategoryMenu = ({ onMenuItemClick }) => {
     { title: "Laptop Gaming", icon: <LuGamepad2 />, category: "LAPTOPGAMING" },
     { title: "Laptop", icon: <MdLaptop />, category: "LAPTOP" },
     { title: "PC GVN", icon: <FaComputer />, category: "PC" },
-    // {
-    //   title: "Main, CPU, VGA",
-    //   icon: <PiComputerTower />,
-    //   category: "MAIN_CPU_VGA",
-    // },
-    // {
-    //   title: "Màn hình",
-    //   icon: <MdOutlineDesktopWindows />,
-    //   category: "MONITOR",
-    // },
     { title: "Bàn phím", icon: <FaRegKeyboard />, category: "KEYBOARD" },
     { title: "Chuột + Lót chuột", icon: <LuMouse />, category: "MOUSE" },
-    // {
-    //   title: "Tai Nghe",
-    //   icon: <MdOutlineHeadphones />,
-    //   category: "HEADPHONES",
-    // },
-    // { title: "Ghế - Bàn", icon: <PiOfficeChair />, category: "CHAIR_TABLE" },
   ];
 
   return (

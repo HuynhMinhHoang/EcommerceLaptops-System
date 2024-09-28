@@ -51,7 +51,48 @@
   &.selected {
     background-color: #f0f0f0;
   }
+
+  .dot-new-message {
+    display: none;
+  }
 }
+
+.new-message {
+  background-color: #e3f2fd;
+  transition: background-color 2s ease-out;
+  animation: fadeOut 2s forwards;
+
+  .dot-new-message {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #8ccdfc;
+    animation: fadeOutDot 2s forwards;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    background-color: #e3f2fd;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes fadeOutDot {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .chat-item:first-child {
   margin-top: 7px;
 }
@@ -65,10 +106,14 @@
 
 .chat-info {
   // flex: 1;
-  max-width: 150px;
+  max-width: 170px;
   .chat-name {
+    width: 170px;
     font-weight: bold;
     text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .chat-message {
     color: #888;

@@ -1,0 +1,59 @@
+.collection-list-container {
+  width: 80%;
+  margin: 0 auto;
+
+  .banner-collection {
+    margin: 0 auto;
+    width: 100%;
+    // margin-bottom: 20px;
+    height: 330px;
+  }
+
+  .carousel {
+    width: 100%;
+    height: 100%;
+    .carousel-indicators {
+      display: none;
+    }
+  }
+
+  .carousel-inner {
+    height: 100%;
+    width: 100%;
+    .carousel-item {
+      width: 100%;
+      height: 100%;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .collection-sale {
+    border-top: 7px solid #ff0013;
+    padding: 18px 0;
+    background-color: #d30010;
+    .collection-intro {
+      margin: 0 auto;
+      text-align: center;
+      img {
+        width: 70%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .filter-bar-container {
+    margin-top: 20px;
+    border: 1px solid red;
+    background: #fff;
+
+    .filter-bar-container-inner {
+      width: 100%;
+    }
+  }
+}

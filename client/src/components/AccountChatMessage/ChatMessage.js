@@ -5,10 +5,11 @@ import { FiSend } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
 import { ref, push, onValue, database } from "../../firebase/configFireBase";
+import { FcAssistant } from "react-icons/fc";
 
 const { TextArea } = Input;
 
-const ChatMessage = ({ receiverIdUser, setLatestMessages }) => {
+const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
   const user = useSelector((state) => state.userRedux.user);
   const [currentMessage, setCurrentMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
@@ -49,10 +50,10 @@ const ChatMessage = ({ receiverIdUser, setLatestMessages }) => {
     push(ref(database, "messsage"), {
       idAccount: user.idAccount,
       receiverId: receiverIdUser.userId,
+      receiverRole: user.role,
       avt: user.avt,
       nickname: user.fullName,
       content: currentMessage,
-      role: user.role,
       timestamp: new Date().toISOString(),
     });
     setCurrentMessage("");
@@ -66,7 +67,18 @@ const ChatMessage = ({ receiverIdUser, setLatestMessages }) => {
         }
       >
         <img src={receiverIdUser.avt} alt="avt" />
-        <p>{receiverIdUser.name}</p>
+        <p>
+          {receiverIdUser.name}
+          {user.role === "USER" && (
+            <FcAssistant
+              style={{
+                marginBottom: "3px",
+                marginLeft: "5px",
+                fontSize: "20px",
+              }}
+            />
+          )}
+        </p>
       </div>
       <div className="chat-container">
         <List
@@ -86,7 +98,18 @@ const ChatMessage = ({ receiverIdUser, setLatestMessages }) => {
                     <>
                       <img className="message-avatar" src={msg.avt} alt="avt" />
                       <div className="message-info">
-                        <span className="message-nickname">{msg.nickname}</span>
+                        <span className="message-nickname">
+                          {msg.nickname}
+                          {user.role === "USER" && (
+                            <FcAssistant
+                              style={{
+                                marginBottom: "3px",
+                                marginLeft: "5px",
+                                fontSize: "20px",
+                              }}
+                            />
+                          )}
+                        </span>
                         <span className="message-time">
                           {new Date(msg.timestamp).toLocaleTimeString("vi-VN", {
                             hour: "2-digit",
