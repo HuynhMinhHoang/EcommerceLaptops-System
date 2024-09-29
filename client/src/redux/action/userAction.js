@@ -5,7 +5,6 @@ export const LOGOUT_USER_SUCCESS = "LOGOUT_USER_SUCCESS";
 export const UPDATE_PROFILE_USER = "UPDATE_PROFILE_USER";
 
 export const doLogin = (data) => {
-  console.log("data", data);
   return {
     type: LOGIN_USER_SUCCESS,
     payload: {
@@ -17,7 +16,6 @@ export const doLogin = (data) => {
 };
 
 export const doLoginFB = (data) => {
-  console.log("user-info", data);
   return {
     type: LOGIN_USER_SUCCESS_FB,
     payload: {
@@ -35,7 +33,6 @@ export const doLogout = () => {
 };
 
 export const updateProfileUser = (data) => {
-  console.log("userAccount", data);
   return {
     type: "UPDATE_PROFILE_USER",
     payload: {

@@ -10,7 +10,7 @@ const AdminRoute = (props) => {
   const userRole = useSelector((state) => state.userRedux.user.role);
 
   if (!isAuthenticated) {
-    return <Navigate to={path.DASHBOARD} />;
+    return <Navigate to={`${path.HOMEPAGE}/${path.LOGIN}`} />;
   }
 
   if (userRole !== "ADMIN") {

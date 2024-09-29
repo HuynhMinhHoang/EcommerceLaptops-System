@@ -65,7 +65,7 @@ const HomePage = () => {
           <BannerCarousel />
         </div>
 
-        <div className="ad-container">
+        <div className="ad-sale-container">
           <img src={banner6} alt="banner6" />
           <img src={banner7} alt="banner7" />
         </div>

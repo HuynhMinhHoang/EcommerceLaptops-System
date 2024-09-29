@@ -1,3 +1,4 @@
+import { status } from "nprogress";
 import {
   LOGIN_USER_SUCCESS,
   LOGOUT_USER_SUCCESS,
@@ -40,8 +41,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
 
     case LOGIN_USER_SUCCESS_FB:
-      const datas = action.payload;
-      // console.log("reducer", datas);
       return {
         ...state,
         user: {

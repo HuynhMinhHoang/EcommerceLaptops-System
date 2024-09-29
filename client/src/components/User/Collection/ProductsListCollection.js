@@ -1,40 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "./ProductList.scss";
-import laptop1 from "../../../assets/laptop1.png";
-import { FaTruck, FaStar } from "react-icons/fa";
-import { Carousel } from "primereact/carousel";
-import "primereact/resources/themes/saga-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+import "./ProductsListCollection.scss";
+import { FaStar } from "react-icons/fa";
 import { getListProductHome } from "../../../service/APIService";
-import { HiMiniCpuChip } from "react-icons/hi2";
 import { FaLaptop } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { path } from "../../../utils/Constants";
 import categories from "../../../utils/categoriesProduct";
 
-const ProductList = ({ category }) => {
+const ProductsListConllection = ({ category }) => {
   const navigate = useNavigate();
 
-  const [productList, setProductList] = useState();
-
-  const responsiveOptions = [
-    {
-      breakpoint: "1024px",
-      numVisible: 3,
-      numScroll: 3,
-    },
-    {
-      breakpoint: "768px",
-      numVisible: 2,
-      numScroll: 2,
-    },
-    {
-      breakpoint: "560px",
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
+  const [productList, setProductList] = useState([]);
 
   useEffect(() => {
     fetchProductList();
@@ -44,7 +20,6 @@ const ProductList = ({ category }) => {
     try {
       const response = await getListProductHome(category);
       setProductList(response.data.data);
-      // console.log("====", response.data.data);
     } catch (error) {
       console.log("Error fetching laptop list");
     }
@@ -150,51 +125,20 @@ const ProductList = ({ category }) => {
     );
   };
 
-  const capitalizeWords = (string) => {
-    if (typeof string !== "string") return "";
-    return string
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
+  console.log("productList", productList);
+
   return (
     <div className="product-container">
-      <div className="tilte-product">
-        {category === categories.MOUSE ? (
-          <span>Chuột bán chạy</span>
-        ) : category === categories.KEYBOARD ? (
-          <span>Bàn phím bán chạy</span>
-        ) : (
-          <span>{capitalizeWords(category)} bán chạy</span>
-        )}
-
-        <div className="br"></div>
-        <span className="ship">
-          <FaTruck
-            style={{
-              color: "#FF3C53",
-              fontSize: "20px",
-              marginRight: "10px",
-              marginBottom: "3px",
-            }}
-          />
-          {category === categories.MOUSE || category === categories.KEYBOARD
-            ? "Giao hàng toàn quốc"
-            : "Miễn phí giao hàng"}
-        </span>
-        <p>Xem tất cả</p>
-      </div>
-      <div className="product-list">
-        <Carousel
-          value={productList}
-          numScroll={1}
-          numVisible={5}
-          responsiveOptions={responsiveOptions}
-          itemTemplate={productTemplate}
-        />
+      <div className="product-list-grid">
+        {Array.isArray(productList) &&
+          productList.map((product) => (
+            <div className="item-product-collection" key={product.idProduct}>
+              {productTemplate(product)}
+            </div>
+          ))}
       </div>
     </div>
   );
 };
 
-export default ProductList;
+export default ProductsListConllection;

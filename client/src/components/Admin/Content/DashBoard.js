@@ -138,7 +138,7 @@ const DashBoard = () => {
     setTimeout(() => {
       dispatch(doLogout());
       setLoading(false);
-      navigate(path.HOMEPAGE);
+      navigate(`${path.HOMEPAGE}/${path.LOGIN}`, { replace: true });
     }, 1000);
   };
 

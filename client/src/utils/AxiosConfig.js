@@ -35,8 +35,11 @@ instance.interceptors.response.use(
   async (error) => {
     NProgress.done();
     if (error.response.status === 403) {
-      alert("Hết phiên vui lòng đăng nhập lại!!!");
+      alert("Hết phiên, vui lòng đăng nhập lại!!!");
       store.dispatch(doLogout());
+      setTimeout(() => {
+        window.location.href = `${path.HOMEPAGE}/${path.LOGIN}`;
+      }, 2000);
       console.log("error.response.status === 403");
       return Promise.reject(error);
     }

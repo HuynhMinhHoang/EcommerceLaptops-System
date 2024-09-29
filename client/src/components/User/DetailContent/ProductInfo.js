@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 const ProductInfo = ({ product }) => {
+  console.log("product detail", product);
   const dispatch = useDispatch();
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications
@@ -53,12 +54,20 @@ const ProductInfo = ({ product }) => {
               onClick={() => {
                 handleAddToCart();
               }}
-              disabled={isShowNotifications}
-              className={isShowNotifications ? "custom-btn" : ""}
+              disabled={isShowNotifications || product.quantity === 0}
+              className={
+                isShowNotifications || product.quantity === 0
+                  ? "custom-btn"
+                  : ""
+              }
             >
-              <span className="maintext">MUA NGAY</span>
+              <span className="maintext">
+                {product.quantity === 0 ? "HẾT HÀNG" : "MUA NGAY"}
+              </span>
               <span className="subtext">
-                Giao tận nơi hoặc nhận tại cửa hàng
+                {product.quantity === 0
+                  ? "Sản phẩm tạm hết hàng"
+                  : "Giao tận nơi hoặc nhận tại cửa hàng"}
               </span>
             </button>
           </div>

@@ -23,12 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { path } from "../../utils/Constants";
 import { FaFacebookMessenger } from "react-icons/fa";
 
-// import { logoutUser } from "../../services/APIService";
-// import { toast } from "react-toastify";
-// import { useDispatch, useSelector } from "react-redux";
-// import { doLogout } from "../../redux/action/userAction";
-// import Swal from "sweetalert2";
-
 const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
   const location = useLocation();
   const [activeMenuItem, setActiveMenuItem] = useState("");
@@ -44,14 +38,6 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
       setActiveMenuItem(path.MESSAGE_ACCOUNT);
     }
   }, [location]);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(doLogout());
-    navigate(`${path.HOMEPAGE}/${path.LOGIN}`);
-  };
 
   return (
     <>

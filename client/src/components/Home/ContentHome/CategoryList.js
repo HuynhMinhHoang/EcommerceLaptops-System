@@ -14,33 +14,28 @@ import cate10 from "../../../assets/cate10.png";
 import cate11 from "../../../assets/cate11.png";
 import cate12 from "../../../assets/cate12.png";
 import { path } from "../../../utils/Constants";
+import categoriesProduct from "../../../utils/categoriesProduct";
 
 const categories = [
-  { img: cate1, name: "Laptop" },
-  { img: cate2, name: "PC" },
-  { img: cate3, name: "Màn hình" },
-  { img: cate8, name: "Mainboard" },
-  { img: cate9, name: "CPU" },
-  { img: cate10, name: "VGA" },
-  { img: cate11, name: "RAM" },
-  { img: cate4, name: "Bàn phím" },
-  { img: cate5, name: "Chuột" },
-  { img: cate6, name: "Ghế" },
-  { img: cate7, name: "Tai nghe" },
-  { img: cate12, name: "Console" },
+  { img: cate1, key: categoriesProduct.LAPTOP, name: "Laptop" },
+  { img: cate2, key: categoriesProduct.PC, name: "PC" },
+  { img: cate3, key: categoriesProduct.SCREEN, name: "Màn hình" },
+  { img: cate8, key: "MAINBOARD", name: "Mainboard" },
+  { img: cate9, key: "CPU", name: "CPU" },
+  { img: cate10, key: "VGA", name: "VGA" },
+  { img: cate11, key: "RAM", name: "RAM" },
+  { img: cate4, key: categoriesProduct.KEYBOARD, name: "Bàn phím" },
+  { img: cate5, key: categoriesProduct.MOUSE, name: "Chuột" },
+  { img: cate6, key: "CHAIR", name: "Ghế Gaming" },
+  { img: cate7, key: categoriesProduct.HEADPHONE, name: "Tai nghe" },
+  { img: cate12, key: "CONSOLE", name: "Console" },
 ];
 
 const CategoryList = () => {
   const navigate = useNavigate();
 
-  const removeDiacritics = (str) => {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  };
-
-  const handleCategoryClick = (categoryName) => {
-    const formattedCategory = removeDiacritics(
-      categoryName.toLowerCase().replace(/\s+/g, "-")
-    );
+  const handleCategoryClick = (category) => {
+    const formattedCategory = category.key.toUpperCase();
     navigate(
       `${path.CATEGORY_COLLECTIONS.replace(":category", formattedCategory)}`
     );
@@ -57,7 +52,7 @@ const CategoryList = () => {
           <div
             className="item"
             key={index}
-            onClick={() => handleCategoryClick(category.name)}
+            onClick={() => handleCategoryClick(category)}
           >
             <div className="item-img">
               <img src={category.img} alt={category.name} />
