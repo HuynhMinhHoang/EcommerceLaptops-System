@@ -5,7 +5,13 @@ import { Tag } from "primereact/tag";
 import "./TableUserList.scss";
 import { Button } from "primereact/button";
 
-const TableUserList = ({ toast, fetchListUser, listUser, setUpdateUser }) => {
+const TableUserList = ({
+  toast,
+  fetchListUser,
+  listUser,
+  setUpdateUser,
+  setIsUpdate,
+}) => {
   useEffect(() => {
     fetchListUser();
   }, []);
@@ -38,13 +44,18 @@ const TableUserList = ({ toast, fetchListUser, listUser, setUpdateUser }) => {
     );
   };
 
+  const changeIsUpdate = (user) => {
+    setIsUpdate(true);
+    setUpdateUser(user);
+  };
+
   const actionBodyTemplate = (user) => {
     return (
       <div className="actions">
         <Button
           icon="pi pi-pen-to-square"
           className="p-button-rounded p-button-success p-mr-2"
-          onClick={() => setUpdateUser(user)}
+          onClick={() => changeIsUpdate(user)}
         />
         <Button
           icon="pi pi-trash"
@@ -77,13 +88,13 @@ const TableUserList = ({ toast, fetchListUser, listUser, setUpdateUser }) => {
     return user.role ? user.role.nameRole : "N/A";
   };
 
-  const handleEdit = (user) => {
-    toast.current.show({
-      severity: "info",
-      summary: "Edit User",
-      detail: `Editing user: ${user.username}`,
-    });
-  };
+  // const handleEdit = (user) => {
+  //   toast.current.show({
+  //     severity: "info",
+  //     summary: "Edit User",
+  //     detail: `Editing user: ${user.username}`,
+  //   });
+  // };
 
   const handleDelete = (user) => {
     toast.current.show({

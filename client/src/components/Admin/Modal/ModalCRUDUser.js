@@ -4,7 +4,8 @@ import "sweetalert2/src/sweetalert2.scss";
 import { InputText } from "primereact/inputtext";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dropdown } from "primereact/dropdown";
-import { Button } from "primereact/button";
+import SaveIcon from "@mui/icons-material/Save";
+import CheckIcon from "@mui/icons-material/Check";
 import { FiUser } from "react-icons/fi";
 import { LuMail } from "react-icons/lu";
 import { Calendar } from "primereact/calendar";
@@ -22,8 +23,15 @@ import {
   createAccountByAdmin,
 } from "../../../service/APIService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { Button } from "@mui/material";
 
-const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
+const ModalCRUDUser = ({
+  toast,
+  updateUser,
+  fetchListUser,
+  isUpdate,
+  setIsUpdate,
+}) => {
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(null);
@@ -34,7 +42,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
   const [password, setPassword] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
-
+  console.log("isUpdate", isUpdate);
   const [listRoles, setListRoles] = useState("");
 
   const [status, setStatus] = useState(false);
@@ -138,6 +146,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
         });
         fetchListUser();
         resetInputs();
+        setIsUpdate(false);
       }
     } catch (error) {
       toast.current.show({
@@ -454,7 +463,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={updateUser ? true : false}
+                  disabled={isUpdate ? true : false}
                 />
                 <label htmlFor="email">Email</label>
               </span>
@@ -469,7 +478,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  disabled={updateUser ? true : false}
+                  disabled={isUpdate ? true : false}
                 />
                 <label htmlFor="username">Username</label>
               </span>
@@ -485,7 +494,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
-                  disabled={updateUser ? true : false}
+                  disabled={isUpdate ? true : false}
                 />
                 <label htmlFor="password">Password</label>
               </span>
@@ -502,7 +511,7 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
                   id="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  disabled={updateUser ? true : false}
+                  disabled={isUpdate ? true : false}
                 />
                 <label htmlFor="phone">Phone Number</label>
               </span>
@@ -603,11 +612,13 @@ const ModalCRUDUser = ({ toast, updateUser, fetchListUser }) => {
               />
             ) : (
               <Button
-                label={updateUser ? "Save change" : "Create Product"}
-                icon={updateUser ? "pi pi-save" : "pi pi-check"}
-                className={updateUser ? "button-save" : "button-create"}
-                onClick={updateUser ? showAlertUpdate : handleCreateUser}
-              />
+                variant="contained"
+                startIcon={isUpdate ? <SaveIcon /> : <CheckIcon />}
+                className={isUpdate ? "button-save" : "button-create"}
+                onClick={isUpdate ? showAlertUpdate : handleCreateUser}
+              >
+                {isUpdate ? "Save User" : "Create User"}
+              </Button>
             )}
           </div>
         </div>

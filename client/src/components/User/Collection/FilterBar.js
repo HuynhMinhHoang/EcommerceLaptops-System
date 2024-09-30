@@ -1,71 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./FilterBar.scss";
+import { Backdrop, Button, CircularProgress } from "@mui/material";
 
 const FilterBar = ({ onFilterChange }) => {
+  const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState({
-    status: "",
-    price: "",
-    category: "",
-    ram: "",
-    screenSize: "",
-    processor: "",
-    resolution: "",
+    manufacturer: [],
+    usage: [],
+    priceRange: "",
+    sortOrder: "",
   });
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    // setFilters((prevFilters) => ({
-    //   ...prevFilters,
-    //   [name]: value,
-    // }));
-    // onFilterChange({ ...filters, [name]: value });
+  const handleCheckboxChange = (e) => {
+    const { name, value, checked } = e.target;
+    setFilters((prevFilters) => {
+      let newValues;
+      if (checked) {
+        newValues = [value];
+      } else {
+        newValues = [];
+      }
+      return { ...prevFilters, [name]: newValues };
+    });
   };
 
+  const handleRadioChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };
+
+  const handleReset = () => {
+    setFilters({
+      manufacturer: [],
+      usage: [],
+      priceRange: "",
+      sortOrder: "",
+    });
+  };
+
+  useEffect(() => {
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+      onFilterChange(filters);
+    }, 500);
+  }, [filters, onFilterChange]);
+
   return (
-    <div className="filter-bar">
-      <select name="status" onChange={handleFilterChange}>
-        <option value="">Tình trạng sản phẩm</option>
-        <option value="true">Còn hàng</option>
-        <option value="false">Hết hàng</option>
-      </select>
-      <select name="price" onChange={handleFilterChange}>
-        <option value="">Giá</option>
-        <option value="low">Thấp đến cao</option>
-        <option value="high">Cao đến thấp</option>
-      </select>
-      <select name="screenSize" onChange={handleFilterChange}>
-        <option value="">Kích thước màn hình</option>
-        <option value="14 inch">14 inch</option>
-        <option value="15.6 inch">15.6 inch</option>
-        <option value="16 inch">16 inch</option>
-        <option value="18 inch">18 inch</option>
-      </select>
-      <select name="processor" onChange={handleFilterChange}>
-        <option value="">Bộ xử lý</option>
-        <option value="i3">Intel i3</option>
-        <option value="i5">Intel i5</option>
-        <option value="i7">Intel i7</option>
-        <option value="i9">Intel i9</option>
-        <option value="R5">AMD Ryzen 5</option>
-        <option value="R7">AMD Ryzen 7</option>
-        <option value="R9">AMD Ryzen 9</option>
-      </select>
-      <select name="ram" onChange={handleFilterChange}>
-        <option value="">RAM</option>
-        <option value="8GB">8GB</option>
-        <option value="16GB">16GB</option>
-        <option value="32GB">32GB</option>
-      </select>
-      <select name="resolution" onChange={handleFilterChange}>
-        <option value="">Độ phân giải</option>
-        <option value="FHD">FHD</option>
-        <option value="2K">2K</option>
-        <option value="2.5K">2.5K</option>
-        <option value="3.2K">3.2K</option>
-        <option value="UHD">UHD</option>
-      </select>
-    </div>
+    <>
+      <div className="filter-bar">
+        <div className="filter-group">
+          <h4>Hãng sản xuất</h4>
+          {["Asus", "Lenovo", "Dell", "LG", "Acer"].map((brand) => (
+            <label key={brand}>
+              <input
+                type="checkbox"
+                name="manufacturer"
+                value={brand}
+                onChange={handleCheckboxChange}
+                checked={filters.manufacturer.includes(brand)}
+              />
+              {brand}
+            </label>
+          ))}
+        </div>
+        <div className="filter-group">
+          <h4>Mục đích sử dụng</h4>
+          {["Gaming", "Văn phòng"].map((usage) => (
+            <label key={usage}>
+              <input
+                type="checkbox"
+                name="usage"
+                value={usage}
+                onChange={handleCheckboxChange}
+                checked={filters.usage.includes(usage)}
+              />
+              {usage}
+            </label>
+          ))}
+        </div>
+        <div className="filter-group">
+          <h4>Mức giá</h4>
+          {[
+            "Dưới 10 triệu",
+            "Từ 10 - 15 triệu",
+            "Từ 15 - 20 triệu",
+            "Trên 20 triệu",
+          ].map((price) => (
+            <label key={price}>
+              <input
+                type="radio"
+                name="priceRange"
+                value={price}
+                onChange={handleRadioChange}
+                checked={filters.priceRange === price}
+              />
+              {price}
+            </label>
+          ))}
+        </div>
+        <div className="filter-group">
+          <h4>Sắp xếp</h4>
+          {["Giá tăng dần", "Giá giảm dần", "Không sắp xếp"].map((sort) => (
+            <label key={sort}>
+              <input
+                type="radio"
+                name="sortOrder"
+                value={sort}
+                onChange={handleRadioChange}
+                checked={filters.sortOrder === sort}
+              />
+              {sort}
+            </label>
+          ))}
+        </div>
+        <Button variant="contained" color="error" onClick={handleReset}>
+          Reset Filter
+        </Button>
+      </div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 };
 

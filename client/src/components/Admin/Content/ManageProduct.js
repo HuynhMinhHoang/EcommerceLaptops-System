@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 
 const ManageProduct = () => {
   const toast = useRef(null);
-
+  const [isUpdate, setIsUpdate] = useState(false);
   const [listProducts, setListProducts] = useState([]);
   const [editProduct, setEditProduct] = useState();
 
@@ -33,6 +33,8 @@ const ManageProduct = () => {
               fetchListProducts={fetchListProducts}
               editProduct={editProduct}
               setEditProduct={setEditProduct}
+              isUpdate={isUpdate}
+              setIsUpdate={setIsUpdate}
             />
           </div>
 
@@ -42,6 +44,7 @@ const ManageProduct = () => {
               listProducts={listProducts}
               fetchListProducts={fetchListProducts}
               setEditProduct={setEditProduct}
+              setIsUpdate={setIsUpdate}
             />
           </div>
         </div>

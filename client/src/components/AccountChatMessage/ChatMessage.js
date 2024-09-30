@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, List, Avatar, Typography } from "antd";
+import { Input, List, Avatar, Typography } from "antd";
 import "./ChatMessage.scss";
 import { FiSend } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
 import { ref, push, onValue, database } from "../../firebase/configFireBase";
 import { FcAssistant } from "react-icons/fc";
+import { Button } from "@mui/material";
 
 const { TextArea } = Input;
 
@@ -169,6 +170,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
             className="message-input"
           />
           <Button
+            variant="contained"
             className="btn-send"
             type="primary"
             onClick={handleSendMessage}

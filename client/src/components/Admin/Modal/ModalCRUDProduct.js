@@ -9,7 +9,8 @@ import { InputSwitch } from "primereact/inputswitch";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Dropdown } from "primereact/dropdown";
 import { BiCategory } from "react-icons/bi";
-import { Button } from "primereact/button";
+import SaveIcon from "@mui/icons-material/Save";
+import CheckIcon from "@mui/icons-material/Check";
 import {
   createProduct,
   getListCategory,
@@ -18,12 +19,15 @@ import {
 } from "../../../service/APIService";
 import { ProgressSpinner } from "primereact/progressspinner";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { Button } from "@mui/material";
 
 const ModalCRUDProduct = ({
   toast,
   fetchListProducts,
   editProduct,
   setEditProduct,
+  isUpdate,
+  setIsUpdate,
 }) => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
@@ -264,6 +268,7 @@ const ModalCRUDProduct = ({
         fetchListProducts();
         resetInput();
         setEditProduct("");
+        setIsUpdate(false);
       }
     } catch (error) {
       toast.current.show({
@@ -492,11 +497,13 @@ const ModalCRUDProduct = ({
               />
             ) : (
               <Button
-                label={editProduct ? "Save change" : "Create Product"}
-                icon={editProduct ? "pi pi-save" : "pi pi-check"}
-                className={editProduct ? "button-save" : "button-create"}
-                onClick={editProduct ? showAlertUpdate : handleCreateProduct}
-              />
+                variant="contained"
+                startIcon={isUpdate ? <SaveIcon /> : <CheckIcon />}
+                className={isUpdate ? "button-save" : "button-create"}
+                onClick={isUpdate ? showAlertUpdate : handleCreateProduct}
+              >
+                {isUpdate ? "Save Product" : "Create Product"}
+              </Button>
             )}
           </div>
         </div>

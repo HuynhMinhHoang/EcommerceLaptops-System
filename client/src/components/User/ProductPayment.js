@@ -38,7 +38,6 @@ const ProductPayment = ({ toast }) => {
     new URLSearchParams(location.search).get("step")
   );
   const products = useSelector((state) => state.cartRedux.products) || [];
-  // console.log("products", products);
   const getCurrentStep = () => {
     if (stepFromURL >= 1 && stepFromURL <= 4) {
       if (products.length === 0 && stepFromURL !== 4) {
@@ -71,11 +70,6 @@ const ProductPayment = ({ toast }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      // toast.current.show({
-      //   severity: "info",
-      //   summary: "Thông báo",
-      //   detail: "Vui lòng đăng nhập để thực hiện thanh toán!",
-      // });
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else if (products.length === 0 && currentStep !== 4) {
@@ -306,9 +300,13 @@ const ProductPayment = ({ toast }) => {
                 </span>
               </div>
             </div>
-            <button className="checkout-btn" onClick={handleNextStep}>
+            <Button
+              variant="contained"
+              className="checkout-btn"
+              onClick={handleNextStep}
+            >
               {currentStep === 3 ? "THANH TOÁN NGAY" : "ĐẶT HÀNG NGAY"}
-            </button>
+            </Button>
           </div>
         )}
       </div>

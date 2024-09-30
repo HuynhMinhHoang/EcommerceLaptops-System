@@ -7,23 +7,87 @@ import { useNavigate } from "react-router-dom";
 import { path } from "../../../utils/Constants";
 import categories from "../../../utils/categoriesProduct";
 
-const ProductsListConllection = ({ category }) => {
+const ProductsListConllection = ({ category, filters }) => {
   const navigate = useNavigate();
-
   const [productList, setProductList] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
+    const fetchProductList = async () => {
+      try {
+        const response = await getListProductHome(category);
+        let products = response.data.data;
+        if (category === categories.LAPTOP) {
+          const gamingResponse = await getListProductHome("LAPTOPGAMING");
+          products = products.concat(gamingResponse.data.data);
+        }
+        setProductList(products);
+      } catch (error) {
+        console.log("Error fetching product list");
+      }
+    };
     fetchProductList();
   }, [category]);
 
-  const fetchProductList = async () => {
-    try {
-      const response = await getListProductHome(category);
-      setProductList(response.data.data);
-    } catch (error) {
-      console.log("Error fetching laptop list");
-    }
-  };
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = productList;
+
+      if (filters.manufacturer.length > 0) {
+        filtered = filtered.filter((product) =>
+          filters.manufacturer.some((brand) =>
+            product.nameProduct.toLowerCase().includes(brand.toLowerCase())
+          )
+        );
+      }
+
+      if (filters.usage.length > 0) {
+        filtered = filtered.filter((product) =>
+          filters.usage.some((use) => {
+            if (use === "Gaming") {
+              return product.nameProduct.toLowerCase().includes("gaming");
+            } else if (use === "Văn phòng") {
+              return !product.nameProduct.toLowerCase().includes("gaming");
+            }
+            return true;
+          })
+        );
+      }
+
+      if (filters.priceRange) {
+        filtered = filtered.filter((product) => {
+          const price = product.price;
+          switch (filters.priceRange) {
+            case "Dưới 10 triệu":
+              return price < 10000000;
+            case "Từ 10 - 15 triệu":
+              return price >= 10000000 && price <= 15000000;
+            case "Từ 15 - 20 triệu":
+              return price >= 15000000 && price <= 20000000;
+            case "Trên 20 triệu":
+              return price > 20000000;
+            default:
+              return true;
+          }
+        });
+      }
+
+      if (filters.sortOrder) {
+        filtered = filtered.sort((a, b) => {
+          if (filters.sortOrder === "Giá tăng dần") {
+            return a.price - b.price;
+          } else if (filters.sortOrder === "Giá giảm dần") {
+            return b.price - a.price;
+          }
+          return 0;
+        });
+      }
+
+      setFilteredProducts(filtered);
+    };
+
+    applyFilters();
+  }, [filters, productList]);
 
   const formatCurrency = (value) => {
     return value.toLocaleString("vi-VN", {
@@ -42,8 +106,6 @@ const ProductsListConllection = ({ category }) => {
         .toString()
         .toLowerCase()
         .replace(/\s+/g, "-")
-        .replace(/[^\w\-]+/g, "")
-        .replace(/\-\-+/g, "-")
         .replace(/^-+/, "")
         .replace(/-+$/, "");
     };
@@ -125,18 +187,17 @@ const ProductsListConllection = ({ category }) => {
     );
   };
 
-  console.log("productList", productList);
-
   return (
-    <div className="product-container">
-      <div className="product-list-grid">
-        {Array.isArray(productList) &&
-          productList.map((product) => (
-            <div className="item-product-collection" key={product.idProduct}>
-              {productTemplate(product)}
-            </div>
-          ))}
-      </div>
+    <div className="product-list-grid">
+      {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
+        filteredProducts.map((product) => (
+          <div className="item-product-collection" key={product.idProduct}>
+            {productTemplate(product)}
+          </div>
+        ))
+      ) : (
+        <div className="no-products-message">Không có sản phẩm phù hợp!</div>
+      )}
     </div>
   );
 };

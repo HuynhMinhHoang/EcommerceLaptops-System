@@ -6,6 +6,7 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { addToCart } from "../../../redux/action/cartActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Button } from "@mui/material";
 
 const ProductInfo = ({ product }) => {
   console.log("product detail", product);
@@ -50,7 +51,8 @@ const ProductInfo = ({ product }) => {
         <p className="price">{product.price.toLocaleString("vi-VN")}đ</p>
         <div className="bg-btn">
           <div className="buy-now">
-            <button
+            <Button
+              variant="contained"
               onClick={() => {
                 handleAddToCart();
               }}
@@ -69,7 +71,7 @@ const ProductInfo = ({ product }) => {
                   ? "Sản phẩm tạm hết hàng"
                   : "Giao tận nơi hoặc nhận tại cửa hàng"}
               </span>
-            </button>
+            </Button>
           </div>
         </div>
         <div className="description">

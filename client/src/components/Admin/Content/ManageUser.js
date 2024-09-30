@@ -10,6 +10,7 @@ const ManageUser = () => {
 
   const [listUser, setListUser] = useState();
   const [updateUser, setUpdateUser] = useState();
+  const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     fetchListUser();
   }, []);
@@ -33,6 +34,8 @@ const ManageUser = () => {
               setUpdateUser={setUpdateUser}
               updateUser={updateUser}
               fetchListUser={fetchListUser}
+              isUpdate={isUpdate}
+              setIsUpdate={setIsUpdate}
             />
           </div>
 
@@ -41,6 +44,7 @@ const ManageUser = () => {
               fetchListUser={fetchListUser}
               listUser={listUser}
               setUpdateUser={setUpdateUser}
+              setIsUpdate={setIsUpdate}
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 .collection-list-container {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 
   .container-fluid {
@@ -92,22 +92,27 @@
   }
 
   .content-collection-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    margin-top: 20px;
+    margin: 20px 0px;
     border: 1px solid rgb(255, 255, 255);
     border-radius: 5px;
     background: #fff;
     padding: 0 20px;
+    display: flex;
 
     .filter-bar-container-inner {
-      margin-top: 10px;
-      width: 100%;
+      margin: 20px 0px;
+      width: 15%;
+      height: 100%;
+      border-radius: 5px;
       overflow: hidden;
+      background-color: #e9ecef;
+      font-weight: 500;
     }
-  }
-
-  .product-list-collection-container {
-    width: 100%;
-    padding: 0px 0px 20px 0px;
+    .product-list-collection-container {
+      width: 85%;
+      padding: 20px 0px 20px 20px;
+    }
   }
 }

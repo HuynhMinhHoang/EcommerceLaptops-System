@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateAccountByUser } from "../../../service/APIService";
 import { updateProfileUser } from "../../../redux/action/userAction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { Button } from "@mui/material";
 
 const AccountProfile = ({ toast }) => {
   const user = useSelector((state) => state.userRedux.user);
@@ -238,9 +239,13 @@ const AccountProfile = ({ toast }) => {
         <div className="bg-btn-form input-group-container">
           <label></label>
           <div className="input-form">
-            <button onClick={showAlertUpdate} className="btn">
+            <Button
+              variant="contained"
+              onClick={showAlertUpdate}
+              className="btn"
+            >
               LƯU THAY ĐỔI
-            </button>
+            </Button>
           </div>
         </div>
       </div>

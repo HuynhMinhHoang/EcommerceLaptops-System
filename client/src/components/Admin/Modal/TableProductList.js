@@ -12,6 +12,7 @@ const TableProductList = ({
   fetchListProducts,
   listProducts,
   setEditProduct,
+  setIsUpdate,
 }) => {
   useEffect(() => {
     fetchListProducts();
@@ -60,13 +61,18 @@ const TableProductList = ({
     return product.category ? product.category.nameCategory : "N/A";
   };
 
+  const changeIsUpdate = (product) => {
+    setIsUpdate(true);
+    setEditProduct(product);
+  };
+
   const actionBodyTemplate = (product) => {
     return (
       <div className="actions">
         <Button
           icon="pi pi-pen-to-square"
           className="p-button-rounded p-button-success p-mr-2"
-          onClick={() => setEditProduct(product)}
+          onClick={() => changeIsUpdate(product)}
         />
         <Button
           icon="pi pi-trash"

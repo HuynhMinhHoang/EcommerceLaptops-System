@@ -48,6 +48,11 @@
       }
 
       .button-save {
+        font-family: "Nunito", sans-serif;
+        width: auto;
+        height: 30px;
+        height: 40px;
+        font-weight: 600;
         border-radius: 5px;
         background-color: rgb(221, 51, 68);
         &:hover {
@@ -55,6 +60,9 @@
         }
       }
       .button-create {
+        font-family: "Nunito", sans-serif;
+        width: auto;
+        height: 40px;
         font-weight: 600;
         border-radius: 5px;
         background-color: #64748b;

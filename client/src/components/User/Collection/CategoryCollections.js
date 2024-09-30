@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CategoryCollections.scss";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import collection_pc from "../../../assets/collection-pc.png";
 import collection_sale from "../../../assets/collection-pc2.png";
 import collection_pc3 from "../../../assets/collection-pc3.png";
@@ -15,12 +15,22 @@ import ProductsListCollection from "./ProductsListCollection";
 const CategoryCollections = () => {
   const { category } = useParams();
   const [originalName, setOriginalName] = useState("");
+  const [filters, setFilters] = useState({
+    manufacturer: [],
+    usage: [],
+    priceRange: "",
+    sortOrder: "",
+  });
 
   useEffect(() => {
     if (category) {
       setOriginalName(category);
     }
   }, [category]);
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
 
   return (
     <div className="collection-list-container">
@@ -69,11 +79,11 @@ const CategoryCollections = () => {
 
       <nav className="content-collection-container">
         <div className="filter-bar-container-inner">
-          <FilterBar />
+          <FilterBar onFilterChange={handleFilterChange} />
         </div>
 
         <div className="product-list-collection-container">
-          <ProductsListCollection category={category} />
+          <ProductsListCollection category={category} filters={filters} />
         </div>
       </nav>
     </div>
