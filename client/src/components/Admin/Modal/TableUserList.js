@@ -4,6 +4,8 @@ import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import "./TableUserList.scss";
 import { Button } from "primereact/button";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const TableUserList = ({
   toast,
@@ -11,12 +13,42 @@ const TableUserList = ({
   listUser,
   setUpdateUser,
   setIsUpdate,
+  page,
+  setPage,
+  size,
+  setSize,
+  totalItems,
 }) => {
-  useEffect(() => {
-    fetchListUser();
-  }, []);
+  const [visibleEmails, setVisibleEmails] = useState({});
 
-  // console.log("listUser", listUser);
+  const handleChangePage = (event, value) => {
+    setPage(value);
+    fetchListUser(value, size);
+  };
+
+  useEffect(() => {
+    fetchListUser(page, size);
+  }, [page, size]);
+
+  const toggleEmailVisibility = (userId) => {
+    setVisibleEmails((prev) => ({
+      ...prev,
+      [userId]: !prev[userId],
+    }));
+  };
+
+  const emailBodyTemplate = (user) => {
+    return (
+      <div className="tb-email">
+        {visibleEmails[user.idAccount] ? user.email : ""}
+        <Button
+          icon={visibleEmails[user.idAccount] ? "pi pi-eye-slash" : "pi pi-eye"}
+          className="p-button-text p-button-plain p-ml-2"
+          onClick={() => toggleEmailVisibility(user.idAccount)}
+        />
+      </div>
+    );
+  };
 
   const genderBodyTemplate = (user) => {
     return user.gender ? user.gender : "N/A";
@@ -88,14 +120,6 @@ const TableUserList = ({
     return user.role ? user.role.nameRole : "N/A";
   };
 
-  // const handleEdit = (user) => {
-  //   toast.current.show({
-  //     severity: "info",
-  //     summary: "Edit User",
-  //     detail: `Editing user: ${user.username}`,
-  //   });
-  // };
-
   const handleDelete = (user) => {
     toast.current.show({
       severity: "warn",
@@ -104,7 +128,18 @@ const TableUserList = ({
     });
   };
 
-  const footer = `In total there are ${listUser ? listUser.length : 0} users.`;
+  const footer = () => {
+    return (
+      <Stack spacing={2}>
+        <Pagination
+          count={Math.ceil(totalItems / size)}
+          page={page}
+          onChange={handleChangePage}
+          shape="rounded"
+        />
+      </Stack>
+    );
+  };
 
   return (
     <div className="card-user">
@@ -131,7 +166,7 @@ const TableUserList = ({
           header="Date of Birth"
           body={dateOfBirthBodyTemplate}
         ></Column>
-        <Column field="email" header="Email"></Column>
+        <Column field="email" header="Email" body={emailBodyTemplate}></Column>
         <Column field="phone" header="Phone"></Column>
         <Column
           field="address"

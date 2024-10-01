@@ -11,14 +11,20 @@ const ManageUser = () => {
   const [listUser, setListUser] = useState();
   const [updateUser, setUpdateUser] = useState();
   const [isUpdate, setIsUpdate] = useState(false);
-  useEffect(() => {
-    fetchListUser();
-  }, []);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
-  const fetchListUser = async () => {
-    const res = await getListUser();
+  useEffect(() => {
+    fetchListUser(page, size);
+  }, [page, size]);
+
+  const fetchListUser = async (page, size) => {
+    const res = await getListUser(page, size);
+    console.log("res", res);
     if (res && res.status === 200) {
-      setListUser(res.data.reverse());
+      setListUser(res.data.content);
+      setTotalItems(res.data.totalElements);
     } else {
       console.log("Error fetching users!");
     }
@@ -36,6 +42,8 @@ const ManageUser = () => {
               fetchListUser={fetchListUser}
               isUpdate={isUpdate}
               setIsUpdate={setIsUpdate}
+              page={page}
+              size={size}
             />
           </div>
 
@@ -45,6 +53,11 @@ const ManageUser = () => {
               listUser={listUser}
               setUpdateUser={setUpdateUser}
               setIsUpdate={setIsUpdate}
+              page={page}
+              setPage={setPage}
+              size={size}
+              setSize={setSize}
+              totalItems={totalItems}
             />
           </div>
         </div>

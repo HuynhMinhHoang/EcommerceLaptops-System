@@ -83,6 +83,17 @@ const ProductsListConllection = ({ category, filters }) => {
         });
       }
 
+      if (filters.availability) {
+        filtered = filtered.filter((product) => {
+          if (filters.availability === "Còn hàng") {
+            return product.quantity > 0;
+          } else if (filters.availability === "Hết hàng") {
+            return product.quantity === 0;
+          }
+          return true;
+        });
+      }
+
       setFilteredProducts(filtered);
     };
 

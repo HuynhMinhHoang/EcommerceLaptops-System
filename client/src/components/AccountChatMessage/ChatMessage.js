@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input, List, Avatar, Typography } from "antd";
 import "./ChatMessage.scss";
 import { FiSend } from "react-icons/fi";
@@ -14,6 +14,15 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
   const user = useSelector((state) => state.userRedux.user);
   const [currentMessage, setCurrentMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
 
   const handleMessageChange = (event) => {
     setCurrentMessage(event.target.value);
@@ -86,7 +95,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
           className="chat-list"
           dataSource={chatMessages}
           renderItem={(msg, index) => (
-            <List.Item key={index}>
+            <List.Item key={index} onClick={scrollToBottom}>
               <div
                 className={
                   msg.idAccount === user.idAccount
@@ -146,7 +155,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
                     </>
                   )}
                 </div>
-                <div className="message-content">
+                <div className="message-content" ref={messagesEndRef}>
                   <p>{msg.content}</p>
                 </div>
               </div>
@@ -175,6 +184,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
             type="primary"
             onClick={handleSendMessage}
             disabled={!currentMessage.trim()}
+            style={{ backgroundColor: "#e30019", color: "#fff" }}
           >
             <FiSend
               style={{

@@ -28,6 +28,8 @@ const ModalCRUDProduct = ({
   setEditProduct,
   isUpdate,
   setIsUpdate,
+  page,
+  size,
 }) => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
@@ -160,7 +162,7 @@ const ModalCRUDProduct = ({
           summary: "Success",
           detail: res.data.message,
         });
-        fetchListProducts();
+        fetchListProducts(page, size);
         resetInput();
       }
     } catch (error) {
@@ -265,7 +267,7 @@ const ModalCRUDProduct = ({
           summary: "Success",
           detail: res_pro.data.message,
         });
-        fetchListProducts();
+        fetchListProducts(page, size);
         resetInput();
         setEditProduct("");
         setIsUpdate(false);

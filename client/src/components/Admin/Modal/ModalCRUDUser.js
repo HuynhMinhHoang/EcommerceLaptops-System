@@ -31,6 +31,8 @@ const ModalCRUDUser = ({
   fetchListUser,
   isUpdate,
   setIsUpdate,
+  page,
+  size,
 }) => {
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
@@ -42,7 +44,6 @@ const ModalCRUDUser = ({
   const [password, setPassword] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
-  console.log("isUpdate", isUpdate);
   const [listRoles, setListRoles] = useState("");
 
   const [status, setStatus] = useState(false);
@@ -144,7 +145,7 @@ const ModalCRUDUser = ({
           summary: "Success",
           detail: res.data.message,
         });
-        fetchListUser();
+        fetchListUser(page, size);
         resetInputs();
         setIsUpdate(false);
       }
@@ -377,7 +378,7 @@ const ModalCRUDUser = ({
           summary: "Success",
           detail: res.data.message,
         });
-        fetchListUser();
+        fetchListUser(page, size);
         resetInputs();
       } else {
         toast.current.show({

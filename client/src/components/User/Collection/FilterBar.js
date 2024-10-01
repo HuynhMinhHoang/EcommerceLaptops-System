@@ -9,20 +9,21 @@ const FilterBar = ({ onFilterChange }) => {
     usage: [],
     priceRange: "",
     sortOrder: "",
+    availability: "",
   });
 
-  const handleCheckboxChange = (e) => {
-    const { name, value, checked } = e.target;
-    setFilters((prevFilters) => {
-      let newValues;
-      if (checked) {
-        newValues = [value];
-      } else {
-        newValues = [];
-      }
-      return { ...prevFilters, [name]: newValues };
-    });
-  };
+  // const handleCheckboxChange = (e) => {
+  //   const { name, value, checked } = e.target;
+  //   setFilters((prevFilters) => {
+  //     let newValues;
+  //     if (checked) {
+  //       newValues = [value];
+  //     } else {
+  //       newValues = [];
+  //     }
+  //     return { ...prevFilters, [name]: newValues };
+  //   });
+  // };
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +36,7 @@ const FilterBar = ({ onFilterChange }) => {
       usage: [],
       priceRange: "",
       sortOrder: "",
+      availability: "",
     });
   };
 
@@ -49,7 +51,7 @@ const FilterBar = ({ onFilterChange }) => {
   return (
     <>
       <div className="filter-bar">
-        <div className="filter-group">
+        {/* <div className="filter-group">
           <h4>Hãng sản xuất</h4>
           {["Asus", "Lenovo", "Dell", "LG", "Acer"].map((brand) => (
             <label key={brand}>
@@ -78,7 +80,7 @@ const FilterBar = ({ onFilterChange }) => {
               {usage}
             </label>
           ))}
-        </div>
+        </div> */}
         <div className="filter-group">
           <h4>Mức giá</h4>
           {[
@@ -111,6 +113,21 @@ const FilterBar = ({ onFilterChange }) => {
                 checked={filters.sortOrder === sort}
               />
               {sort}
+            </label>
+          ))}
+        </div>
+        <div className="filter-group">
+          <h4>Tình trạng</h4>
+          {["Còn hàng", "Hết hàng"].map((availability) => (
+            <label key={availability}>
+              <input
+                type="radio"
+                name="availability"
+                value={availability}
+                onChange={handleRadioChange}
+                checked={filters.availability === availability}
+              />
+              {availability}
             </label>
           ))}
         </div>

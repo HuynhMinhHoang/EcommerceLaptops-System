@@ -10,15 +10,19 @@ const ManageProduct = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [listProducts, setListProducts] = useState([]);
   const [editProduct, setEditProduct] = useState();
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
-    fetchListProducts();
-  }, []);
+    fetchListProducts(page, size);
+  }, [page, size]);
 
   const fetchListProducts = async () => {
-    const res = await getListProductAdmin();
-    if (res && res.data.status === 200) {
-      setListProducts(res.data.data.reverse());
+    const res = await getListProductAdmin(page, size);
+    if (res && res.status === 200) {
+      setListProducts(res.data.content);
+      setTotalItems(res.data.totalElements);
     } else {
       console.log("Error fetching products!");
     }
@@ -35,6 +39,8 @@ const ManageProduct = () => {
               setEditProduct={setEditProduct}
               isUpdate={isUpdate}
               setIsUpdate={setIsUpdate}
+              page={page}
+              size={size}
             />
           </div>
 
@@ -45,6 +51,11 @@ const ManageProduct = () => {
               fetchListProducts={fetchListProducts}
               setEditProduct={setEditProduct}
               setIsUpdate={setIsUpdate}
+              page={page}
+              setPage={setPage}
+              size={size}
+              setSize={setSize}
+              totalItems={totalItems}
             />
           </div>
         </div>

@@ -26,6 +26,7 @@ const CategoryCollections = () => {
     if (category) {
       setOriginalName(category);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [category]);
 
   const handleFilterChange = (newFilters) => {

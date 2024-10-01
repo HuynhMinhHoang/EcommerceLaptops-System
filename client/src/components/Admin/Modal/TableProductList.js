@@ -6,6 +6,8 @@ import "./TableProductList.scss";
 import { Button } from "primereact/button";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { deleteProduct } from "../../../service/APIService";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const TableProductList = ({
   toast,
@@ -13,10 +15,20 @@ const TableProductList = ({
   listProducts,
   setEditProduct,
   setIsUpdate,
+  page,
+  setPage,
+  size,
+  setSize,
+  totalItems,
 }) => {
+  const handleChangePage = (event, value) => {
+    setPage(value);
+    fetchListProducts(value, size);
+  };
+
   useEffect(() => {
-    fetchListProducts();
-  }, []);
+    fetchListProducts(page, size);
+  }, [page, size]);
 
   const formatCurrency = (value) => {
     return value.toLocaleString("vi-VN", {
@@ -149,9 +161,18 @@ const TableProductList = ({
     });
   };
 
-  const footer = `In total there are ${
-    listProducts ? listProducts.length : 0
-  } products.`;
+  const footer = () => {
+    return (
+      <Stack spacing={2}>
+        <Pagination
+          count={Math.ceil(totalItems / size)}
+          page={page}
+          onChange={handleChangePage}
+          shape="rounded"
+        />
+      </Stack>
+    );
+  };
 
   return (
     <div className="card-product">

@@ -35,8 +35,13 @@ const createProduct = (formData) => {
   });
 };
 
-const getListProductAdmin = () => {
-  return axios.get("/api/v1/product/list-admin");
+const getListProductAdmin = (page, size) => {
+  return axios.get("/api/v1/product/list-admin", {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
 };
 
 const getListProductHome = (category) => {
@@ -61,8 +66,13 @@ const deleteImageFromProduct = (idImages) => {
   });
 };
 
-const getListUser = () => {
-  return axios.get("/api/v1/admin/list-user");
+const getListUser = (page = 0, size = 10) => {
+  return axios.get(`/api/v1/admin/list-user`, {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
 };
 
 const deleteProduct = (idProduct) => {
