@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ProductDetail.scss";
 import { getProductById } from "../../service/APIService";
 import { NavLink, useLocation, useParams } from "react-router-dom";
@@ -20,7 +20,8 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
 
   const [product, setProduct] = useState(null);
-  const [scrollY, setScrollY] = useState(0);
+  const bannerLeftRef = useRef(null);
+  const bannerRightRef = useRef(null);
 
   const { slug } = useParams();
   const location = useLocation();
@@ -32,7 +33,16 @@ const ProductDetail = () => {
     }
 
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const scrollTop = window.scrollY;
+
+      if (bannerLeftRef.current && bannerRightRef.current) {
+        bannerLeftRef.current.style.transform = `translateY(${
+          scrollTop * 0.1
+        }px)`;
+        bannerRightRef.current.style.transform = `translateY(${
+          scrollTop * 0.1
+        }px)`;
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -70,16 +80,10 @@ const ProductDetail = () => {
 
   return (
     <div className="pro-detail-container">
-      <div
-        className="banner-left"
-        style={{ transform: `translateY(${scrollY * -0.1}px)` }}
-      >
+      <div className="banner-left" ref={bannerLeftRef}>
         <img src={qc1} alt="Banner Left" />
       </div>
-      <div
-        className="banner-right"
-        style={{ transform: `translateY(${scrollY * -0.1}px)` }}
-      >
+      <div className="banner-right" ref={bannerRightRef}>
         <img src={qc2} alt="Banner Right" />
       </div>
 

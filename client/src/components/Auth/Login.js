@@ -52,7 +52,8 @@ const Login = ({ toast }) => {
       try {
         const res = await loginUser(username, password);
         if (res && res.status === 200) {
-          dispatch(doLogin(res));
+          console.log("login", res);
+          dispatch(doLogin(res.data));
           navigate("/");
           toast.current.show({
             severity: "success",

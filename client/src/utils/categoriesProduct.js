@@ -6,6 +6,7 @@ const categories = {
   MOUSE: "MOUSE",
   SCREEN: "SCREEN",
   KEYBOARD: "KEYBOARD",
+  COLLECTION: "COLLECTION",
 };
 
 export default categories;

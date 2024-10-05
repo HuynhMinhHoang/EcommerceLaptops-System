@@ -132,7 +132,7 @@ const FilterBar = ({ onFilterChange }) => {
           ))}
         </div>
         <Button variant="contained" color="error" onClick={handleReset}>
-          Reset Filter
+          Đặt lại
         </Button>
       </div>
       <Backdrop

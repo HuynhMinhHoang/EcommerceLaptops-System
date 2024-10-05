@@ -9,6 +9,7 @@ import { FaRegKeyboard } from "react-icons/fa6";
 import { LuMouse } from "react-icons/lu";
 import { MdOutlineHeadphones } from "react-icons/md";
 import { PiOfficeChair } from "react-icons/pi";
+import { BiCategory } from "react-icons/bi";
 
 import { MdOutlineNavigateNext } from "react-icons/md";
 
@@ -19,6 +20,7 @@ const CategoryMenu = ({ onMenuItemClick }) => {
     { title: "PC GVN", icon: <FaComputer />, category: "PC" },
     { title: "Bàn phím", icon: <FaRegKeyboard />, category: "KEYBOARD" },
     { title: "Chuột + Lót chuột", icon: <LuMouse />, category: "MOUSE" },
+    { title: "Bộ sưu tập", icon: <BiCategory />, category: "COLLECTION" },
   ];
 
   return (

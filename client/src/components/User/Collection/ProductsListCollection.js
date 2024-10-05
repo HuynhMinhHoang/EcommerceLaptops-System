@@ -18,7 +18,9 @@ const ProductsListConllection = ({ category, filters }) => {
         const response = await getListProductHome(category);
         let products = response.data.data;
         if (category === categories.LAPTOP) {
-          const gamingResponse = await getListProductHome("LAPTOPGAMING");
+          const gamingResponse = await getListProductHome(
+            categories.LAPTOPGAMING
+          );
           products = products.concat(gamingResponse.data.data);
         }
         setProductList(products);
@@ -117,6 +119,8 @@ const ProductsListConllection = ({ category, filters }) => {
         .toString()
         .toLowerCase()
         .replace(/\s+/g, "-")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/\-\-+/g, "-")
         .replace(/^-+/, "")
         .replace(/-+$/, "");
     };

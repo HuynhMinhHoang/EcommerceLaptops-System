@@ -68,6 +68,7 @@ const TableUserList = ({
   };
 
   const statusBodyTemplate = (user) => {
+    console.log(user.status);
     return (
       <Tag
         value={user.status === "ACTIVE" ? "ACTIVE" : "INACTIVE"}

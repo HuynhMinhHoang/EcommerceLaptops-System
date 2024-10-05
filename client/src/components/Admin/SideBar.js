@@ -22,10 +22,15 @@ import { doLogout } from "../../redux/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { path } from "../../utils/Constants";
 import { FaFacebookMessenger } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { IoLogOut } from "react-icons/io5";
 
 const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeMenuItem, setActiveMenuItem] = useState("");
+  let [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (location.pathname.includes(path.DASHBOARD)) {
@@ -38,6 +43,31 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
       setActiveMenuItem(path.MESSAGE_ACCOUNT);
     }
   }, [location]);
+
+  const handleLogout = () => {
+    setLoading(true);
+    setTimeout(() => {
+      dispatch(doLogout());
+      setLoading(false);
+      navigate(`${path.HOMEPAGE}/${path.LOGIN}`, { replace: true });
+    }, 1000);
+  };
+
+  const showAlertLogout = () => {
+    Swal.fire({
+      title: "Bạn muốn thoát tài khoản?",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      icon: "warning",
+      confirmButtonText: "Đồng ý",
+      denyButtonText: `Không`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleLogout();
+      }
+    });
+  };
 
   return (
     <>
@@ -111,6 +141,24 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }) => {
             >
               Message
               <Link to={path.MESSAGE_ACCOUNT} />
+            </MenuItem>
+          </Menu>
+
+          <Menu iconShape="circle">
+            <MenuItem
+              onClick={showAlertLogout}
+              className="custom-menu-item item-logout"
+              icon={
+                <IoLogOut
+                  size={"24px"}
+                  color={"rgb(221, 51, 68)"}
+                  style={{
+                    marginLeft: "3px",
+                  }}
+                />
+              }
+            >
+              Log out
             </MenuItem>
           </Menu>
         </SidebarContent>

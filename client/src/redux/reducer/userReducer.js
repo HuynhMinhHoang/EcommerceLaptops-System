@@ -28,7 +28,8 @@ const INITIAL_STATE = {
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
-      const data = action.payload.data;
+      const data = action.payload;
+      console.log(data);
       return {
         ...state,
         user: {

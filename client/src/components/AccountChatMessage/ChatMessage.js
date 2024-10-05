@@ -14,15 +14,6 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
   const user = useSelector((state) => state.userRedux.user);
   const [currentMessage, setCurrentMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatMessages]);
 
   const handleMessageChange = (event) => {
     setCurrentMessage(event.target.value);
@@ -95,7 +86,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
           className="chat-list"
           dataSource={chatMessages}
           renderItem={(msg, index) => (
-            <List.Item key={index} onClick={scrollToBottom}>
+            <List.Item key={index}>
               <div
                 className={
                   msg.idAccount === user.idAccount
@@ -155,7 +146,7 @@ const ChatMessage = ({ receiverIdUser, setlatestMessages }) => {
                     </>
                   )}
                 </div>
-                <div className="message-content" ref={messagesEndRef}>
+                <div className="message-content">
                   <p>{msg.content}</p>
                 </div>
               </div>

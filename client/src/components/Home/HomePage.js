@@ -22,7 +22,7 @@ const HomePage = () => {
   const pcRef = useRef(null);
   const mouseRef = useRef(null);
   const keyboardRef = useRef(null);
-
+  const collectionRef = useRef(null);
   const handleScrollTo = (ref) => {
     if (ref.current) {
       const offsetPosition = ref.current.offsetTop - 210;
@@ -53,6 +53,9 @@ const HomePage = () => {
                   break;
                 case categories.KEYBOARD:
                   handleScrollTo(keyboardRef);
+                  break;
+                case categories.COLLECTION:
+                  handleScrollTo(collectionRef);
                   break;
                 default:
                   break;
@@ -101,7 +104,7 @@ const HomePage = () => {
       <div ref={keyboardRef} className="product-keyboard-list">
         <ProductList category={categories.KEYBOARD} />
       </div>
-      <div className="category-list">
+      <div ref={collectionRef} className="category-list">
         <CategoryList />
       </div>
     </div>

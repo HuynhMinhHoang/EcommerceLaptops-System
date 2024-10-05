@@ -202,6 +202,22 @@ const getListAccountByRole = (role) => {
   });
 };
 
+const getStatsUserByYear = (year) => {
+  return axios.get("/api/v1/admin/stats-user/year", {
+    params: {
+      year: year,
+    },
+  });
+};
+
+const getStatsStatuUser = (year) => {
+  return axios.get("/api/v1/admin/stats-user/status/year", {
+    params: {
+      year: year,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -228,4 +244,6 @@ export {
   verifyFBToken,
   verifyGGToken,
   getListAccountByRole,
+  getStatsUserByYear,
+  getStatsStatuUser,
 };

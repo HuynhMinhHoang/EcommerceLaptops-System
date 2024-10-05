@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./CategoryCollections.scss";
 import { NavLink, useParams } from "react-router-dom";
 import collection_pc from "../../../assets/collection-pc.png";
@@ -11,6 +11,8 @@ import FilterBar from "./FilterBar";
 import { path } from "../../../utils/Constants";
 import { TiHome } from "react-icons/ti";
 import ProductsListCollection from "./ProductsListCollection";
+import qc3 from "../../../assets/qc3.png";
+import qc4 from "../../../assets/qc4.png";
 
 const CategoryCollections = () => {
   const { category } = useParams();
@@ -21,12 +23,33 @@ const CategoryCollections = () => {
     priceRange: "",
     sortOrder: "",
   });
+  const bannerLeftRef = useRef(null);
+  const bannerRightRef = useRef(null);
 
   useEffect(() => {
     if (category) {
       setOriginalName(category);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+
+      if (bannerLeftRef.current && bannerRightRef.current) {
+        bannerLeftRef.current.style.transform = `translateY(${
+          scrollTop * 0.1
+        }px)`;
+        bannerRightRef.current.style.transform = `translateY(${
+          scrollTop * 0.1
+        }px)`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [category]);
 
   const handleFilterChange = (newFilters) => {
@@ -35,6 +58,13 @@ const CategoryCollections = () => {
 
   return (
     <div className="collection-list-container">
+      <div className="banner-left" ref={bannerLeftRef}>
+        <img src={qc3} alt="Banner Left" />
+      </div>
+      <div className="banner-right" ref={bannerRightRef}>
+        <img src={qc4} alt="Banner Right" />
+      </div>
+
       <div className="container-fluid">
         <ol className="breadcrumb">
           <li>
