@@ -20,7 +20,7 @@ import AccountProfile from "./components/User/ProfileContent/AccountProfile";
 import AccountManage from "./components/User/AccountManage";
 import ChatMessageAccount from "./components/AccountChatMessage/ChatMessageAccount";
 import CategoryCollections from "./components/User/Collection/CategoryCollections";
-
+import RecentlyViewed from "./components/User/ProfileContent/RecentlyViewed";
 const Layout = () => {
   const toast = useRef(null);
   return (
@@ -68,6 +68,10 @@ const Layout = () => {
             <Route
               path={path.MESSAGE_ACCOUNT}
               element={<ChatMessageAccount toast={toast} />}
+            />
+            <Route
+              path={path.RECENTLY_VIEWED}
+              element={<RecentlyViewed toast={toast} />}
             />
           </Route>
 

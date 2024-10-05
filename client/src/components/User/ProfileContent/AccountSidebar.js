@@ -32,6 +32,8 @@ const AccountSidebar = () => {
       setActiveLink(path.ORDER_HISTORY);
     } else if (location.pathname.includes(path.MESSAGE_ACCOUNT)) {
       setActiveLink(path.MESSAGE_ACCOUNT);
+    } else if (location.pathname.includes(path.RECENTLY_VIEWED)) {
+      setActiveLink(path.RECENTLY_VIEWED);
     }
   }, [location]);
 
@@ -87,6 +89,12 @@ const AccountSidebar = () => {
               <Link to={`${path.ACCOUNT_MANAGE}/${path.MESSAGE_ACCOUNT}`}>
                 <FaFacebookMessenger style={{ fontSize: "18px" }} />
                 Hỗ trợ CSKH
+              </Link>
+            </li>
+            <li className={activeLink === path.RECENTLY_VIEWED ? "active" : ""}>
+              <Link to={`${path.ACCOUNT_MANAGE}/${path.RECENTLY_VIEWED}`}>
+                <FaEye style={{ fontSize: "18px" }} />
+                Sản phẩm đã xem
               </Link>
             </li>
             <li onClick={showAlertLogout}>

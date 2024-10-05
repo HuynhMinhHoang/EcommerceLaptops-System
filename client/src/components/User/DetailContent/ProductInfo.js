@@ -9,7 +9,6 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "@mui/material";
 
 const ProductInfo = ({ product }) => {
-  console.log("product detail", product);
   const dispatch = useDispatch();
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications

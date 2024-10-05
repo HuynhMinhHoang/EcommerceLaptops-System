@@ -55,7 +55,25 @@ const ProductDetail = () => {
   const fetchProductById = async (productId) => {
     try {
       const response = await getProductById(productId);
+      // console.log("Product:", response.data);
       setProduct(response.data);
+
+      //add recently viewed local storage
+      let recentlyViewed =
+        JSON.parse(localStorage.getItem("recentlyViewProduct")) || [];
+
+      if (!Array.isArray(recentlyViewed)) {
+        recentlyViewed = [];
+      }
+
+      recentlyViewed = recentlyViewed.filter((p) => p.idProduct !== productId);
+
+      recentlyViewed.push(response.data);
+
+      localStorage.setItem(
+        "recentlyViewProduct",
+        JSON.stringify(recentlyViewed)
+      );
     } catch (error) {
       console.error("Error fetching product data:", error);
     }

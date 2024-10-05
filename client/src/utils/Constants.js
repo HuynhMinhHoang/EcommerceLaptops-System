@@ -11,6 +11,7 @@ export const path = {
   ACCOUNT: "account",
   ORDER_HISTORY: "order-history",
   MESSAGE_ACCOUNT: "message-account",
+  RECENTLY_VIEWED: "recently-viewed",
   ADMIN: "/admin",
   DASHBOARD: "/admin/dashboard",
   MANAGE_USER: "/admin/manage-users",

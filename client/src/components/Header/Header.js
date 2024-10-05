@@ -106,6 +106,10 @@ const Header = ({ toast }) => {
     navigate(path.ACCOUNT_MANAGE);
   };
 
+  const handleRecentlyViewed = () => {
+    navigate(`${path.ACCOUNT_MANAGE}/${path.RECENTLY_VIEWED}`);
+  };
+
   const handleOrderHistory = () => {
     if (!isAuthenticated) {
       toast.current.show({
@@ -266,7 +270,10 @@ const Header = ({ toast }) => {
                         />
                         Thông tin hồ sơ
                       </div>
-                      <div className="dropdown-item-user">
+                      <div
+                        className="dropdown-item-user"
+                        onClick={handleRecentlyViewed}
+                      >
                         <MdOutlineRemoveRedEye
                           style={{ fontSize: "20px", marginRight: "12px" }}
                         />
