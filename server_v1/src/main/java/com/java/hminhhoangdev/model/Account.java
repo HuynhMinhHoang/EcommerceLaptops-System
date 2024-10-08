@@ -24,6 +24,7 @@ public class Account {
     private String username;
     private String password;
     private String avt;
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     @ManyToOne
@@ -33,6 +34,9 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Order> orders;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
 
     public String getAddress() {
         return address;
@@ -147,10 +151,17 @@ public class Account {
         this.username = username;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
     @Override
     public String toString() {
-        return "Account{" + "address='" + address + '\'' + ", idAccount=" + idAccount + ", fullName='" + fullName + '\'' + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", avt='" + avt + '\'' + ", status=" + status + ", role=" + role +
-//                ", orders=" + orders +
-                '}';
+        return "Account{" + "address='" + address + '\'' + ", idAccount=" + idAccount + ", fullName='" + fullName + '\'' + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", avt='" + avt + '\'' + ", status=" + status + ", role=" + role + ", createdAt=" + createdAt + '}';
     }
 }

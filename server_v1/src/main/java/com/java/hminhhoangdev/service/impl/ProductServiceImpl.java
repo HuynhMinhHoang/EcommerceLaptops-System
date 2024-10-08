@@ -3,6 +3,7 @@ package com.java.hminhhoangdev.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.java.hminhhoangdev.dto.request.ProductRequestDTO;
+import com.java.hminhhoangdev.model.Account;
 import com.java.hminhhoangdev.model.Category;
 import com.java.hminhhoangdev.model.Image;
 import com.java.hminhhoangdev.model.Product;
@@ -13,10 +14,15 @@ import com.java.hminhhoangdev.service.ProductService;
 import com.java.hminhhoangdev.util.CategoryType;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+
     @Autowired
     private ImageRepository imageRepository;
 
@@ -36,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private Cloudinary cloudinary;
+
 
     @Override
     public void addProduct(ProductRequestDTO productRequestDTO) {
@@ -75,9 +83,10 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
     @Override
-    public List<Product> getListProductAdmin() {
-        return productRepository.findAll();
+    public Page<Product> getListProductAdmin(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -93,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
 
         int categoryId = categoryType.getId();
 
-        return allProducts.stream().filter(product -> product.isStatus() && product.getQuantity() > 0 && product.getCategory().getIdCategory() == categoryId).collect(Collectors.toList());
+        return allProducts.stream().filter(product -> product.isStatus() && product.getCategory().getIdCategory() == categoryId).collect(Collectors.toList());
     }
 
     @Override
@@ -164,5 +173,6 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> getProductById(Integer id) {
         return productRepository.findById(id);
     }
+
 
 }

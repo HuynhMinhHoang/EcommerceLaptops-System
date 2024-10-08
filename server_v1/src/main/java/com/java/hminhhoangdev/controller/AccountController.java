@@ -25,8 +25,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -117,9 +121,12 @@ public class AccountController {
         }
     }
 
+
     @GetMapping("/admin/list-user")
-    public List<Account> getAllAccounts() {
-        return accountService.getListAccountAdmin();
+    public ResponseEntity<Page<Account>> getAllAccounts(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Account> accounts = accountService.getListAccountAdmin(pageable);
+        return ResponseEntity.ok(accounts);
     }
 
     @PostMapping(value = "admin/user/create-user", consumes = "multipart/form-data")
@@ -158,6 +165,23 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
         }
+    }
+
+    @GetMapping("/user/list-user-by-role")
+    public List<Account> getAllAccountsByRole(@RequestParam String role) {
+        return accountService.getAccountsByRole(role);
+    }
+
+    @GetMapping("/admin/stats-user/year")
+    public ResponseEntity<Map<Integer, Long>> getCountAccountsByMonth(@RequestParam int year) {
+        Map<Integer, Long> result = accountService.countAccountsByMonthInYear(year);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/admin/stats-user/status/year")
+    public ResponseEntity<Map<String, Long>> countActiveAndInactiveAccountsByYear(@RequestParam("year") int year) {
+        Map<String, Long> accountStatusCount = accountService.countActiveAndInactiveAccountsByYear(year);
+        return ResponseEntity.ok(accountStatusCount);
     }
 }
 

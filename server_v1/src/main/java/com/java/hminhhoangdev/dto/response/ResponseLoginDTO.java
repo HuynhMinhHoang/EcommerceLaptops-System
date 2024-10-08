@@ -4,6 +4,8 @@ package com.java.hminhhoangdev.dto.response;
 import com.java.hminhhoangdev.model.Account;
 import com.java.hminhhoangdev.util.AccountStatus;
 import com.java.hminhhoangdev.util.Gender;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.time.LocalDate;
 
@@ -19,6 +21,7 @@ public class ResponseLoginDTO {
     private String phone;
     private String username;
     private String avt;
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     private String role;
 
@@ -38,7 +41,6 @@ public class ResponseLoginDTO {
         this.role = account.getRole().getNameRole();
     }
 
-    // Getter và Setter cho accessToken, refreshToken và các trường khác
     public String getAccessToken() {
         return accessToken;
     }

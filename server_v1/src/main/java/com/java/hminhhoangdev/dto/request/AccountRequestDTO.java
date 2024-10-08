@@ -2,6 +2,8 @@ package com.java.hminhhoangdev.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.java.hminhhoangdev.util.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +44,7 @@ public class AccountRequestDTO implements Serializable {
 
     private String address;
 
-    @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     private int roleId;

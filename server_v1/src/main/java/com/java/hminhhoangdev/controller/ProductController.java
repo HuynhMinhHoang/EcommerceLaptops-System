@@ -3,9 +3,13 @@ package com.java.hminhhoangdev.controller;
 import com.java.hminhhoangdev.dto.request.ProductRequestDTO;
 import com.java.hminhhoangdev.dto.response.ResponseData;
 import com.java.hminhhoangdev.dto.response.ResponseError;
+import com.java.hminhhoangdev.model.Account;
 import com.java.hminhhoangdev.model.Product;
 import com.java.hminhhoangdev.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -76,12 +80,10 @@ public class ProductController {
     }
 
     @GetMapping("/list-admin")
-    public ResponseData<String> getListProductAdmin() {
-        try {
-            return new ResponseData(HttpStatus.OK.value(), "data", productService.getListProductAdmin());
-        } catch (Exception e) {
-            return new ResponseError(HttpStatus.OK.value(), e.getMessage());
-        }
+    public ResponseEntity<Page<Product>> getListProductAdmin(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> products = productService.getListProductAdmin(pageable);
+        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/delete/{productId}")
@@ -95,4 +97,5 @@ public class ProductController {
             return new ResponseEntity<>("An error occurred while deleting the product", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

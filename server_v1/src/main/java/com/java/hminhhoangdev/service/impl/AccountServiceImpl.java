@@ -12,13 +12,8 @@ import com.java.hminhhoangdev.repository.AccountRepository;
 import com.java.hminhhoangdev.repository.RoleRepository;
 import com.java.hminhhoangdev.service.AccountService;
 import com.java.hminhhoangdev.util.AccountStatus;
-import com.java.hminhhoangdev.util.Gender;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -123,13 +118,19 @@ public class AccountServiceImpl implements AccountService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Avatar is required");
         }
+        System.out.println("Status before saving: " + account.getStatus().getValue());
 
         return accountRepository.save(account);
     }
 
+//    @Override
+//    public List<Account> getListAccountAdmin() {
+//        return accountRepository.findAll();
+//    }
+
     @Override
-    public List<Account> getListAccountAdmin() {
-        return accountRepository.findAll();
+    public Page<Account> getListAccountAdmin(Pageable pageable) {
+        return accountRepository.findAll(pageable);
     }
 
     @Override
@@ -254,7 +255,7 @@ public class AccountServiceImpl implements AccountService {
         Role role = roleOptional.get();
         account.setRole(role);
 
-        MultipartFile img = accountRequestDTO.getAvt(); // MultipartFile instead of URL
+        MultipartFile img = accountRequestDTO.getAvt();
         if (img != null && !img.isEmpty()) {
             try {
                 Map<String, Object> uploadResult = cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap());
@@ -303,5 +304,56 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    public List<Account> getAccountsByRole(String role) {
+        return accountRepository.findByRole_NameRole(role);
+    }
 
+    @Override
+    public Map<Integer, Long> countAccountsByMonthInYear(int year) {
+        LocalDate startOfYear = LocalDate.of(year, 1, 1);
+        LocalDate endOfYear = LocalDate.of(year, 12, 31);
+
+        Date startDate = java.sql.Date.valueOf(startOfYear);
+        Date endDate = java.sql.Date.valueOf(endOfYear);
+
+        List<Account> accounts = accountRepository.findAllByCreatedAtBetween(startDate, endDate);
+
+        Map<Integer, Long> accountCountByMonth = new HashMap<>();
+
+        for (int month = 1; month <= 12; month++) {
+            accountCountByMonth.put(month, 0L);
+        }
+
+        accounts.forEach(account -> {
+            int month = account.getCreatedAt().toInstant().atZone(ZoneId.systemDefault()).getMonthValue();
+            accountCountByMonth.put(month, accountCountByMonth.get(month) + 1);
+        });
+
+        return accountCountByMonth;
+    }
+
+    @Override
+    public Map<String, Long> countActiveAndInactiveAccountsByYear(int year) {
+        LocalDate startOfYear = LocalDate.of(year, 1, 1);
+        LocalDate endOfYear = LocalDate.of(year, 12, 31);
+
+        Date startDate = java.sql.Date.valueOf(startOfYear);
+        Date endDate = java.sql.Date.valueOf(endOfYear);
+
+        List<Account> accounts = accountRepository.findAllByCreatedAtBetween(startDate, endDate);
+
+        Map<String, Long> accountStatusCount = new HashMap<>();
+        accountStatusCount.put("countActive", 0L);
+        accountStatusCount.put("countInactive", 0L);
+
+        accounts.forEach(account -> {
+            if (account.getStatus() == AccountStatus.ACTIVE) {
+                accountStatusCount.put("countActive", accountStatusCount.get("countActive") + 1);
+            } else if (account.getStatus() == AccountStatus.INACTIVE) {
+                accountStatusCount.put("countInactive", accountStatusCount.get("countInactive") + 1);
+            }
+        });
+
+        return accountStatusCount;
+    }
 }

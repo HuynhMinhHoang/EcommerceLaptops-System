@@ -10,16 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface AccountService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     Account registerUser(AccountRequestDTO accountRequestDTO);
 
-    List<Account> getListAccountAdmin();
+    Page<Account> getListAccountAdmin(Pageable pageable);
 
     Account updateAccountByAdmin(int id, AccountRequestDTO accountRequestDTO);
 
@@ -30,4 +33,10 @@ public interface AccountService extends UserDetailsService {
     Account createAccountFromFb(AccountRequestDTO accountRequestDTO);
 
     Account createAccountFromGoogle(String socialAccountId, String fullName, String email, String avtUrl, String username);
+
+    List<Account> getAccountsByRole(String role);
+
+    Map<Integer, Long> countAccountsByMonthInYear(int year);
+
+    Map<String, Long> countActiveAndInactiveAccountsByYear(int year);
 }
