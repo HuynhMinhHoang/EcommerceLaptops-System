@@ -11,7 +11,6 @@ const RecentlyViewed = () => {
   useEffect(() => {
     const products =
       JSON.parse(localStorage.getItem("recentlyViewProduct")) || [];
-    console.log("Recently Viewed Products:", products);
 
     setRecentlyViewedProducts(products);
   }, []);

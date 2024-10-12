@@ -19,16 +19,16 @@ import categoriesProduct from "../../../utils/categoriesProduct";
 const categories = [
   { img: cate1, key: categoriesProduct.LAPTOP, name: "Laptop" },
   { img: cate2, key: categoriesProduct.PC, name: "PC" },
-  { img: cate3, key: categoriesProduct.SCREEN, name: "Màn hình" },
-  { img: cate8, key: "MAINBOARD", name: "Mainboard" },
-  { img: cate9, key: "CPU", name: "CPU" },
-  { img: cate10, key: "VGA", name: "VGA" },
-  { img: cate11, key: "RAM", name: "RAM" },
+  { img: cate3, key: categoriesProduct.PC, name: "Màn hình" },
+  { img: cate8, key: categoriesProduct.PC, name: "Mainboard" },
+  { img: cate9, key: categoriesProduct.PC, name: "CPU" },
+  { img: cate10, key: categoriesProduct.PC, name: "VGA" },
+  { img: cate11, key: categoriesProduct.PC, name: "RAM" },
   { img: cate4, key: categoriesProduct.KEYBOARD, name: "Bàn phím" },
   { img: cate5, key: categoriesProduct.MOUSE, name: "Chuột" },
-  { img: cate6, key: "CHAIR", name: "Ghế Gaming" },
+  { img: cate6, key: categoriesProduct.PC, name: "Ghế Gaming" },
   { img: cate7, key: categoriesProduct.HEADPHONE, name: "Tai nghe" },
-  { img: cate12, key: "CONSOLE", name: "Console" },
+  { img: cate12, key: categoriesProduct.PC, name: "Console" },
 ];
 
 const CategoryList = () => {

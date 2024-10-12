@@ -10,6 +10,7 @@ import { registerUser } from "../../service/APIService";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { path } from "../../utils/Constants";
+import CustomButton from "../../utils/CustomButton";
 
 const Register = ({ toast }) => {
   const [username, setUsername] = useState("");
@@ -371,17 +372,12 @@ const Register = ({ toast }) => {
 
                 <p>Quên mật khẩu?</p>
                 <div className="btn-login">
-                  <button
-                    onClick={() => {
-                      handleRegister();
-                    }}
+                  <CustomButton
+                    text="Tạo tài khoản miễn phí"
+                    onClick={handleRegister}
                     disabled={isLoading}
-                  >
-                    {isLoading === true && (
-                      <ImSpinner2 className="loaderIcon" />
-                    )}
-                    Tạo tài khoản miễn phí
-                  </button>
+                    isLoading={isLoading}
+                  />
                 </div>
               </div>
             </div>

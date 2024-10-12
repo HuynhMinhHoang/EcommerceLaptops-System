@@ -87,33 +87,48 @@
       margin-bottom: 20px;
       align-items: center;
       .buy-now {
+        cursor: pointer;
         width: 60%;
+        --clr-font-main: hsla(0 0% 20% / 100);
+        --btn-bg-1: hsl(0deg 100% 59.95%);
+        --btn-bg-2: hsl(0deg 100% 43.91%);
+        --btn-bg-color: hsla(360 100% 100% / 1);
+        --radii: 8px;
+        outline: none;
+        transition: 0.8s;
+        background-size: 280% auto;
+        background-image: linear-gradient(
+          325deg,
+          var(--btn-bg-2) 0%,
+          var(--btn-bg-1) 55%,
+          var(--btn-bg-2) 90%
+        );
+        border-radius: var(--radii);
+        color: var(--btn-bg-color);
+        box-shadow: 0px 0px 20px #c6c6c680,
+          0px 5px 5px -1px rgba(202, 202, 202, 0.25);
 
-        button {
+        div {
           font-family: "Nunito", sans-serif;
           width: 100%;
           display: grid;
           text-align: center;
           padding: 10px 10px 10px;
           color: #fff;
-          background-color: #e30019;
-          border-radius: 5px;
-          border: 1px solid #e30019;
-          cursor: pointer;
-          transition: 0.4s;
-          &:hover {
-            background-color: #c20118;
-          }
-          &.custom-btn {
+
+          &.custom-btn-sold {
             background-color: #797979;
             cursor: not-allowed;
-            border: 1px solid #797979;
-
+            border: none;
+            box-shadow: 0px 0px 20px #c6c6c680,
+              0px 5px 5px -1px rgba(202, 202, 202, 0.25);
+            border-radius: 8px;
             &:hover::after,
             &:hover::before {
               display: none;
             }
           }
+
           .maintext {
             font-weight: 700;
             font-size: 20px;
@@ -124,6 +139,20 @@
             font-size: 15px;
             // margin-top: 3px;
           }
+        }
+      }
+
+      .buy-now:hover {
+        background-position: right top;
+      }
+
+      .buy-now:is(:focus, :focus-visible, :active) {
+        outline: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .buy-now {
+          transition: linear;
         }
       }
 

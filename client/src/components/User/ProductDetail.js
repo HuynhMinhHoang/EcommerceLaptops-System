@@ -69,6 +69,7 @@ const ProductDetail = () => {
       recentlyViewed = recentlyViewed.filter((p) => p.idProduct !== productId);
 
       recentlyViewed.push(response.data);
+      recentlyViewed.reverse();
 
       localStorage.setItem(
         "recentlyViewProduct",

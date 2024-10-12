@@ -51,36 +51,6 @@ const FilterBar = ({ onFilterChange }) => {
   return (
     <>
       <div className="filter-bar">
-        {/* <div className="filter-group">
-          <h4>Hãng sản xuất</h4>
-          {["Asus", "Lenovo", "Dell", "LG", "Acer"].map((brand) => (
-            <label key={brand}>
-              <input
-                type="checkbox"
-                name="manufacturer"
-                value={brand}
-                onChange={handleCheckboxChange}
-                checked={filters.manufacturer.includes(brand)}
-              />
-              {brand}
-            </label>
-          ))}
-        </div>
-        <div className="filter-group">
-          <h4>Mục đích sử dụng</h4>
-          {["Gaming", "Văn phòng"].map((usage) => (
-            <label key={usage}>
-              <input
-                type="checkbox"
-                name="usage"
-                value={usage}
-                onChange={handleCheckboxChange}
-                checked={filters.usage.includes(usage)}
-              />
-              {usage}
-            </label>
-          ))}
-        </div> */}
         <div className="filter-group">
           <h4>Mức giá</h4>
           {[
@@ -103,7 +73,7 @@ const FilterBar = ({ onFilterChange }) => {
         </div>
         <div className="filter-group">
           <h4>Sắp xếp</h4>
-          {["Giá tăng dần", "Giá giảm dần", "Không sắp xếp"].map((sort) => (
+          {["Giá tăng dần", "Giá giảm dần"].map((sort) => (
             <label key={sort}>
               <input
                 type="radio"

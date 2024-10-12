@@ -2,8 +2,8 @@ import axios from "axios";
 import { store } from "../redux/store";
 import { doLogout } from "../redux/action/userAction";
 import { path } from "./Constants";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
+// import NProgress from "nprogress";
+// import "nprogress/nprogress.css";
 
 const instance = axios.create({
   baseURL: "http://localhost:8080",
@@ -14,7 +14,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    NProgress.start();
+    // NProgress.start();
     const accessToken = store?.getState()?.userRedux?.user?.accessToken;
     if (accessToken) {
       config.headers["Authorization"] = "Bearer " + accessToken;
@@ -22,18 +22,18 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    NProgress.done();
+    // NProgress.done();
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   (response) => {
-    NProgress.done();
+    // NProgress.done();
     return response;
   },
   async (error) => {
-    NProgress.done();
+    // NProgress.done();
     if (error.response.status === 403) {
       alert("Hết phiên, vui lòng đăng nhập lại!!!");
       store.dispatch(doLogout());

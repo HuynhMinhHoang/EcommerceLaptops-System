@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { doLogin, doLoginFB } from "../../redux/action/userAction";
 import { auth, GoogleAuthProvider } from "../../firebase/configFireBase";
 import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
+import CustomButton from "../../utils/CustomButton";
 
 const Login = ({ toast }) => {
   const [username, setUsername] = useState("");
@@ -249,13 +250,12 @@ const Login = ({ toast }) => {
               </div>
               <p>Quên mật khẩu?</p>
               <div className="btn-login">
-                <button
+                <CustomButton
                   onClick={isLoadingSocial ? null : handleLogin}
                   disabled={isLoading}
-                >
-                  {isLoading && <ImSpinner2 className="loaderIcon" />}
-                  Đăng nhập vào Gearvn
-                </button>
+                  text="Đăng nhập vào Gearvn"
+                  isLoading={isLoading}
+                />
               </div>
 
               <div className="br">

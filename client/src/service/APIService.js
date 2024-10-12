@@ -218,6 +218,14 @@ const getStatsStatuUser = (year) => {
   });
 };
 
+const getProductByKeyword = (keyword) => {
+  return axios.get("/api/v1/product/search", {
+    params: {
+      keyword: keyword,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -246,4 +254,5 @@ export {
   getListAccountByRole,
   getStatsUserByYear,
   getStatsStatuUser,
+  getProductByKeyword,
 };

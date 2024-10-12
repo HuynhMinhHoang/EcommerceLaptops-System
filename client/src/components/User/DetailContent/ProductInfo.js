@@ -50,15 +50,16 @@ const ProductInfo = ({ product }) => {
         <p className="price">{product.price.toLocaleString("vi-VN")}đ</p>
         <div className="bg-btn">
           <div className="buy-now">
-            <Button
-              variant="contained"
+            <div
               onClick={() => {
-                handleAddToCart();
+                if (product.quantity > 0) {
+                  handleAddToCart();
+                }
               }}
               disabled={isShowNotifications || product.quantity === 0}
               className={
                 isShowNotifications || product.quantity === 0
-                  ? "custom-btn"
+                  ? "custom-btn-sold"
                   : ""
               }
             >
@@ -70,7 +71,7 @@ const ProductInfo = ({ product }) => {
                   ? "Sản phẩm tạm hết hàng"
                   : "Giao tận nơi hoặc nhận tại cửa hàng"}
               </span>
-            </Button>
+            </div>
           </div>
         </div>
         <div className="description">

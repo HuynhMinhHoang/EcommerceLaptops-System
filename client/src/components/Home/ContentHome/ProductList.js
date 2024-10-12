@@ -157,6 +157,11 @@ const ProductList = ({ category }) => {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   };
+  const handleCategoryClick = (category) => {
+    navigate(`${path.CATEGORY_COLLECTIONS.replace(":category", category)}`, {
+      state: { key: "key" },
+    });
+  };
   return (
     <div className="product-container">
       <div className="tilte-product">
@@ -182,7 +187,7 @@ const ProductList = ({ category }) => {
             ? "Giao hàng toàn quốc"
             : "Miễn phí giao hàng"}
         </span>
-        <p>Xem tất cả</p>
+        <p onClick={() => handleCategoryClick(category)}>Xem tất cả</p>
       </div>
       <div className="product-list">
         <Carousel

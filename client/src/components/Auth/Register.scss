@@ -78,7 +78,7 @@
             color: white;
             font-weight: 600;
             font-size: 16px;
-            transition: 0.3s;
+
             &:hover {
               background-color: #df0f27;
             }
@@ -176,7 +176,7 @@
 
           .bg-input-upload {
             border-radius: 5px 5px 0px 0px;
-            // height: 20px;
+            height: 38%;
             background-color: #f9fafb;
             padding: 7px 15px;
 
@@ -207,8 +207,8 @@
           }
 
           .preview {
-            height: auto;
-
+            height: 62%;
+            // border: 1px solid #dc3545;
             p {
               color: #495057;
               font-size: 16px;
@@ -217,15 +217,18 @@
               text-decoration: none;
             }
             .preview-image {
-              padding: 20px;
+              height: 100%;
+              padding: 10px;
               display: flex;
               align-items: center;
               position: relative;
 
               .bg-img {
+                height: 100%;
+
                 img {
-                  height: auto;
-                  width: 50px;
+                  height: 100%;
+                  width: auto;
                 }
               }
 

@@ -64,7 +64,7 @@ const DashBoard = () => {
 
               <div
                 className="bg-item1"
-                onClick={() => setActiveComponentStats("products")}
+                // onClick={() => setActiveComponentStats("products")}
               >
                 <div className="bg-avt product">
                   <img src={ImgProduct} alt="avt" />
@@ -72,17 +72,12 @@ const DashBoard = () => {
 
                 <div className="bg-text">
                   <p>Products</p>
-                  <p>
-                    {/* {listStats?.others?.countQuiz !== undefined
-                      ? listStats.others.countQuiz
-                      : 0} */}
-                  </p>
                 </div>
               </div>
 
               <div
                 className="bg-item1"
-                onClick={() => setActiveComponentStats("orders")}
+                // onClick={() => setActiveComponentStats("orders")}
               >
                 <div className="bg-avt order">
                   <img src={ImgOrder} alt="avt" />
@@ -90,11 +85,6 @@ const DashBoard = () => {
 
                 <div className="bg-text">
                   <p>Orders</p>
-                  <p>
-                    {/* {listStats?.others?.countQuestions !== undefined
-                      ? listStats.others.countQuestions
-                      : 0} */}
-                  </p>
                 </div>
               </div>
 

@@ -3,12 +3,14 @@ import "./ProductsListCollection.scss";
 import { FaStar } from "react-icons/fa";
 import { getListProductHome } from "../../../service/APIService";
 import { FaLaptop } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { path } from "../../../utils/Constants";
 import categories from "../../../utils/categoriesProduct";
 
 const ProductsListConllection = ({ category, filters }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const key = location.state?.key;
   const [productList, setProductList] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -17,7 +19,8 @@ const ProductsListConllection = ({ category, filters }) => {
       try {
         const response = await getListProductHome(category);
         let products = response.data.data;
-        if (category === categories.LAPTOP) {
+
+        if (!key && category === categories.LAPTOP) {
           const gamingResponse = await getListProductHome(
             categories.LAPTOPGAMING
           );
@@ -33,7 +36,7 @@ const ProductsListConllection = ({ category, filters }) => {
 
   useEffect(() => {
     const applyFilters = () => {
-      let filtered = productList;
+      let filtered = [...productList];
 
       if (filters.manufacturer.length > 0) {
         filtered = filtered.filter((product) =>
@@ -75,7 +78,7 @@ const ProductsListConllection = ({ category, filters }) => {
       }
 
       if (filters.sortOrder) {
-        filtered = filtered.sort((a, b) => {
+        filtered = [...filtered].sort((a, b) => {
           if (filters.sortOrder === "Giá tăng dần") {
             return a.price - b.price;
           } else if (filters.sortOrder === "Giá giảm dần") {

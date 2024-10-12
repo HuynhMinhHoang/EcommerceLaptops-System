@@ -22,6 +22,7 @@ const CategoryCollections = () => {
     usage: [],
     priceRange: "",
     sortOrder: "",
+    availability: "",
   });
   const bannerLeftRef = useRef(null);
   const bannerRightRef = useRef(null);

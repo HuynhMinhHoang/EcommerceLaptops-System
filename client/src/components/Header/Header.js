@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./Header.scss";
@@ -24,17 +24,21 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { ThreeDots } from "react-loader-spinner";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { getProductByKeyword } from "../../service/APIService";
+import _ from "lodash";
 
 const Header = ({ toast }) => {
   const [isSticky, setIsSticky] = useState(false);
-  // const [open, setOpen] = useState(false);
-
+  const [keyword, setKeyword] = useState("");
   const isAuthenticated = useSelector(
     (state) => state.userRedux.isAuthenticated
   );
   const user = useSelector((state) => state.userRedux.user);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cartRedux.products) || [];
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionBoxRef = useRef(null);
 
   const totalQuantityInCart = products.reduce((total, product) => {
     return total + product.quantityInCart;
@@ -68,6 +72,45 @@ const Header = ({ toast }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        suggestionBoxRef.current &&
+        !suggestionBoxRef.current.contains(event.target)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setShowSuggestions(false);
+    setKeyword("");
+  }, [location]);
+
+  const debounceSearch = _.debounce(async (value) => {
+    if (value.trim() === "") {
+      setSuggestedProducts([]);
+      setShowSuggestions(false);
+      return;
+    }
+    const response = await getProductByKeyword(value);
+    if (response && response.data) {
+      setSuggestedProducts(response.data);
+      setShowSuggestions(true);
+    }
+  }, 500);
+
+  useEffect(() => {
+    debounceSearch(keyword);
+    return () => debounceSearch.cancel();
+  }, [keyword]);
 
   const handleLogout = () => {
     setLoading(true);
@@ -122,6 +165,24 @@ const Header = ({ toast }) => {
     }
   };
 
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  };
+
+  const handleClickDetail = (id, name) => {
+    const slug = slugify(name);
+    navigate(`${path.PRODUCT_DETAIL.replace(":slug", slug)}`, {
+      state: { id },
+    });
+  };
+
   return (
     <>
       <div className={`header ${isSticky ? "sticky" : ""}`}>
@@ -147,10 +208,55 @@ const Header = ({ toast }) => {
               <li>
                 <div className="input-search">
                   <IconField>
-                    <InputIcon className="pi pi-search"> </InputIcon>
-                    <InputText v-model="value1" placeholder="Bạn cần tìm gì?" />
+                    <InputIcon className="pi pi-search"></InputIcon>
+                    <InputText
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                      placeholder="Bạn cần tìm sản phẩm gì?"
+                    />
                   </IconField>
                 </div>
+
+                {showSuggestions && (
+                  <div className="suggestion-box" ref={suggestionBoxRef}>
+                    {suggestedProducts.length > 0 ? (
+                      <ul>
+                        {suggestedProducts.map((product) => (
+                          <li
+                            key={product.idProduct}
+                            onClick={() => {
+                              handleClickDetail(
+                                product.idProduct,
+                                product.nameProduct
+                              );
+                            }}
+                          >
+                            <div className="product-info-search">
+                              <span className="product-name-search">
+                                {product.nameProduct}
+                              </span>
+                              <div className="product-price-search">
+                                <span className="price-current-search">
+                                  {product.price.toLocaleString("vi-VN")}đ
+                                </span>
+                              </div>
+                            </div>
+                            <div className="product-image-search">
+                              <img
+                                src={product.images[0]?.thumbnail}
+                                alt={product.nameProduct}
+                                width="50"
+                                height="50"
+                              />
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="no-results">Không tìm thấy sản phẩm!</div>
+                    )}
+                  </div>
+                )}
               </li>
 
               <li className="hotline">
