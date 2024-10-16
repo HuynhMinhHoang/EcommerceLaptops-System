@@ -43,10 +43,13 @@ const ProductList = ({ category }) => {
   const fetchProductList = async () => {
     try {
       const response = await getListProductHome(category);
-      setProductList(response.data.data);
-      // console.log("====", response.data.data);
+      const sortedProductList = response.data.data.map((product) => ({
+        ...product,
+        images: product.images.sort((a, b) => a.idImage - b.idImage),
+      }));
+      setProductList(sortedProductList);
     } catch (error) {
-      console.log("Error fetching laptop list");
+      console.log("Error fetching product list:", error);
     }
   };
 

@@ -1,36 +1,79 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import "react-image-lightbox/style.css";
 import Gallery from "react-image-gallery";
+import Lightbox from "react-image-lightbox";
 import "./ProductInfo.scss";
-import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { addToCart } from "../../../redux/action/cartActions";
 import { useDispatch, useSelector } from "react-redux";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Button } from "@mui/material";
 
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const isShowNotifications = useSelector(
     (state) => state.cartRedux.isShowNotifications
   );
 
-  const galleryImages = product.images.map((image) => ({
-    original: image.thumbnail,
-    thumbnail: image.thumbnail,
-  }));
-
   const handleAddToCart = () => {
     if (!isShowNotifications) {
-      // console.log("Adding product to cart:", product);
       dispatch(addToCart(product));
+    }
+  };
+
+  const galleryImages = product.images.map((image) => image.thumbnail);
+
+  const handleImageClick = (event) => {
+    const images = document.querySelectorAll(".image-gallery-image");
+    const clickedImageIndex = Array.from(images).indexOf(event.target);
+    openLightbox(clickedImageIndex);
+  };
+
+  const openLightbox = (index) => {
+    if (galleryImages.length > 0) {
+      setCurrentImageIndex(index);
+      setIsOpen(true);
     }
   };
 
   return (
     <div className="product-page">
       <div className="bg-image-gallery">
-        <Gallery items={galleryImages} />
+        <Gallery
+          items={galleryImages.map((src) => ({
+            original: src,
+            thumbnail: src,
+          }))}
+          onClick={handleImageClick}
+        />
       </div>
+
+      {/* lightbox */}
+      {isOpen && galleryImages.length > 0 && (
+        <Lightbox
+          mainSrc={galleryImages[currentImageIndex]}
+          nextSrc={
+            galleryImages[(currentImageIndex + 1) % galleryImages.length]
+          }
+          prevSrc={
+            galleryImages[
+              (currentImageIndex + galleryImages.length - 1) %
+                galleryImages.length
+            ]
+          }
+          onCloseRequest={() => setIsOpen(false)}
+          onMovePrevRequest={() =>
+            setCurrentImageIndex(
+              (currentImageIndex + galleryImages.length - 1) %
+                galleryImages.length
+            )
+          }
+          onMoveNextRequest={() =>
+            setCurrentImageIndex((currentImageIndex + 1) % galleryImages.length)
+          }
+        />
+      )}
 
       <div className="product-details">
         <h1>{product.nameProduct}</h1>

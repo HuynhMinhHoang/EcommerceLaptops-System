@@ -147,7 +147,7 @@ const ModalCRUDProduct = ({
     formData.append("price", price);
     formData.append("description", description);
     formData.append("quantity", quantity);
-    formData.append("categoryId", selectedCategory.idCategory);
+    formData.append("categoryId", selectedCategory);
     formData.append("status", status);
     uploadedFiles.forEach((file, index) => {
       formData.append(`imageUrls[${index}]`, file);
@@ -252,7 +252,7 @@ const ModalCRUDProduct = ({
     formData.append("price", price);
     formData.append("description", description);
     formData.append("quantity", quantity);
-    formData.append("categoryId", selectedCategory.idCategory);
+    formData.append("categoryId", selectedCategory);
     formData.append("status", status);
     newFiles.forEach((file) => {
       formData.append("imageUrls", file);

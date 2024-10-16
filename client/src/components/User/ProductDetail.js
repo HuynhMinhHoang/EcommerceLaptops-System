@@ -55,8 +55,14 @@ const ProductDetail = () => {
   const fetchProductById = async (productId) => {
     try {
       const response = await getProductById(productId);
-      // console.log("Product:", response.data);
-      setProduct(response.data);
+      console.log("response", response.data);
+
+      const sortedProduct = {
+        ...response.data,
+        images: response.data.images.sort((a, b) => a.idImage - b.idImage),
+      };
+
+      setProduct(sortedProduct);
 
       //add recently viewed local storage
       let recentlyViewed =
