@@ -98,4 +98,9 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String keyword) {
+        System.out.println("SEARCH");
+        return productService.searchProducts(keyword);
+    }
 }

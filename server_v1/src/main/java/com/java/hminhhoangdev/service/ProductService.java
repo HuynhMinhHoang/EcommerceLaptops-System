@@ -23,4 +23,5 @@ public interface ProductService {
 
     Optional<Product> getProductById(Integer id);
 
+    List<Product> searchProducts(String keyword);
 }
