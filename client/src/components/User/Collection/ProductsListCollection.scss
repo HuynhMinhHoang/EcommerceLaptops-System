@@ -5,7 +5,8 @@
   gap: 10px;
   justify-content: center;
   width: 100%;
-  
+  position: relative;
+
   .item-product-collection {
   }
   .laptop-card {
@@ -148,7 +149,9 @@
   }
 }
 .no-products-message {
+  font-style: oblique;
   text-align: center;
   font-size: 18px;
   color: #212529;
+  margin-top: 5px;
 }

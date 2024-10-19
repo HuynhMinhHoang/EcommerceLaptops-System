@@ -11,7 +11,6 @@ import { path } from "../../../utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  resetOrderState,
   setOrderId,
   setPaymentStatus,
 } from "../../../redux/action/orderActions";
@@ -28,7 +27,6 @@ const ConfirmInformation = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userRedux.user);
-
   const shippingAddress = localStorage.getItem("shippingAddress") || "";
   const note = localStorage.getItem("note") || "";
   const paymentMethod = Number(localStorage.getItem("paymentMethod")) || 1;

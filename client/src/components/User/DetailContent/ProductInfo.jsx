@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import "react-image-lightbox/style.css";
+// import "react-image-lightbox/style.css";
 import Gallery from "react-image-gallery";
-import Lightbox from "react-image-lightbox";
+// import Lightbox from "react-image-lightbox";
 import "./ProductInfo.scss";
 import { addToCart } from "../../../redux/action/cartActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,7 +62,7 @@ const ProductInfo = ({ product }) => {
       </div>
 
       {/* lightbox */}
-      {isOpen && galleryImages.length > 0 && (
+      {/* {isOpen && galleryImages.length > 0 && (
         <Lightbox
           mainSrc={galleryImages[currentImageIndex]}
           nextSrc={
@@ -85,7 +85,7 @@ const ProductInfo = ({ product }) => {
             setCurrentImageIndex((currentImageIndex + 1) % galleryImages.length)
           }
         />
-      )}
+      )} */}
 
       <div className="product-details">
         <h1>{product.nameProduct}</h1>

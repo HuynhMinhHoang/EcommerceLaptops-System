@@ -15,7 +15,7 @@ import { path } from "../../../utils/Constants";
 const PCList = () => {
   const navigate = useNavigate();
 
-  const [PCList, setPCList] = useState();
+  const [PCList, setPCList] = useState([]);
 
   const responsiveOptions = [
     {

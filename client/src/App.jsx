@@ -1,10 +1,8 @@
-import React from "react";
 import "./App.scss";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import { Outlet, useLocation } from "react-router-dom";
-import { useState, CSSProperties, useEffect } from "react";
-import FadeLoader from "react-spinners/ClipLoader";
+import { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { path } from "./utils/Constants";
 import GoToTop from "./components/Header/GoToTop";
@@ -61,3 +59,13 @@ const App = ({ toast }) => {
 };
 
 export default App;
+
+// function App() {
+//   return (
+//     <div>
+//       <h1>Hello Vite + React!</h1>
+//     </div>
+//   );
+// }
+
+// export default App;

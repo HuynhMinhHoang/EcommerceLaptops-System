@@ -1,6 +1,5 @@
 import React, { Suspense, useRef } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import App from "./App";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import { Toast } from "primereact/toast";
@@ -21,6 +20,7 @@ import AccountManage from "./components/User/AccountManage";
 import ChatMessageAccount from "./components/AccountChatMessage/ChatMessageAccount";
 import CategoryCollections from "./components/User/Collection/CategoryCollections";
 import RecentlyViewed from "./components/User/ProfileContent/RecentlyViewed";
+import App from "./App";
 const Layout = () => {
   const toast = useRef(null);
   return (

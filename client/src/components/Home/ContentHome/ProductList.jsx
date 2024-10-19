@@ -16,7 +16,7 @@ import categories from "../../../utils/categoriesProduct";
 const ProductList = ({ category }) => {
   const navigate = useNavigate();
 
-  const [productList, setProductList] = useState();
+  const [productList, setProductList] = useState([]);
 
   const responsiveOptions = [
     {

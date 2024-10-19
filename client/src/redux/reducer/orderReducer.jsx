@@ -5,12 +5,14 @@ import {
   RESET_ORDER_ID,
   RESET_STATE_PAYMENT,
   RESET_TOTAL_AMOUNT,
+  SET_IS_PROCESSED_EMAIL_PDF,
 } from "../action/orderActions";
 
 const initialState = {
   idOrder: null,
   price: 0,
   paymentStatus: "pending",
+  isProcessedEmailPDF: false,
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -45,7 +47,11 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         price: 0,
       };
-
+    case SET_IS_PROCESSED_EMAIL_PDF:
+      return {
+        ...state,
+        isProcessedEmailPDF: action.payload,
+      };
     default:
       return state;
   }

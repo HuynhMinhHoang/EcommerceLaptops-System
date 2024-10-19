@@ -20,11 +20,16 @@ import {
   setTotalAmount,
 } from "../../redux/action/orderActions";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
+import { sendEmailConfirmOrders } from "../../../src/service/APIService";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import axios from "axios";
 
 const ProductPayment = ({ toast }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userRedux.user);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [fullName, setFullName] = useState(user.fullName);
   const [phone, setPhone] = useState(user.phone);
   const [shippingAddress, setShippingAddress] = useState("");
@@ -56,18 +61,19 @@ const ProductPayment = ({ toast }) => {
     (state) => state.userRedux.isAuthenticated
   );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setScrollY(window.scrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [currentStep]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [currentStep]);
 
+  console.log("paymeent chaaaa", currentStep);
   useEffect(() => {
     if (!isAuthenticated) {
       setCurrentStep(1);
@@ -76,6 +82,7 @@ const ProductPayment = ({ toast }) => {
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else if (paymentStatus === "pending" && currentStep === 4) {
+      console.log("quay về 1");
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else {
@@ -91,7 +98,8 @@ const ProductPayment = ({ toast }) => {
 
   useEffect(() => {
     if (idOrder === null) {
-      dispatch(resetStatePayment());
+      console.log("reset state");
+      // dispatch(resetStatePayment());
       dispatch(resetTotalAmount());
     }
   }, [idOrder, dispatch]);
@@ -145,6 +153,171 @@ const ProductPayment = ({ toast }) => {
       setOpen(false);
       setCurrentStep(currentStep - 1);
     }, 500);
+  };
+
+  // send email
+  const handleSendEmail = async (
+    email,
+    idOrder,
+    fullName,
+    phone,
+    shippingAddress,
+    price,
+    products
+  ) => {
+    try {
+      const imageUrls = products.map((product) => product.images[0].thumbnail);
+      const imageFiles = await Promise.all(
+        imageUrls.map(async (url) => {
+          const response = await axios.get(url, { responseType: "blob" });
+          return new File([response.data], url.split("/").pop(), {
+            type: response.data.type,
+          });
+        })
+      );
+
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("orderId", idOrder);
+      formData.append("fullName", fullName);
+      formData.append("phone", phone);
+      formData.append("shippingAddress", shippingAddress);
+      formData.append("price", price);
+
+      imageFiles.forEach((file) => {
+        formData.append("productImages", file);
+      });
+
+      await sendEmailConfirmOrders(formData);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
+  //create pdf
+  const createAndDownloadPDF = async (
+    idOrder,
+    fullName,
+    phone,
+    shippingAddress,
+    note,
+    paymentMethod,
+    price,
+    products
+  ) => {
+    try {
+      const imageUrlsPDF = products.map(
+        (product) => product.images[0].thumbnail
+      );
+
+      const imageFilesPDF = await Promise.all(
+        imageUrlsPDF.map(async (url) => {
+          const response = await axios.get(url, { responseType: "blob" });
+          const blob = response.data;
+          const reader = new FileReader();
+          return new Promise((resolve) => {
+            reader.onloadend = () => {
+              const base64data = reader.result;
+              resolve(base64data);
+            };
+            reader.readAsDataURL(blob);
+          });
+        })
+      );
+
+      const documentDefinition = {
+        content: [
+          { text: `Thông tin đơn hàng - #${idOrder}`, style: "header" },
+          { text: `Họ và tên: ${fullName}`, style: "info" },
+          { text: `Số điện thoại: ${phone}`, style: "info" },
+          { text: `Địa chỉ nhận hàng: ${shippingAddress}`, style: "info" },
+          { text: `Ghi chú: ${note}`, style: "info" },
+          {
+            text: `Phương thức thanh toán: ${
+              paymentMethod === 1 ? "COD" : "VNPay"
+            }`,
+            style: "info",
+          },
+          {
+            text: `Tổng tiền: ${price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}`,
+            style: "info",
+          },
+          {
+            text: "Hình ảnh sản phẩm, tên sản phẩm, giá và số lượng:",
+            style: "subheader",
+          },
+          ...products.map((product, index) => {
+            return {
+              columns: [
+                {
+                  image: imageFilesPDF[index],
+                  width: 100,
+                  margin: [0, 5],
+                },
+                {
+                  text: product.nameProduct,
+                  style: "productName",
+                  margin: [10, 5, 0, 5],
+                },
+                {
+                  text: `${product.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}`,
+                  style: "productPrice",
+                  margin: [10, 5, 0, 5],
+                },
+                {
+                  text: `x${product.quantityInCart}`,
+                  style: "productQuantity",
+                  margin: [10, 5, 0, 5],
+                },
+              ],
+              columnGap: 10,
+              margin: [0, 5, 0, 5],
+            };
+          }),
+        ],
+        styles: {
+          header: {
+            fontSize: 20,
+            bold: true,
+            margin: [0, 0, 0, 10],
+          },
+          info: {
+            fontSize: 13,
+            margin: [0, 5, 0, 5],
+          },
+          subheader: {
+            fontSize: 13,
+            bold: true,
+            margin: [0, 10, 0, 5],
+          },
+          productName: {
+            fontSize: 12,
+            margin: [0, 5, 0, 5],
+          },
+          productPrice: {
+            fontSize: 12,
+            margin: [0, 5, 0, 5],
+            bold: true,
+          },
+          productQuantity: {
+            fontSize: 12,
+            margin: [0, 5, 0, 5],
+          },
+        },
+      };
+
+      pdfMake
+        .createPdf(documentDefinition)
+        .download(`order#${idOrder}_GEARVN.pdf`);
+    } catch (error) {
+      console.error("Error creating PDF:", error);
+    }
   };
 
   return (
@@ -270,6 +443,8 @@ const ProductPayment = ({ toast }) => {
             open={open}
             products={products}
             user={user}
+            handleSendEmail={handleSendEmail}
+            createAndDownloadPDF={createAndDownloadPDF}
           />
         )}
 
