@@ -21,14 +21,12 @@ const DashBoard = () => {
   const [year, setYear] = useState(currentYear);
   const [activeComponentStats, setActiveComponentStats] = useState("users");
 
-  console.log("year", year);
-
   const renderComponentStats = () => {
     switch (activeComponentStats) {
       case "users":
         return <StatsUserAdmin year={year} />;
       case "products":
-        return <StatsProductAdmin />;
+        return <StatsProductAdmin year={year} />;
       case "orders":
         return <StatsOrderAdmin />;
       default:
@@ -45,7 +43,9 @@ const DashBoard = () => {
           <div className="page-content-left">
             <div className="bg-item-header">
               <div
-                className="bg-item1"
+                className={`bg-item1 ${
+                  activeComponentStats === "users" ? "active" : ""
+                }`}
                 onClick={() => setActiveComponentStats("users")}
               >
                 <div className="bg-avt user">
@@ -54,17 +54,14 @@ const DashBoard = () => {
 
                 <div className="bg-text">
                   <p>Users</p>
-                  <p>
-                    {/* {listStats?.users?.total !== undefined
-                      ? listStats.users.total
-                      : 0} */}
-                  </p>
                 </div>
               </div>
 
               <div
-                className="bg-item1"
-                // onClick={() => setActiveComponentStats("products")}
+                className={`bg-item1 ${
+                  activeComponentStats === "products" ? "active" : ""
+                }`}
+                onClick={() => setActiveComponentStats("products")}
               >
                 <div className="bg-avt product">
                   <img src={ImgProduct} alt="avt" />
@@ -76,8 +73,10 @@ const DashBoard = () => {
               </div>
 
               <div
-                className="bg-item1"
-                // onClick={() => setActiveComponentStats("orders")}
+                className={`bg-item1 ${
+                  activeComponentStats === "orders" ? "active" : ""
+                }`}
+                onClick={() => setActiveComponentStats("orders")}
               >
                 <div className="bg-avt order">
                   <img src={ImgOrder} alt="avt" />

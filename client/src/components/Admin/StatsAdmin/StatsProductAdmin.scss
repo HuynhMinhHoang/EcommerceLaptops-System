@@ -1,0 +1,62 @@
+.progress-container {
+  position: relative;
+  width: 100%;
+  background-color: #e7ebee;
+  border: 1px solid #e7ebee;
+  border-radius: 4px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 2px;
+  color: #333;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //   font-weight: 500;
+  p {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    // font-weight: 600;
+    color: #212529;
+  }
+}
+
+.MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
+  display: flex;
+  align-items: center;
+  //   outline: none;
+}
+
+.MuiDataGrid-footerContainer.MuiDataGrid-withBorderColor.css-15lx25q-MuiDataGrid-footerContainer {
+  display: none;
+}
+
+.MuiDataGrid-root.MuiDataGrid-root--densityStandard.MuiDataGrid-root--noToolbar.MuiDataGrid-withBorderColor.css-1fxkmyt-MuiDataGrid-root {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.css-1fxkmyt-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.css-1fxkmyt-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+  display: flex;
+  justify-content: center !important;
+}
+
+.css-1fxkmyt-MuiDataGrid-root .MuiDataGrid-cell--textLeft:nth-child(4) {
+  justify-content: left !important;
+}

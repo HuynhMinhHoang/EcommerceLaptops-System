@@ -226,6 +226,14 @@ const getProductByKeyword = (keyword) => {
   });
 };
 
+const getListAllProductStats = (year) => {
+  return axios.get("/api/v1/product/list-stats-admin", {
+    params: {
+      year: year,
+    },
+  });
+};
+
 export {
   loginUser,
   registerUser,
@@ -255,4 +263,5 @@ export {
   getStatsUserByYear,
   getStatsStatuUser,
   getProductByKeyword,
+  getListAllProductStats,
 };
