@@ -190,20 +190,5 @@
   background: #dc3545 !important;
 }
 
-div:where(.swal2-container).swal2-center > .swal2-popup {
-  padding: 30px;
-  border-radius: 10px;
-  border: none;
-}
-div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
-  background-color: #5f5f5f;
-}
 
-div:where(.swal2-container) h2:where(.swal2-title) {
-  font-size: 20px;
-}
-div:where(.swal2-icon).swal2-warning {
-  height: 75px;
-  width: 80px;
-  margin-top: 0px;
-}
+

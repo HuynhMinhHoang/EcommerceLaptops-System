@@ -19,10 +19,10 @@
 
     .input-group-container {
       text-align: end;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      width: 70%;
+      width: 90%;
 
       .input-form {
         margin-left: 50px;
@@ -30,7 +30,7 @@
         text-align: start;
 
         .calendar {
-          width: 95%;
+          width: 100%;
         }
 
         .sex {
@@ -51,7 +51,7 @@
         padding: 5px 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        width: 95%;
+        width: 100%;
         height: 40px;
         transition: 0.3s;
         color: #000000;
@@ -92,6 +92,47 @@
       }
     }
 
+    .address-container {
+      // border: 1px solid #b00000;
+      width: 93%;
+      .bg-top {
+        display: flex;
+        div {
+          select {
+            width: 230px;
+            height: 40px;
+
+            &:focus {
+              border: 1px solid #fc5568;
+              box-shadow: 0 0 15px #ff94a0;
+              outline: none;
+            }
+          }
+        }
+      }
+      .bg-bottom {
+        margin-top: 20px;
+
+        display: flex;
+
+        div {
+          select {
+            width: 230px;
+            height: 40px;
+
+            &:focus {
+              border: 1px solid #fc5568;
+              box-shadow: 0 0 15px #ff94a0;
+              outline: none;
+            }
+          }
+          input {
+            width: 230px;
+          }
+        }
+      }
+    }
+
     .bg-btn-form {
       // text-align: center;
       // margin: 15px;
@@ -114,4 +155,8 @@
       }
     }
   }
+}
+
+.h2#swal2-title {
+  font-size: 15px !important;
 }

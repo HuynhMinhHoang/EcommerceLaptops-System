@@ -27,7 +27,7 @@ const StatsProductAdmin = ({ year }) => {
     {
       field: "idProduct",
       headerName: "ID",
-      width: 50,
+      width: 100,
       align: "center",
     },
     {
@@ -50,7 +50,7 @@ const StatsProductAdmin = ({ year }) => {
         />
       ),
     },
-    { field: "nameProduct", headerName: "Name", width: 400, align: "left" },
+    { field: "nameProduct", headerName: "Name", width: 370, align: "left" },
     {
       field: "price",
       headerName: "Price",
@@ -132,9 +132,9 @@ const StatsProductAdmin = ({ year }) => {
   ];
 
   const getProgressColor = (percentage) => {
-    if (percentage >= 70) return "#5DAB5D";
-    if (percentage >= 40) return "#F1D092";
-    return "#F44336";
+    if (percentage >= 70) return "#79f97a";
+    if (percentage >= 40) return "#f0f96b";
+    return "#ff3535";
   };
 
   const formatCurrency = (value) => {

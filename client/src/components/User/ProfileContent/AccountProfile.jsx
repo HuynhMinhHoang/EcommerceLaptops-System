@@ -6,6 +6,7 @@ import { updateAccountByUser } from "../../../service/APIService";
 import { updateProfileUser } from "../../../redux/action/userAction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 const AccountProfile = ({ toast }) => {
   const user = useSelector((state) => state.userRedux.user);
@@ -18,12 +19,66 @@ const AccountProfile = ({ toast }) => {
   const [address, setAddress] = useState(user.address || "");
   const [phone, setPhone] = useState(user.phone || "");
 
+  //address
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedWard, setSelectedWard] = useState("");
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await axios.get(
+          "https://provinces.open-api.vn/api/p/"
+        );
+        setProvinces(response.data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+    fetchProvinces();
+  }, []);
+
+  useEffect(() => {
+    if (selectedProvince) {
+      const fetchDistricts = async () => {
+        try {
+          const response = await axios.get(
+            `https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`
+          );
+          setDistricts(response.data.districts);
+          setWards([]);
+        } catch (error) {
+          console.error("Error fetching districts:", error);
+        }
+      };
+      fetchDistricts();
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      const fetchWards = async () => {
+        try {
+          const response = await axios.get(
+            `https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`
+          );
+          setWards(response.data.wards);
+        } catch (error) {
+          console.error("Error fetching wards:", error);
+        }
+      };
+      fetchWards();
+    }
+  }, [selectedDistrict]);
+
   const convertToDateObject = (dateStr) => {
     return dateStr ? new Date(dateStr) : null;
   };
 
   const handleGenderChange = (e) => {
-    console.log("e.target.value", e.target.value);
     setGender(e.target.value);
   };
 
@@ -35,10 +90,13 @@ const AccountProfile = ({ toast }) => {
       : dateOfBirth;
 
     if (
-      (fullName === user.fullName && gender === user.gender) ||
-      (null &&
-        formattedDateOfBirth === user.dateOfBirth &&
-        address === user.address)
+      fullName === user.fullName &&
+      gender === user.gender &&
+      formattedDateOfBirth === user.dateOfBirth &&
+      address === user.address &&
+      selectedProvince === user.province &&
+      selectedDistrict === user.district &&
+      selectedWard === user.ward
     ) {
       toast.current.show({
         severity: "info",
@@ -48,22 +106,37 @@ const AccountProfile = ({ toast }) => {
       return;
     }
 
+    const selectedWardName = wards.find(
+      (ward) => ward.code.toString() === selectedWard.toString()
+    );
+    const selectedDistrictName = districts.find(
+      (district) => district.code.toString() === selectedDistrict.toString()
+    );
+    const selectedProvinceName = provinces.find(
+      (province) => province.code.toString() === selectedProvince.toString()
+    );
+
+    const fullAddress = `${address}, ${selectedWardName?.name || ""}, ${
+      selectedDistrictName?.name || ""
+    }, ${selectedProvinceName?.name || ""}`;
+
+    console.log("fullAddress", fullAddress);
+
     const updateData = {
       fullName,
       gender: gender || null,
       dateOfBirth: formattedDateOfBirth,
-      address,
+      address: fullAddress,
     };
 
     const formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("gender", gender);
     formData.append("dateOfBirth", formattedDateOfBirth);
-    formData.append("address", address);
+    formData.append("address", fullAddress);
 
     try {
       let res = await updateAccountByUser(user.idAccount, formData);
-      console.log("res account", res);
       if (res && res.data && res.data.status === 200) {
         toast.current.show({
           severity: "success",
@@ -225,14 +298,67 @@ const AccountProfile = ({ toast }) => {
             />
           </div>
         </div>
-        <div className="input-group-container">
-          <label>Địa chỉ giao hàng</label>
+
+        {/* address */}
+        <div className="input-group-container address-container">
+          <label>Địa chỉ</label>
+
           <div className="input-form">
-            <input
-              type="text"
-              defaultValue={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <div className="bg-top">
+              <div className="input-form-province">
+                <select
+                  value={selectedProvince}
+                  onChange={(e) => setSelectedProvince(e.target.value)}
+                >
+                  <option value="">Chọn tỉnh/thành</option>
+                  {provinces.map((province) => (
+                    <option key={province.code} value={province.code}>
+                      {province.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-form-district">
+                <select
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  disabled={!selectedProvince}
+                >
+                  <option value="">Chọn quận/huyện</option>
+                  {districts.map((district) => (
+                    <option key={district.code} value={district.code}>
+                      {district.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="bg-bottom">
+              <div className="input-form-ward">
+                <select
+                  value={selectedWard}
+                  onChange={(e) => setSelectedWard(e.target.value)}
+                  disabled={!selectedDistrict}
+                >
+                  <option value="">Chọn phường/xã</option>
+                  {wards.map((ward) => (
+                    <option key={ward.code} value={ward.code}>
+                      {ward.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-form-address">
+                <input
+                  type="text"
+                  defaultValue={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

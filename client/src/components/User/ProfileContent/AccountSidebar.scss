@@ -67,3 +67,33 @@
     }
   }
 }
+
+div:where(.swal2-container) h2:where(.swal2-title) {
+  font-size: 1.125em !important;
+}
+div:where(.swal2-icon).swal2-warning {
+  width: 4em;
+  height: 4em;
+}
+div:where(.swal2-container) div:where(.swal2-actions) {
+  width: 100% !important;
+  button {
+    width: 40% !important;
+    flex-wrap: nowrap !important;
+    padding: 8px 15px !important;
+    &.swal2-confirm {
+      border: 1px solid #e30019;
+      background-color: #e30019;
+      color: #fff;
+    }
+    &.swal2-deny {
+      border: 1px solid #ececec;
+      background-color: #ececec;
+      color: #111111;
+    }
+  }
+}
+
+div:where(.swal2-container).swal2-center > .swal2-popup{
+  border-radius: 8px;
+}

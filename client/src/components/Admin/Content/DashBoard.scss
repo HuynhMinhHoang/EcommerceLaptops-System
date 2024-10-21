@@ -95,12 +95,12 @@
               margin-left: 20px;
               p {
                 font-weight: 700;
-                color: #e30019;
+                // color: #e30019;
                 margin: 0;
                 font-size: 18px;
               }
               p:first-child {
-                text-transform: capitalize;
+                text-transform: uppercase;
               }
               p:last-child {
                 color: rgb(84, 84, 84);
@@ -167,7 +167,7 @@
             margin-left: 10px;
             p {
               font-weight: 600;
-              color: rgb(84, 84, 84);
+              color: #545454;
               margin: 0;
               font-size: 18px;
             }
@@ -221,4 +221,7 @@
 }
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
   height: 45px !important;
+}
+.css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input {
+  height: 10px !important;
 }
