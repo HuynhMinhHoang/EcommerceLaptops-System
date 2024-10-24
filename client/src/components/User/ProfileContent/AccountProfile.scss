@@ -93,7 +93,7 @@
     }
 
     .address-container {
-      // border: 1px solid #b00000;
+      position: relative;
       width: 93%;
       .bg-top {
         display: flex;
@@ -129,6 +129,21 @@
           input {
             width: 230px;
           }
+        }
+      }
+      .text-select-address {
+        width: 70px;
+        color: #005ec9;
+        position: absolute;
+        right: -60px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .bg-bottom-close {
+        input {
+          width: 95%;
         }
       }
     }

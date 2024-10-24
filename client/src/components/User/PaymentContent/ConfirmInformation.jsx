@@ -23,6 +23,7 @@ const ConfirmInformation = ({
   fullName,
   phone,
   paymentStatus,
+  setOpen,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const ConfirmInformation = ({
       setCurrentStep(4);
       setTimeout(() => {
         navigate("/gearvn/cart/payment?step=4");
-      }, 0);
+      }, 2000);
     } catch (error) {
       console.error("Error initiating payment:", error);
     }

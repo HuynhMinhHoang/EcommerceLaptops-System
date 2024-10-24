@@ -85,7 +85,7 @@ const StatusPayment = ({
 
   return (
     <>
-      {openResultPayMent ? (
+      {openResultPayMent && open !== true ? (
         <div className="status-payment">
           <div className="status-message">
             <BsFillCartCheckFill
@@ -143,7 +143,7 @@ const StatusPayment = ({
             <button className="continue-button">Tiếp tục mua hàng</button>
           </div>
         </div>
-      ) : !openResultPayMent ? (
+      ) : !openResultPayMent && open !== true ? (
         <div className="status-payment">
           <div className="status-message-error">
             <MdError

@@ -61,19 +61,18 @@ const ProductPayment = ({ toast }) => {
     (state) => state.userRedux.isAuthenticated
   );
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setScrollY(window.scrollY);
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
 
-  //   window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [currentStep]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [currentStep]);
 
-  console.log("paymeent chaaaa", currentStep);
   useEffect(() => {
     if (!isAuthenticated) {
       setCurrentStep(1);
@@ -82,13 +81,22 @@ const ProductPayment = ({ toast }) => {
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else if (paymentStatus === "pending" && currentStep === 4) {
-      console.log("quay về 1");
       setCurrentStep(1);
       navigate(`${path.PRODUCT_PAYMENT}?step=1`, { replace: true });
     } else {
-      navigate(`${path.PRODUCT_PAYMENT}?step=${currentStep}`, {
-        replace: true,
-      });
+      if (currentStep === 4) {
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+          navigate(`${path.PRODUCT_PAYMENT}?step=${currentStep}`, {
+            replace: true,
+          });
+        }, 1500);
+      } else {
+        navigate(`${path.PRODUCT_PAYMENT}?step=${currentStep}`, {
+          replace: true,
+        });
+      }
     }
   }, [currentStep, navigate, products, paymentStatus]);
 
@@ -98,8 +106,6 @@ const ProductPayment = ({ toast }) => {
 
   useEffect(() => {
     if (idOrder === null) {
-      console.log("reset state");
-      // dispatch(resetStatePayment());
       dispatch(resetTotalAmount());
     }
   }, [idOrder, dispatch]);
@@ -428,6 +434,7 @@ const ProductPayment = ({ toast }) => {
             phone={phone}
             paymentStatus={paymentStatus}
             products={products}
+            setOpen={setOpen}
           />
         )}
         {currentStep === 4 && (

@@ -18,14 +18,26 @@ const AccountProfile = ({ toast }) => {
   const [email, setEmail] = useState(user.email || "");
   const [address, setAddress] = useState(user.address || "");
   const [phone, setPhone] = useState(user.phone || "");
-
+  const [openSelectAddress, setOpenSelectAddress] = useState(false);
   //address
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  //selected address
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
+
+  console.log("user-11", address);
+  useEffect(() => {
+    setOpenSelectAddress;
+    setFullName(user.fullName || "");
+    setGender(user.gender || null);
+    setDateOfBirth(user.dateOfBirth || null);
+    setEmail(user.email || "");
+    setAddress(user.address || "");
+    setPhone(user.phone || "");
+  }, [user.address]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -305,59 +317,74 @@ const AccountProfile = ({ toast }) => {
 
           <div className="input-form">
             <div className="bg-top">
-              <div className="input-form-province">
-                <select
-                  value={selectedProvince}
-                  onChange={(e) => setSelectedProvince(e.target.value)}
-                >
-                  <option value="">Chọn tỉnh/thành</option>
-                  {provinces.map((province) => (
-                    <option key={province.code} value={province.code}>
-                      {province.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {openSelectAddress && (
+                <>
+                  <div className="input-form-province">
+                    <select
+                      value={selectedProvince}
+                      onChange={(e) => setSelectedProvince(e.target.value)}
+                    >
+                      <option value="">Chọn tỉnh/thành</option>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-              <div className="input-form-district">
-                <select
-                  value={selectedDistrict}
-                  onChange={(e) => setSelectedDistrict(e.target.value)}
-                  disabled={!selectedProvince}
-                >
-                  <option value="">Chọn quận/huyện</option>
-                  {districts.map((district) => (
-                    <option key={district.code} value={district.code}>
-                      {district.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <div className="input-form-district">
+                    <select
+                      value={selectedDistrict}
+                      onChange={(e) => setSelectedDistrict(e.target.value)}
+                      disabled={!selectedProvince}
+                    >
+                      <option value="">Chọn quận/huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.code} value={district.code}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
 
-            <div className="bg-bottom">
-              <div className="input-form-ward">
-                <select
-                  value={selectedWard}
-                  onChange={(e) => setSelectedWard(e.target.value)}
-                  disabled={!selectedDistrict}
-                >
-                  <option value="">Chọn phường/xã</option>
-                  {wards.map((ward) => (
-                    <option key={ward.code} value={ward.code}>
-                      {ward.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div
+              className={openSelectAddress ? "bg-bottom" : "bg-bottom-close"}
+            >
+              {openSelectAddress && (
+                <div className="input-form-ward">
+                  <select
+                    value={selectedWard}
+                    onChange={(e) => setSelectedWard(e.target.value)}
+                    disabled={!selectedDistrict}
+                  >
+                    <option value="">Chọn phường/xã</option>
+                    {wards.map((ward) => (
+                      <option key={ward.code} value={ward.code}>
+                        {ward.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="input-form-address">
                 <input
                   type="text"
-                  defaultValue={address}
+                  value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
+            </div>
+
+            <div
+              className="text-select-address"
+              onClick={() => setOpenSelectAddress(!openSelectAddress)}
+            >
+              {openSelectAddress ? "Đóng" : "Thay đổi"}
             </div>
           </div>
         </div>
